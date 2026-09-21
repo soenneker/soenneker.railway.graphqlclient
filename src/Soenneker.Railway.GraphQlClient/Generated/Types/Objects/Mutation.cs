@@ -398,6 +398,18 @@ public sealed partial class Mutation
     public bool EnvironmentDelete { get; init; }
 
     /// <summary>
+    /// Release resources from a named IaC partial without deleting, redeploying, or changing them. Omit resources to release the entire partial. Whole-project management is possible once no named partials remain. A later named-partial apply can claim released resources again.
+    /// </summary>
+    [JsonPropertyName("environmentIacPartialRelease")]
+    public IacPartialOwnershipResult EnvironmentIacPartialRelease { get; init; } = null!;
+
+    /// <summary>
+    /// Transfer resources between named IaC partials without deleting, redeploying, or changing them. Omit resources to transfer the entire source partial. The destination may be a new or existing partial.
+    /// </summary>
+    [JsonPropertyName("environmentIacPartialTransfer")]
+    public IacPartialOwnershipResult EnvironmentIacPartialTransfer { get; init; } = null!;
+
+    /// <summary>
     /// Commit the provided patch to the environment.
     /// </summary>
     [JsonPropertyName("environmentPatchCommit")]

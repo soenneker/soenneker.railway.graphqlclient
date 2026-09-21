@@ -11,6 +11,8 @@ public sealed partial class EnvironmentBuilder
 
     public EnvironmentBuilder(IGraphQlClient graphQlClient) => _graphQlClient = graphQlClient;
 
+    public EnvironmentIacPartialBuilder IacPartial => new EnvironmentIacPartialBuilder(_graphQlClient);
+
     public EnvironmentPatchBuilder Patch => new EnvironmentPatchBuilder(_graphQlClient);
 
     public EnvironmentApplyChangeSetRequestBuilder ApplyChangeSet => new EnvironmentApplyChangeSetRequestBuilder(_graphQlClient);
