@@ -578,6 +578,18 @@ public sealed partial class RailwayGraphQlClient
     public GetTemplatesCountRequestBuilder GetTemplatesCount => new GetTemplatesCountRequestBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes requests for the 'trace' query.</summary>
+    public GetTraceRequestBuilder GetTrace => new GetTraceRequestBuilder(_graphQlClient);
+
+    /// <summary>
+    /// Builds and executes requests for the 'traces' query.</summary>
+    public GetTracesRequestBuilder GetTraces => new GetTracesRequestBuilder(_graphQlClient);
+
+    /// <summary>
+    /// Builds and executes requests for the 'tracingStatus' query.</summary>
+    public GetTracingStatusRequestBuilder GetTracingStatus => new GetTracingStatusRequestBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes requests for the 'trustedDomains' query.</summary>
     public GetTrustedDomainsRequestBuilder GetTrustedDomains => new GetTrustedDomainsRequestBuilder(_graphQlClient);
 

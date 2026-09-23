@@ -22,7 +22,7 @@ public sealed partial class EnvironmentPatchCommitRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<EnvironmentPatchCommitData>> Execute(EnvironmentPatchCommitVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation EnvironmentPatchCommit($commitMessage: String, $environmentId: String!, $patch: EnvironmentConfig) { environmentPatchCommit(commitMessage: $commitMessage, environmentId: $environmentId, patch: $patch) }";
+        const string gqlQuery = @"mutation EnvironmentPatchCommit($commitMessage: String, $environmentId: String!, $patch: EnvironmentConfig, $skipDeploys: Boolean) { environmentPatchCommit(commitMessage: $commitMessage, environmentId: $environmentId, patch: $patch, skipDeploys: $skipDeploys) }";
         return _graphQlClient.Execute<EnvironmentPatchCommitData>(gqlQuery, request, cancellationToken);
     }
 

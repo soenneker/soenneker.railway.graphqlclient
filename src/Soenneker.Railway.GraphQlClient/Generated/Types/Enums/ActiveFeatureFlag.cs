@@ -23,6 +23,8 @@ public enum ActiveFeatureFlag
 
     AGENTCONNECTORS,
 
+    AGENTTASKS,
+
     BOTCLOUDAGENTS,
 
     CHATSANDBOX,

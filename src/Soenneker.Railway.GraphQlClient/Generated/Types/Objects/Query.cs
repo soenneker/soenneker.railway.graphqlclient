@@ -116,6 +116,18 @@ public sealed partial class Query
     public QueryCloudAgentConsoleSessionsConnection? CloudAgentConsoleSessions { get; init; }
 
     /// <summary>
+    /// Read the latest task on an agent/session without waking the VM.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTask")]
+    public CloudAgentTaskResult CloudAgentTask { get; init; } = null!;
+
+    /// <summary>
+    /// List task lifecycle records in an environment, newest first.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTasks")]
+    public CloudAgentTaskPage CloudAgentTasks { get; init; } = null!;
+
+    /// <summary>
     /// Cloud agents in an environment.
     /// </summary>
     [JsonPropertyName("cloudAgents")]
@@ -852,6 +864,24 @@ public sealed partial class Query
     /// </summary>
     [JsonPropertyName("templatesCount")]
     public int TemplatesCount { get; init; }
+
+    /// <summary>
+    /// The spans of one trace, oldest first. Only spans belonging to the environment are returned
+    /// </summary>
+    [JsonPropertyName("trace")]
+    public List<TraceSpan> Trace { get; init; } = [];
+
+    /// <summary>
+    /// Traces of an environment with at least one span matching the filter, newest first
+    /// </summary>
+    [JsonPropertyName("traces")]
+    public List<TraceSummary> Traces { get; init; } = [];
+
+    /// <summary>
+    /// Span activity per service of an environment within retention; a service absent from the list has produced no spans at all
+    /// </summary>
+    [JsonPropertyName("tracingStatus")]
+    public List<ServiceTracingStatus> TracingStatus { get; init; } = [];
 
     /// <summary>
     /// Get all trusted domains for a workspace

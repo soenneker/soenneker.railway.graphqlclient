@@ -18,4 +18,7 @@ public sealed class EnvironmentPatchCommitVariables
     [JsonPropertyName("patch")]
     public System.Text.Json.JsonElement? Patch { get; init; }
 
+    [JsonPropertyName("skipDeploys")]
+    public bool? SkipDeploys { get; init; }
+
 }

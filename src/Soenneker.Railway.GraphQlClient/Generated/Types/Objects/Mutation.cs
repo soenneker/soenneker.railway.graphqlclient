@@ -182,6 +182,18 @@ public sealed partial class Mutation
     public bool CloudAgentStateReport { get; init; }
 
     /// <summary>
+    /// Start a task and return its handle. Creates a fresh agent by default; replyToTaskId continues the original conversation.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTaskDispatch")]
+    public CloudAgentTaskHandle CloudAgentTaskDispatch { get; init; } = null!;
+
+    /// <summary>
+    /// Recover the latest task response from the agent. May wake the VM.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTaskRecover")]
+    public CloudAgentTaskResult CloudAgentTaskRecover { get; init; } = null!;
+
+    /// <summary>
     /// Wake a sleeping cloud agent.
     /// </summary>
     [JsonPropertyName("cloudAgentWake")]

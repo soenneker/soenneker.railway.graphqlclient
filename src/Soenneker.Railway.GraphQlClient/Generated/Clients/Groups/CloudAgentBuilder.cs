@@ -13,6 +13,8 @@ public sealed partial class CloudAgentBuilder
 
     public CloudAgentCheckpointBuilder Checkpoint => new CloudAgentCheckpointBuilder(_graphQlClient);
 
+    public CloudAgentTaskBuilder Task => new CloudAgentTaskBuilder(_graphQlClient);
+
     public CloudAgentCreateRequestBuilder Create => new CloudAgentCreateRequestBuilder(_graphQlClient);
 
     public CloudAgentDeleteRequestBuilder Delete => new CloudAgentDeleteRequestBuilder(_graphQlClient);
