@@ -19,6 +19,8 @@ public sealed partial class CloudAgentBuilder
 
     public CloudAgentDeleteRequestBuilder Delete => new CloudAgentDeleteRequestBuilder(_graphQlClient);
 
+    public CloudAgentDeployRequestBuilder Deploy => new CloudAgentDeployRequestBuilder(_graphQlClient);
+
     public CloudAgentFeedbackCreateRequestBuilder FeedbackCreate => new CloudAgentFeedbackCreateRequestBuilder(_graphQlClient);
 
     public CloudAgentForkRequestBuilder Fork => new CloudAgentForkRequestBuilder(_graphQlClient);

@@ -152,6 +152,12 @@ public sealed partial class Mutation
     public bool CloudAgentDelete { get; init; }
 
     /// <summary>
+    /// Build the agent's code inside its own VM and deploy it. Creates the named service (default: the agent's name) or reuses it. Needs an agent booted with the builder.
+    /// </summary>
+    [JsonPropertyName("cloudAgentDeploy")]
+    public CloudAgentDeployResult CloudAgentDeploy { get; init; } = null!;
+
+    /// <summary>
     /// Send lightweight agent feedback to Railway. Returns the report ID after delivery.
     /// </summary>
     [JsonPropertyName("cloudAgentFeedbackCreate")]

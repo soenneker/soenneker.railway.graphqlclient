@@ -100,15 +100,17 @@ enum ActiveFeatureFlag {
   BOT_CLOUD_AGENTS
   CHAT_SANDBOX
   CLOUD_AGENTS
+  CLOUD_AGENT_BUILDER
   CLOUD_AGENT_CHAT
   CS_MCP_EXPRESS
-  DEBUG_SMART_DIAGNOSIS
   EMAIL_FORWARDING
+  HA_FOR_MONGO
   IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
   MYSQL_PITR
   PRIORITY_BOARDING
   RAILWAY_AGENT_DASHBOARD
+  RAILWAY_AGENT_FEED
   TRACING
   USAGE_INSIGHTS
   VM_STORAGE_TRACES
@@ -145,8 +147,6 @@ enum ActivePlatformFlag {
   NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE
   NUDGE_UPGRADE_TO_PRO
   OAUTH_DCR_KILLSWITCH
-  ORCHESTRATOR_ARCHIVE_UPLOAD
-  ORCHESTRATOR_BUILD_SERVICE_RPC
   PRE_DEPLOY_TIMEOUT_KILLSWITCH
   PROJECT_HISTORY_DUAL_WRITE
   REMOVE_DEPLOYMENT_COMPACT
@@ -640,6 +640,11 @@ input CloudAgentCreateInput {
   region: String
   source: CloudAgentSourceInput
   variables: JSON
+}
+
+type CloudAgentDeployResult {
+  deploymentId: String!
+  serviceId: String!
 }
 
 """
@@ -2504,6 +2509,10 @@ type Mutation {
   """
   cloudAgentDelete(id: ID!): Boolean!
   """
+  Build the agent's code inside its own VM and deploy it. Creates the named service (default: the agent's name) or reuses it. Needs an agent booted with the builder.
+  """
+  cloudAgentDeploy(id: ID!, path: String, serviceName: String): CloudAgentDeployResult!
+  """
   Send lightweight agent feedback to Railway. Returns the report ID after delivery.
   """
   cloudAgentFeedbackCreate(input: CloudAgentFeedbackInput!): String!
@@ -3959,8 +3968,6 @@ enum PlatformFeatureFlag {
   NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE
   NUDGE_UPGRADE_TO_PRO
   OAUTH_DCR_KILLSWITCH
-  ORCHESTRATOR_ARCHIVE_UPLOAD
-  ORCHESTRATOR_BUILD_SERVICE_RPC
   PRE_DEPLOY_TIMEOUT_KILLSWITCH
   PROJECT_HISTORY_DUAL_WRITE
   REMOVE_DEPLOYMENT_COMPACT
