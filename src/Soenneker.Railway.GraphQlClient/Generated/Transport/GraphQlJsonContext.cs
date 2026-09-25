@@ -184,6 +184,8 @@ namespace Soenneker.Railway.GraphQlClient;
 [JsonSerializable(typeof(GraphQlResponse<CloudAgentForkData>))]
 [JsonSerializable(typeof(CloudAgentHarnessTokenData))]
 [JsonSerializable(typeof(GraphQlResponse<CloudAgentHarnessTokenData>))]
+[JsonSerializable(typeof(CloudAgentRepository))]
+[JsonSerializable(typeof(GraphQlResponse<CloudAgentRepository>))]
 [JsonSerializable(typeof(CloudAgentSleepData))]
 [JsonSerializable(typeof(GraphQlResponse<CloudAgentSleepData>))]
 [JsonSerializable(typeof(CloudAgentSnapshot))]

@@ -119,6 +119,7 @@ enum ActiveFeatureFlag {
 enum ActivePlatformFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
   CANVAS_CROSS_ENV_GUARD_ENFORCE
@@ -171,12 +172,11 @@ enum ActiveProjectFeatureFlag {
 }
 
 enum ActiveServiceFeatureFlag {
+  BUILDER_V4
   COPY_VOLUME_TO_ENVIRONMENT
-  ENABLE_DOCKER_EXTENSION
   PLACEHOLDER
   SKIPPED_BUILDS
   USE_DEPLOYMENT_VMS
-  USE_VM_RUNTIME
 }
 
 type AdoptionInfo implements Node {
@@ -684,6 +684,11 @@ input CloudAgentFeedbackInput {
   tuiVersion: String!
 }
 
+type CloudAgentRepository {
+  path: String!
+  repo: String!
+}
+
 """
 The state of one coding agent session in a cloud agent.
 """
@@ -738,9 +743,14 @@ type CloudAgentSource {
   """
   branch: String
   """
+  Selected checkout directory; null means /app.
+  """
+  dir: String
+  """
   owner/repo.
   """
   repo: String!
+  repos: [CloudAgentRepository!]
   """
   Service the repo was resolved from, when given.
   """
@@ -2511,7 +2521,7 @@ type Mutation {
   """
   Build the agent's code inside its own VM and deploy it. Creates the named service (default: the agent's name) or reuses it. Needs an agent booted with the builder.
   """
-  cloudAgentDeploy(id: ID!, path: String, serviceName: String): CloudAgentDeployResult!
+  cloudAgentDeploy(id: ID!, path: String, regions: JSON, serviceName: String): CloudAgentDeployResult!
   """
   Send lightweight agent feedback to Railway. Returns the report ID after delivery.
   """
@@ -3940,6 +3950,7 @@ type PlanLimitOverride implements Node {
 enum PlatformFeatureFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
   CANVAS_CROSS_ENV_GUARD_ENFORCE

@@ -22,7 +22,7 @@ public sealed partial class CloudAgentDeployRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<CloudAgentDeployData>> Execute(CloudAgentDeployVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation CloudAgentDeploy($id: ID!, $path: String, $serviceName: String) { cloudAgentDeploy(id: $id, path: $path, serviceName: $serviceName) { deploymentId serviceId } }";
+        const string gqlQuery = @"mutation CloudAgentDeploy($id: ID!, $path: String, $regions: JSON, $serviceName: String) { cloudAgentDeploy(id: $id, path: $path, regions: $regions, serviceName: $serviceName) { deploymentId serviceId } }";
         return _graphQlClient.Execute<CloudAgentDeployData>(gqlQuery, request, cancellationToken);
     }
 

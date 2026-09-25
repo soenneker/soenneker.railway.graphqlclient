@@ -15,6 +15,9 @@ public sealed class CloudAgentDeployVariables
     [JsonPropertyName("path")]
     public string? Path { get; init; }
 
+    [JsonPropertyName("regions")]
+    public System.Text.Json.JsonElement? Regions { get; init; }
+
     [JsonPropertyName("serviceName")]
     public string? ServiceName { get; init; }
 
