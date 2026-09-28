@@ -95,15 +95,9 @@ public sealed partial class Project : Node
     [JsonPropertyName("teamId")]
     public string? TeamId { get; init; }
 
-    /// <summary>
-    /// Whether the project's services are traced by default. A service can override it with its own tracingEnabled.
-    /// </summary>
     [JsonPropertyName("tracingEnabled")]
     public bool TracingEnabled { get; init; }
 
-    /// <summary>
-    /// Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default.
-    /// </summary>
     [JsonPropertyName("tracingSampleRate")]
     public double? TracingSampleRate { get; init; }
 

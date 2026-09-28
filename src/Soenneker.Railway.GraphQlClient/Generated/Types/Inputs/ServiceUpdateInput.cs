@@ -6,9 +6,6 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class ServiceUpdateInput
 {
-    /// <summary>
-    /// Instrument the service's processes with eBPF (OBI) while its tracing is on. Reaches running containers within about a minute, no redeploy needed.
-    /// </summary>
     [JsonPropertyName("autoInstrumentationEnabled")]
     public bool? AutoInstrumentationEnabled { get; init; }
 
@@ -18,9 +15,6 @@ public sealed partial class ServiceUpdateInput
     [JsonPropertyName("name")]
     public string? Name { get; init; }
 
-    /// <summary>
-    /// Tracing override for the service: true or false pins it, null follows the project default. Takes effect at the edge within seconds and in the app on the next deploy.
-    /// </summary>
     [JsonPropertyName("tracingEnabled")]
     public bool? TracingEnabled { get; init; }
 

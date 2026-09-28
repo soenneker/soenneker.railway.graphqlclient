@@ -8,9 +8,6 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class Service : Node
 {
-    /// <summary>
-    /// Best-effort automatic tracing: Railway instruments the service's processes with eBPF (OBI) for supported runtimes, without code changes. Only active while the service's tracing is on.
-    /// </summary>
     [JsonPropertyName("autoInstrumentationEnabled")]
     public bool AutoInstrumentationEnabled { get; init; }
 
@@ -71,9 +68,6 @@ public sealed partial class Service : Node
     [JsonPropertyName("templateThreadSlug")]
     public string? TemplateThreadSlug { get; init; }
 
-    /// <summary>
-    /// The service's tracing override: true or false pins it, null follows the project's tracingEnabled.
-    /// </summary>
     [JsonPropertyName("tracingEnabled")]
     public bool? TracingEnabled { get; init; }
 

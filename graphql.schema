@@ -97,7 +97,6 @@ enum ActiveFeatureFlag {
   AGENT_BYOK_OPENROUTER
   AGENT_CONNECTORS
   AGENT_TASKS
-  BOT_CLOUD_AGENTS
   CHAT_SANDBOX
   CLOUD_AGENTS
   CLOUD_AGENT_BUILDER
@@ -3407,9 +3406,9 @@ type Mutation {
   """
   volumeUpdate(input: VolumeUpdateInput!, volumeId: String!): Volume!
   """
-  Test a webhook URL by sending a sample payload. Returns the HTTP status code.
+  Test a webhook URL by sending a sample payload. Returns the HTTP status code. Custom headers come from `headers`, plus the stored headers of `notificationRuleId` for names not passed.
   """
-  webhookTest(payload: String!, url: String!): Int!
+  webhookTest(headers: [WebhookHeaderInput!], notificationRuleId: String, payload: String!, url: String!): Int!
   """
   Delete a workspace and all data associated with it
   """
@@ -3604,6 +3603,9 @@ interface Node {
 }
 
 type NotificationChannel implements Node {
+  """
+  Webhook header values are write-only: the read side carries header names with null values.
+  """
   config: NotificationChannelConfig!
   createdAt: DateTime!
   id: ID!
@@ -4186,14 +4188,8 @@ type Project implements Node {
   subscriptionType: SubscriptionPlanType!
   team: Team @deprecated(reason: "Use workspace")
   teamId: String @deprecated(reason: "Use workspaceId")
-  """
-  Whether the project's services are traced by default. A service can override it with its own tracingEnabled.
-  """
-  tracingEnabled: Boolean!
-  """
-  Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default.
-  """
-  tracingSampleRate: Float
+  tracingEnabled: Boolean! @deprecated(reason: "Tracing is set per service instance: read ServiceInstance.tracingEnabled. True when any instance in the project is traced.")
+  tracingSampleRate: Float @deprecated(reason: "The edge traces every client-facing request; there is no sample rate. Always null.")
   updatedAt: DateTime!
   """
   Highest project-scoped role the current user holds on this project, through a direct project permission or an access group. Does not include the workspace role.
@@ -4544,14 +4540,8 @@ input ProjectUpdateInput {
   isPublic: Boolean
   name: String
   prDeploys: Boolean
-  """
-  Trace the project's services by default: the edge records a span for each sampled request to their domains, and the next deploy configures each app's OpenTelemetry SDK to export to Railway. A service's own tracingEnabled overrides this.
-  """
-  tracingEnabled: Boolean
-  """
-  Fraction of client-facing requests the edge traces, 0..1, for every traced service in the project. Null resets to Railway's default.
-  """
-  tracingSampleRate: Float
+  tracingEnabled: Boolean @deprecated(reason: "Tracing is set per service instance with serviceInstanceUpdate. Setting this switches tracing on or off for every instance in the project.")
+  tracingSampleRate: Float @deprecated(reason: "The edge traces every client-facing request; there is no sample rate. Ignored.")
 }
 
 enum ProjectUsageProperty {
@@ -6184,10 +6174,7 @@ JSON Schema: https://backboard.railway.com/schema/template.schema.json
 scalar SerializedTemplateConfig
 
 type Service implements Node {
-  """
-  Best-effort automatic tracing: Railway instruments the service's processes with eBPF (OBI) for supported runtimes, without code changes. Only active while the service's tracing is on.
-  """
-  autoInstrumentationEnabled: Boolean!
+  autoInstrumentationEnabled: Boolean! @deprecated(reason: "Set per service instance: read ServiceInstance.autoInstrumentationEnabled. Reports the production environment\u0027s instance.")
   createdAt: DateTime!
   deletedAt: DateTime
   deployments(after: String, before: String, first: Int, last: Int): ServiceDeploymentsConnection! @deprecated(reason: "Use environment.deployments for properly scoped access control")
@@ -6211,10 +6198,7 @@ type Service implements Node {
   templateId: String
   templateServiceId: String
   templateThreadSlug: String
-  """
-  The service's tracing override: true or false pins it, null follows the project's tracingEnabled.
-  """
-  tracingEnabled: Boolean
+  tracingEnabled: Boolean @deprecated(reason: "Tracing is set per service instance: read ServiceInstance.tracingEnabled. Reports the production environment\u0027s instance.")
   updatedAt: DateTime!
 }
 
@@ -6325,6 +6309,10 @@ type ServiceInstance implements Node {
   All currently active (deployed and running) deployments for this service instance
   """
   activeDeployments: [Deployment!]!
+  """
+  Instrument the service's processes with eBPF (OBI) for supported runtimes, no code changes. Only active while tracingEnabled is true.
+  """
+  autoInstrumentationEnabled: Boolean!
   buildCommand: String
   builder: Builder!
   createdAt: DateTime!
@@ -6370,6 +6358,10 @@ type ServiceInstance implements Node {
   sleepApplication: Boolean
   source: ServiceSource
   startCommand: String
+  """
+  Trace requests to the service in this environment: the edge records a span per client-facing request to its domains and the next deploy provides the OpenTelemetry exporter variables.
+  """
+  tracingEnabled: Boolean!
   updatedAt: DateTime!
   upstreamUrl: String
   watchPatterns: [String!]!
@@ -6408,6 +6400,10 @@ input ServiceInstanceLimitsUpdateInput {
 }
 
 input ServiceInstanceUpdateInput {
+  """
+  Instrument the service's processes with eBPF (OBI) while its tracing is on. Reaches running containers within about a minute, no redeploy needed.
+  """
+  autoInstrumentationEnabled: Boolean
   buildCommand: String
   builder: Builder
   cronSchedule: String
@@ -6431,6 +6427,10 @@ input ServiceInstanceUpdateInput {
   sleepApplication: Boolean
   source: ServiceSourceInput
   startCommand: String
+  """
+  Trace requests to the service in this environment. Takes effect at the edge within seconds and in the app on the next deploy.
+  """
+  tracingEnabled: Boolean
   watchPatterns: [String!]
 }
 
@@ -6480,16 +6480,10 @@ type ServiceTracingStatus {
 }
 
 input ServiceUpdateInput {
-  """
-  Instrument the service's processes with eBPF (OBI) while its tracing is on. Reaches running containers within about a minute, no redeploy needed.
-  """
-  autoInstrumentationEnabled: Boolean
+  autoInstrumentationEnabled: Boolean @deprecated(reason: "Set per service instance with serviceInstanceUpdate. Sets it for the service in every environment.")
   icon: String
   name: String
-  """
-  Tracing override for the service: true or false pins it, null follows the project default. Takes effect at the edge within seconds and in the app on the next deploy.
-  """
-  tracingEnabled: Boolean
+  tracingEnabled: Boolean @deprecated(reason: "Tracing is set per service instance with serviceInstanceUpdate. Sets it for the service in every environment; null means off.")
 }
 
 type Session implements Node {
@@ -7688,6 +7682,11 @@ type VolumeVolumeInstancesConnection {
 type VolumeVolumeInstancesConnectionEdge {
   cursor: String!
   node: VolumeInstance!
+}
+
+input WebhookHeaderInput {
+  name: String!
+  value: String!
 }
 
 enum WithdrawalPlatformTypes {

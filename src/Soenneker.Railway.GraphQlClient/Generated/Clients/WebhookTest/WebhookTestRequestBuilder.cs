@@ -22,7 +22,7 @@ public sealed partial class WebhookTestRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<WebhookTestData>> Execute(WebhookTestVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation WebhookTest($payload: String!, $url: String!) { webhookTest(payload: $payload, url: $url) }";
+        const string gqlQuery = @"mutation WebhookTest($headers: [WebhookHeaderInput!], $notificationRuleId: String, $payload: String!, $url: String!) { webhookTest(headers: $headers, notificationRuleId: $notificationRuleId, payload: $payload, url: $url) }";
         return _graphQlClient.Execute<WebhookTestData>(gqlQuery, request, cancellationToken);
     }
 

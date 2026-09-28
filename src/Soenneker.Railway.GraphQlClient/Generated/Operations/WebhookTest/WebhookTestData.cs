@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class WebhookTestData
 {
     /// <summary>
-    /// Test a webhook URL by sending a sample payload. Returns the HTTP status code.
+    /// Test a webhook URL by sending a sample payload. Returns the HTTP status code. Custom headers come from `headers`, plus the stored headers of `notificationRuleId` for names not passed.
     /// </summary>
     [JsonPropertyName("webhookTest")]
     public int WebhookTest { get; init; }

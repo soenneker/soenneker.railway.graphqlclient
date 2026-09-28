@@ -7,6 +7,9 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class NotificationChannel : Node
 {
+    /// <summary>
+    /// Webhook header values are write-only: the read side carries header names with null values.
+    /// </summary>
     [JsonPropertyName("config")]
     public System.Text.Json.JsonElement Config { get; init; }
 

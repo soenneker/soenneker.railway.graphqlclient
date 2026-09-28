@@ -2044,6 +2044,8 @@ namespace Soenneker.Railway.GraphQlClient;
 [JsonSerializable(typeof(GraphQlResponse<VolumeVolumeInstancesConnection>))]
 [JsonSerializable(typeof(VolumeVolumeInstancesConnectionEdge))]
 [JsonSerializable(typeof(GraphQlResponse<VolumeVolumeInstancesConnectionEdge>))]
+[JsonSerializable(typeof(WebhookHeaderInput))]
+[JsonSerializable(typeof(GraphQlResponse<WebhookHeaderInput>))]
 [JsonSerializable(typeof(WebhookTestData))]
 [JsonSerializable(typeof(GraphQlResponse<WebhookTestData>))]
 [JsonSerializable(typeof(WithdrawalPlatformTypes))]

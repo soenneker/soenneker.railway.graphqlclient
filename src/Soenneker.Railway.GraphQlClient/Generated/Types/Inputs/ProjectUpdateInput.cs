@@ -33,15 +33,9 @@ public sealed partial class ProjectUpdateInput
     [JsonPropertyName("prDeploys")]
     public bool? PrDeploys { get; init; }
 
-    /// <summary>
-    /// Trace the project's services by default: the edge records a span for each sampled request to their domains, and the next deploy configures each app's OpenTelemetry SDK to export to Railway. A service's own tracingEnabled overrides this.
-    /// </summary>
     [JsonPropertyName("tracingEnabled")]
     public bool? TracingEnabled { get; init; }
 
-    /// <summary>
-    /// Fraction of client-facing requests the edge traces, 0..1, for every traced service in the project. Null resets to Railway's default.
-    /// </summary>
     [JsonPropertyName("tracingSampleRate")]
     public double? TracingSampleRate { get; init; }
 

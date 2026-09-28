@@ -25,8 +25,6 @@ public enum ActiveFeatureFlag
 
     AGENTTASKS,
 
-    BOTCLOUDAGENTS,
-
     CHATSANDBOX,
 
     CLOUDAGENTS,

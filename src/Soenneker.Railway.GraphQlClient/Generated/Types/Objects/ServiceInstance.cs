@@ -14,6 +14,12 @@ public sealed partial class ServiceInstance : Node
     [JsonPropertyName("activeDeployments")]
     public List<Deployment> ActiveDeployments { get; init; } = [];
 
+    /// <summary>
+    /// Instrument the service's processes with eBPF (OBI) for supported runtimes, no code changes. Only active while tracingEnabled is true.
+    /// </summary>
+    [JsonPropertyName("autoInstrumentationEnabled")]
+    public bool AutoInstrumentationEnabled { get; init; }
+
     [JsonPropertyName("buildCommand")]
     public string? BuildCommand { get; init; }
 
@@ -130,6 +136,12 @@ public sealed partial class ServiceInstance : Node
 
     [JsonPropertyName("startCommand")]
     public string? StartCommand { get; init; }
+
+    /// <summary>
+    /// Trace requests to the service in this environment: the edge records a span per client-facing request to its domains and the next deploy provides the OpenTelemetry exporter variables.
+    /// </summary>
+    [JsonPropertyName("tracingEnabled")]
+    public bool TracingEnabled { get; init; }
 
     [JsonPropertyName("updatedAt")]
     public DateTimeOffset UpdatedAt { get; init; }
