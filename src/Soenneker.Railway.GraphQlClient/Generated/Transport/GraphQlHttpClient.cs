@@ -4,7 +4,6 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,8 +17,7 @@ public sealed class GraphQlHttpClient : IGraphQlClient
     public GraphQlHttpClient(HttpClient httpClient, JsonSerializerOptions? serializerOptions = null)
     {
         _httpClient = httpClient;
-        _serializerOptions = serializerOptions is null ? new JsonSerializerOptions(JsonSerializerDefaults.Web) : new JsonSerializerOptions(serializerOptions);
-        _serializerOptions.TypeInfoResolver ??= GraphQlJsonContext.Default;
+        _serializerOptions = serializerOptions ?? JsonSerializerOptions.Web;
     }
 
     public async ValueTask<GraphQlResponse<T>> Execute<T>(
@@ -33,10 +31,10 @@ public sealed class GraphQlHttpClient : IGraphQlClient
             Variables = variables
         };
 
-        using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(string.Empty, request, (JsonTypeInfo<GraphQlRequest>)_serializerOptions.GetTypeInfo(typeof(GraphQlRequest)), cancellationToken).ConfigureAwait(false);
+        using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(string.Empty, request, _serializerOptions, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        GraphQlResponse<T>? payload = await response.Content.ReadFromJsonAsync((JsonTypeInfo<GraphQlResponse<T>>)_serializerOptions.GetTypeInfo(typeof(GraphQlResponse<T>)), cancellationToken).ConfigureAwait(false);
+        GraphQlResponse<T>? payload = await response.Content.ReadFromJsonAsync<GraphQlResponse<T>>(_serializerOptions, cancellationToken).ConfigureAwait(false);
         return payload ?? throw new InvalidOperationException("GraphQL response body was null.");
     }
 }
