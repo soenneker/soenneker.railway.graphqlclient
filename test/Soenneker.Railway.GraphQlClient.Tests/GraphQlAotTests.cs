@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient.Tests;
 public sealed class GraphQlAotTests
 {
     [Test]
-    public async Task Generated_variables_and_response_use_generated_metadata()
+    public async ValueTask Generated_variables_and_response_use_generated_metadata()
     {
         using var handler = new ResponseHandler();
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.invalid/graphql") };

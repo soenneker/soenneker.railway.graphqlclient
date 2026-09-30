@@ -11,7 +11,7 @@ namespace Soenneker.Railway.GraphQlClient.Tests;
 public sealed class RailwayGraphQlClientTests
 {
     [Test]
-    public async Task SendsTypedQueryToExactEndpoint()
+    public async ValueTask SendsTypedQueryToExactEndpoint()
     {
         using var handler = new Handler(async request =>
         {
@@ -31,7 +31,7 @@ public sealed class RailwayGraphQlClientTests
     }
 
     [Test]
-    public async Task PreservesGraphQlErrorsAndPartialData()
+    public async ValueTask PreservesGraphQlErrorsAndPartialData()
     {
         using var handler = new Handler(_ => Task.FromResult(Json("""{"data":{"project":{"id":"p"}},"errors":[{"message":"Forbidden","path":["project","name"]}]}""")));
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.com/graphql") };
@@ -55,7 +55,7 @@ public sealed class RailwayGraphQlClientTests
     }
 
     [Test]
-    public async Task PropagatesHttpFailures()
+    public async ValueTask PropagatesHttpFailures()
     {
         using var handler = new Handler(_ => Task.FromResult(new HttpResponseMessage(HttpStatusCode.Unauthorized)));
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.com/graphql") };
