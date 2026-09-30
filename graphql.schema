@@ -98,6 +98,7 @@ enum ActiveFeatureFlag {
   AGENT_CONNECTORS
   AGENT_TASKS
   CHAT_SANDBOX
+  CLEARANCE
   CLOUD_AGENTS
   CLOUD_AGENT_BUILDER
   CLOUD_AGENT_CHAT
@@ -118,6 +119,7 @@ enum ActiveFeatureFlag {
 enum ActivePlatformFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -3135,6 +3137,10 @@ type Mutation {
   """
   serviceInstanceAutoUpdateSnoozeClear(environmentId: String!, serviceId: String!): Boolean!
   """
+  Turns Railway Authentication on or off for a service instance. Turning it on requires the Railway Authentication feature flag.
+  """
+  serviceInstanceClearanceUpdate(input: ServiceInstanceClearanceUpdateInput!): Boolean!
+  """
   Deploy a service instance
   """
   serviceInstanceDeploy(commitSha: String, environmentId: String!, latestCommit: Boolean, serviceId: String!): Boolean!
@@ -3953,6 +3959,7 @@ type PlanLimitOverride implements Node {
 enum PlatformFeatureFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -6317,6 +6324,10 @@ type ServiceInstance implements Node {
   autoInstrumentationEnabled: Boolean!
   buildCommand: String
   builder: Builder!
+  """
+  Whether Railway Authentication protects this service's HTTP domains. Null means no setting of its own.
+  """
+  clearance: Boolean
   createdAt: DateTime!
   cronSchedule: String
   deletedAt: DateTime
@@ -6384,6 +6395,13 @@ input ServiceInstanceAutoDeployUpdateInput {
 
 type ServiceInstanceAutoDeployUpdateResult {
   enabled: Boolean!
+}
+
+input ServiceInstanceClearanceUpdateInput {
+  enabled: Boolean!
+  environmentId: String!
+  projectId: String!
+  serviceId: String!
 }
 
 scalar ServiceInstanceLimit

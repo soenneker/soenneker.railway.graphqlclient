@@ -1076,6 +1076,12 @@ public sealed partial class Mutation
     public bool ServiceInstanceAutoUpdateSnoozeClear { get; init; }
 
     /// <summary>
+    /// Turns Railway Authentication on or off for a service instance. Turning it on requires the Railway Authentication feature flag.
+    /// </summary>
+    [JsonPropertyName("serviceInstanceClearanceUpdate")]
+    public bool ServiceInstanceClearanceUpdate { get; init; }
+
+    /// <summary>
     /// Deploy a service instance
     /// </summary>
     [JsonPropertyName("serviceInstanceDeploy")]

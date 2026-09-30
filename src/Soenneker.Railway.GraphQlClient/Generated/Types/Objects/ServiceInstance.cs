@@ -26,6 +26,12 @@ public sealed partial class ServiceInstance : Node
     [JsonPropertyName("builder")]
     public Builder Builder { get; init; }
 
+    /// <summary>
+    /// Whether Railway Authentication protects this service's HTTP domains. Null means no setting of its own.
+    /// </summary>
+    [JsonPropertyName("clearance")]
+    public bool? Clearance { get; init; }
+
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 

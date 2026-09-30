@@ -15,6 +15,8 @@ public sealed partial class ServiceInstanceBuilder
 
     public ServiceInstanceVulnRemediationBuilder VulnRemediation => new ServiceInstanceVulnRemediationBuilder(_graphQlClient);
 
+    public ServiceInstanceClearanceUpdateRequestBuilder ClearanceUpdate => new ServiceInstanceClearanceUpdateRequestBuilder(_graphQlClient);
+
     public ServiceInstanceDeployRequestBuilder Deploy => new ServiceInstanceDeployRequestBuilder(_graphQlClient);
 
     public ServiceInstanceDeployV2RequestBuilder DeployV2 => new ServiceInstanceDeployV2RequestBuilder(_graphQlClient);

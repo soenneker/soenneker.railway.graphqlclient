@@ -7,6 +7,7 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public interface IGraphQlClient
 {
+    /// <remarks>Custom response and variable types require explicit JSON metadata in the client serializer options.</remarks>
     ValueTask<GraphQlResponse<T>> Execute<T>(
         string query,
         object? variables = null,

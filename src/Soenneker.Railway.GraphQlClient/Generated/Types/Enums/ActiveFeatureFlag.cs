@@ -27,6 +27,8 @@ public enum ActiveFeatureFlag
 
     CHATSANDBOX,
 
+    CLEARANCE,
+
     CLOUDAGENTS,
 
     CLOUDAGENTBUILDER,
