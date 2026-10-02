@@ -6,8 +6,11 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class ServiceInstanceClearanceUpdateInput
 {
+    /// <summary>
+    /// On or off. Null (or omitted) removes the service's own setting so it follows the environment's default.
+    /// </summary>
     [JsonPropertyName("enabled")]
-    public bool Enabled { get; init; }
+    public bool? Enabled { get; init; }
 
     [JsonPropertyName("environmentId")]
     public string EnvironmentId { get; init; } = null!;

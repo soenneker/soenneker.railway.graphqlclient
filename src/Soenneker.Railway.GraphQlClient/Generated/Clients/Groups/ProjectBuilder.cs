@@ -23,6 +23,8 @@ public sealed partial class ProjectBuilder
 
     public ProjectClaimRequestBuilder Claim => new ProjectClaimRequestBuilder(_graphQlClient);
 
+    public ProjectClearanceDefaultUpdateRequestBuilder ClearanceDefaultUpdate => new ProjectClearanceDefaultUpdateRequestBuilder(_graphQlClient);
+
     public ProjectCreateRequestBuilder Create => new ProjectCreateRequestBuilder(_graphQlClient);
 
     public ProjectDeleteRequestBuilder Delete => new ProjectDeleteRequestBuilder(_graphQlClient);

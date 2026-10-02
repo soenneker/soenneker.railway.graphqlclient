@@ -22,7 +22,7 @@ public sealed partial class GetEnvironmentsRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetEnvironmentsData>> Execute(GetEnvironmentsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetEnvironments($after: String, $before: String, $first: Int, $isEphemeral: Boolean, $last: Int, $projectId: String!) { environments(after: $after, before: $before, first: $first, isEphemeral: $isEphemeral, last: $last, projectId: $projectId) { edges { cursor node { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral name projectId unmergedChangesCount updatedAt } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetEnvironments($after: String, $before: String, $first: Int, $isEphemeral: Boolean, $last: Int, $projectId: String!) { environments(after: $after, before: $before, first: $first, isEphemeral: $isEphemeral, last: $last, projectId: $projectId) { edges { cursor node { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError configEtag createdAt deletedAt iacPartials id isEphemeral name projectId unmergedChangesCount updatedAt } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetEnvironmentsData>(gqlQuery, request, cancellationToken);
     }
 

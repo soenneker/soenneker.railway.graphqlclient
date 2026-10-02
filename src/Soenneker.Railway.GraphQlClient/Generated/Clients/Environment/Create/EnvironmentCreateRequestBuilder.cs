@@ -22,7 +22,7 @@ public sealed partial class EnvironmentCreateRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<EnvironmentCreateData>> Execute(EnvironmentCreateVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation EnvironmentCreate($input: EnvironmentCreateInput!) { environmentCreate(input: $input) { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
+        const string gqlQuery = @"mutation EnvironmentCreate($input: EnvironmentCreateInput!) { environmentCreate(input: $input) { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError clearanceServiceCounts { inheriting off on } configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
         return _graphQlClient.Execute<EnvironmentCreateData>(gqlQuery, request, cancellationToken);
     }
 

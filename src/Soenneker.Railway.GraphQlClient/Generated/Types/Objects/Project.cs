@@ -20,6 +20,12 @@ public sealed partial class Project : Node
     [JsonPropertyName("buckets")]
     public ProjectBucketsConnection Buckets { get; init; } = null!;
 
+    /// <summary>
+    /// Whether environments created from now on start with Railway Authentication protecting services that have no setting of their own. Existing environments keep their own default.
+    /// </summary>
+    [JsonPropertyName("clearanceDefaultForNewEnvironments")]
+    public bool ClearanceDefaultForNewEnvironments { get; init; }
+
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 

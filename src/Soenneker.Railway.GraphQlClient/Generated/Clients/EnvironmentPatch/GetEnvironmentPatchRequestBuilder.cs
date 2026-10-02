@@ -22,7 +22,7 @@ public sealed partial class GetEnvironmentPatchRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetEnvironmentPatchData>> Execute(GetEnvironmentPatchVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetEnvironmentPatch($id: String!) { environmentPatch(id: $id) { appliedAt appliedBy { avatar email id name username } createdAt environment { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } environmentId id lastAppliedError message status updatedAt } }";
+        const string gqlQuery = @"query GetEnvironmentPatch($id: String!) { environmentPatch(id: $id) { appliedAt appliedBy { avatar email id name username } createdAt environment { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError clearanceServiceCounts { inheriting off on } configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } environmentId id lastAppliedError message status updatedAt } }";
         return _graphQlClient.Execute<GetEnvironmentPatchData>(gqlQuery, request, cancellationToken);
     }
 

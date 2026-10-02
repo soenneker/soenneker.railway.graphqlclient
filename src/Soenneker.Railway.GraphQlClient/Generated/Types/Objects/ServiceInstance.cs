@@ -27,10 +27,16 @@ public sealed partial class ServiceInstance : Node
     public Builder Builder { get; init; }
 
     /// <summary>
-    /// Whether Railway Authentication protects this service's HTTP domains. Null means no setting of its own.
+    /// This service's own Railway Authentication setting. Null means no setting of its own: it follows the environment's default (see clearanceEffective).
     /// </summary>
     [JsonPropertyName("clearance")]
     public bool? Clearance { get; init; }
+
+    /// <summary>
+    /// Whether Railway Authentication protects this service's HTTP domains: its own setting, else its environment's default.
+    /// </summary>
+    [JsonPropertyName("clearanceEffective")]
+    public bool ClearanceEffective { get; init; }
 
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }

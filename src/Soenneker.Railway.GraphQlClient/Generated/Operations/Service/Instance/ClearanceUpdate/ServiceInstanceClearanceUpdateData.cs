@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class ServiceInstanceClearanceUpdateData
 {
     /// <summary>
-    /// Turns Railway Authentication on or off for a service instance. Turning it on requires the Railway Authentication feature flag.
+    /// Sets a service instance's own Railway Authentication setting: on, off, or none (follow the environment's default). Requires a workspace admin; ending up on also requires the workspace's Railway Authentication entitlement and edge caching off.
     /// </summary>
     [JsonPropertyName("serviceInstanceClearanceUpdate")]
     public bool ServiceInstanceClearanceUpdate { get; init; }

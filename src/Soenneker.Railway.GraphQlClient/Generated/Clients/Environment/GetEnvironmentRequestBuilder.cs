@@ -22,7 +22,7 @@ public sealed partial class GetEnvironmentRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetEnvironmentData>> Execute(GetEnvironmentVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetEnvironment($id: String!, $projectId: String) { environment(id: $id, projectId: $projectId) { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
+        const string gqlQuery = @"query GetEnvironment($id: String!, $projectId: String) { environment(id: $id, projectId: $projectId) { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError clearanceServiceCounts { inheriting off on } configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
         return _graphQlClient.Execute<GetEnvironmentData>(gqlQuery, request, cancellationToken);
     }
 

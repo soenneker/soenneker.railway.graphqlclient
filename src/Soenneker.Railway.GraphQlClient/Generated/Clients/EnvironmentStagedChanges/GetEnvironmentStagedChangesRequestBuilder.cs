@@ -22,7 +22,7 @@ public sealed partial class GetEnvironmentStagedChangesRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetEnvironmentStagedChangesData>> Execute(GetEnvironmentStagedChangesVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetEnvironmentStagedChanges($environmentId: String!) { environmentStagedChanges(environmentId: $environmentId) { appliedAt appliedBy { avatar email id name username } createdAt environment { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } environmentId id lastAppliedError message status updatedAt } }";
+        const string gqlQuery = @"query GetEnvironmentStagedChanges($environmentId: String!) { environmentStagedChanges(environmentId: $environmentId) { appliedAt appliedBy { avatar email id name username } createdAt environment { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError clearanceServiceCounts { inheriting off on } configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } environmentId id lastAppliedError message status updatedAt } }";
         return _graphQlClient.Execute<GetEnvironmentStagedChangesData>(gqlQuery, request, cancellationToken);
     }
 

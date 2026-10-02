@@ -17,6 +17,8 @@ public sealed partial class EnvironmentBuilder
 
     public EnvironmentApplyChangeSetRequestBuilder ApplyChangeSet => new EnvironmentApplyChangeSetRequestBuilder(_graphQlClient);
 
+    public EnvironmentClearanceDefaultUpdateRequestBuilder ClearanceDefaultUpdate => new EnvironmentClearanceDefaultUpdateRequestBuilder(_graphQlClient);
+
     public EnvironmentConfigPlanCommentUpsertRequestBuilder ConfigPlanCommentUpsert => new EnvironmentConfigPlanCommentUpsertRequestBuilder(_graphQlClient);
 
     public EnvironmentCreateRequestBuilder Create => new EnvironmentCreateRequestBuilder(_graphQlClient);

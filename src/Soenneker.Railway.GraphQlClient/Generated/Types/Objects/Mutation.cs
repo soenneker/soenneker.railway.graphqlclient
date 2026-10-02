@@ -200,6 +200,12 @@ public sealed partial class Mutation
     public CloudAgentTaskResult CloudAgentTaskRecover { get; init; } = null!;
 
     /// <summary>
+    /// Answer a question the task is waiting on. Never wakes the VM; poll cloudAgentTask for the outcome.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTaskRespond")]
+    public CloudAgentTaskRespondResult CloudAgentTaskRespond { get; init; } = null!;
+
+    /// <summary>
     /// Wake a sleeping cloud agent.
     /// </summary>
     [JsonPropertyName("cloudAgentWake")]
@@ -396,6 +402,12 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("environmentApplyChangeSet")]
     public ChangeSetApplyResult EnvironmentApplyChangeSet { get; init; } = null!;
+
+    /// <summary>
+    /// Sets whether Railway Authentication protects an environment's services that have no setting of their own, and pushes it to them. Requires a workspace admin; turning it on also requires the workspace's Railway Authentication entitlement. Services with edge caching on that it protects have their caching turned off.
+    /// </summary>
+    [JsonPropertyName("environmentClearanceDefaultUpdate")]
+    public bool EnvironmentClearanceDefaultUpdate { get; init; }
 
     /// <summary>
     /// Posts or updates a `railway config plan` comment on a GitHub pull request under the Railway app identity. The caller proves it runs in the target repo with a GitHub Actions OIDC token; the comment body is composed server-side from the structured plan.
@@ -708,6 +720,12 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("projectClaim")]
     public Project ProjectClaim { get; init; } = null!;
+
+    /// <summary>
+    /// Sets whether environments created from now on start with Railway Authentication protecting services that have no setting of their own. Existing environments are unchanged. Requires a workspace admin; turning it on also requires the workspace's Railway Authentication entitlement.
+    /// </summary>
+    [JsonPropertyName("projectClearanceDefaultUpdate")]
+    public bool ProjectClearanceDefaultUpdate { get; init; }
 
     /// <summary>
     /// Creates a new project.
@@ -1076,7 +1094,7 @@ public sealed partial class Mutation
     public bool ServiceInstanceAutoUpdateSnoozeClear { get; init; }
 
     /// <summary>
-    /// Turns Railway Authentication on or off for a service instance. Turning it on requires the Railway Authentication feature flag.
+    /// Sets a service instance's own Railway Authentication setting: on, off, or none (follow the environment's default). Requires a workspace admin; ending up on also requires the workspace's Railway Authentication entitlement and edge caching off.
     /// </summary>
     [JsonPropertyName("serviceInstanceClearanceUpdate")]
     public bool ServiceInstanceClearanceUpdate { get; init; }

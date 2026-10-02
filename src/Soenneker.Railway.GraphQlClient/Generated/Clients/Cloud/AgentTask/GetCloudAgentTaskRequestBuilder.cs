@@ -22,7 +22,7 @@ public sealed partial class GetCloudAgentTaskRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetCloudAgentTaskData>> Execute(GetCloudAgentTaskVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetCloudAgentTask($cloudAgentId: String!, $sessionId: String!) { cloudAgentTask(cloudAgentId: $cloudAgentId, sessionId: $sessionId) { cloudAgentId completedAt error externalRef metadata sessionId sessionState status structuredOutput taskId text } }";
+        const string gqlQuery = @"query GetCloudAgentTask($cloudAgentId: String!, $sessionId: String!) { cloudAgentTask(cloudAgentId: $cloudAgentId, sessionId: $sessionId) { cloudAgentId completedAt error externalRef metadata pendingInteractions { actions expiresAt fields kind message requestId requestedAt server summary tool } progress { attempt steps todos tools updatedAt } sessionId sessionState status structuredOutput taskId text } }";
         return _graphQlClient.Execute<GetCloudAgentTaskData>(gqlQuery, request, cancellationToken);
     }
 

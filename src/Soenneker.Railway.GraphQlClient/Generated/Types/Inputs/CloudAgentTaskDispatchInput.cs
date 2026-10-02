@@ -57,6 +57,12 @@ public sealed partial class CloudAgentTaskDispatchInput
     [JsonPropertyName("source")]
     public CloudAgentSourceInput? Source { get; init; }
 
+    /// <summary>
+    /// Also send task.progress callbacks, at most one per task every 15 seconds.
+    /// </summary>
+    [JsonPropertyName("webhookProgress")]
+    public bool? WebhookProgress { get; init; }
+
     [JsonPropertyName("webhookSecret")]
     public string? WebhookSecret { get; init; }
 

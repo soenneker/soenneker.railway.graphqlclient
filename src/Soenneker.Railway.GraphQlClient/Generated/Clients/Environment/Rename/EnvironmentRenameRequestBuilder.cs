@@ -22,7 +22,7 @@ public sealed partial class EnvironmentRenameRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<EnvironmentRenameData>> Execute(EnvironmentRenameVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation EnvironmentRename($id: String!, $input: EnvironmentRenameInput!) { environmentRename(id: $id, input: $input) { canAccess canvasGroupRefs configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
+        const string gqlQuery = @"mutation EnvironmentRename($id: String!, $input: EnvironmentRenameInput!) { environmentRename(id: $id, input: $input) { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError clearanceServiceCounts { inheriting off on } configEtag createdAt deletedAt iacPartials id isEphemeral meta { baseBranch branch latestSuccessfulGitHubDeploymentId prCommentId prNumber prRepo prTitle skippedResourceIds } name projectId unmergedChangesCount updatedAt } }";
         return _graphQlClient.Execute<EnvironmentRenameData>(gqlQuery, request, cancellationToken);
     }
 
