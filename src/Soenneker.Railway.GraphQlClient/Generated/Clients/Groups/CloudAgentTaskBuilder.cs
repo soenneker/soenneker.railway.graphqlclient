@@ -11,6 +11,8 @@ public sealed partial class CloudAgentTaskBuilder
 
     public CloudAgentTaskBuilder(IGraphQlClient graphQlClient) => _graphQlClient = graphQlClient;
 
+    public CloudAgentTaskCancelRequestBuilder Cancel => new CloudAgentTaskCancelRequestBuilder(_graphQlClient);
+
     public CloudAgentTaskDispatchRequestBuilder Dispatch => new CloudAgentTaskDispatchRequestBuilder(_graphQlClient);
 
     public CloudAgentTaskRecoverRequestBuilder Recover => new CloudAgentTaskRecoverRequestBuilder(_graphQlClient);

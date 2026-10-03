@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class GetCloudAgentTaskData
 {
     /// <summary>
-    /// Read the latest task on an agent/session without waking the VM.
+    /// Read a task turn without waking the VM: the latest on the agent/session, or taskId's.
     /// </summary>
     [JsonPropertyName("cloudAgentTask")]
     public CloudAgentTaskResult CloudAgentTask { get; init; } = null!;

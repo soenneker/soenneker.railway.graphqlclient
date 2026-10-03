@@ -22,7 +22,7 @@ public sealed partial class GetCloudAgentTasksRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetCloudAgentTasksData>> Execute(GetCloudAgentTasksVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetCloudAgentTasks($cursor: String, $environmentId: String!, $limit: Int, $status: CloudAgentTaskStatus) { cloudAgentTasks(cursor: $cursor, environmentId: $environmentId, limit: $limit, status: $status) { nextCursor tasks { cloudAgentId completedAt createdAt createdVia error externalRef id metadata promptPreview requestedByUserId sessionId startedAt status } } }";
+        const string gqlQuery = @"query GetCloudAgentTasks($cloudAgentId: String, $cursor: String, $environmentId: String!, $limit: Int, $sessionId: String, $status: CloudAgentTaskStatus) { cloudAgentTasks(cloudAgentId: $cloudAgentId, cursor: $cursor, environmentId: $environmentId, limit: $limit, sessionId: $sessionId, status: $status) { nextCursor tasks { cloudAgentId completedAt createdAt createdVia error externalRef id metadata promptPreview requestedByUserId sessionId startedAt status structuredOutput text } } }";
         return _graphQlClient.Execute<GetCloudAgentTasksData>(gqlQuery, request, cancellationToken);
     }
 

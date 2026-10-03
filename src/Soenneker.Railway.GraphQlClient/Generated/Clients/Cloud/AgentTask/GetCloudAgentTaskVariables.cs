@@ -15,4 +15,7 @@ public sealed class GetCloudAgentTaskVariables
     [JsonPropertyName("sessionId")]
     public string SessionId { get; init; } = null!;
 
+    [JsonPropertyName("taskId")]
+    public string? TaskId { get; init; }
+
 }

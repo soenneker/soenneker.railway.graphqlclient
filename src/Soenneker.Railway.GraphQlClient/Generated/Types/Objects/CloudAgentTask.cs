@@ -49,4 +49,13 @@ public sealed partial class CloudAgentTask
     [JsonPropertyName("status")]
     public CloudAgentTaskStatus Status { get; init; }
 
+    [JsonPropertyName("structuredOutput")]
+    public System.Text.Json.JsonElement? StructuredOutput { get; init; }
+
+    /// <summary>
+    /// The turn's closing text, once it has finished.
+    /// </summary>
+    [JsonPropertyName("text")]
+    public string? Text { get; init; }
+
 }

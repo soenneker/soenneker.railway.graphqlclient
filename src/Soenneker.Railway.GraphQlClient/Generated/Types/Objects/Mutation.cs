@@ -188,6 +188,12 @@ public sealed partial class Mutation
     public bool CloudAgentStateReport { get; init; }
 
     /// <summary>
+    /// Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends failed with "The task was cancelled". A finished task is left as is.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTaskCancel")]
+    public CloudAgentTaskCancelResult CloudAgentTaskCancel { get; init; } = null!;
+
+    /// <summary>
     /// Start a task and return its handle. Creates a fresh agent by default; replyToTaskId continues the original conversation.
     /// </summary>
     [JsonPropertyName("cloudAgentTaskDispatch")]

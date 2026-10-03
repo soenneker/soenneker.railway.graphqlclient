@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class GetCloudAgentTasksData
 {
     /// <summary>
-    /// List task lifecycle records in an environment, newest first.
+    /// List task records in an environment, newest first. Filter to one agent, or with sessionId to one session's turns.
     /// </summary>
     [JsonPropertyName("cloudAgentTasks")]
     public CloudAgentTaskPage CloudAgentTasks { get; init; } = null!;

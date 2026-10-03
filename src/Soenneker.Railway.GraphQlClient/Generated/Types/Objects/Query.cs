@@ -116,13 +116,13 @@ public sealed partial class Query
     public QueryCloudAgentConsoleSessionsConnection? CloudAgentConsoleSessions { get; init; }
 
     /// <summary>
-    /// Read the latest task on an agent/session without waking the VM.
+    /// Read a task turn without waking the VM: the latest on the agent/session, or taskId's.
     /// </summary>
     [JsonPropertyName("cloudAgentTask")]
     public CloudAgentTaskResult CloudAgentTask { get; init; } = null!;
 
     /// <summary>
-    /// List task lifecycle records in an environment, newest first.
+    /// List task records in an environment, newest first. Filter to one agent, or with sessionId to one session's turns.
     /// </summary>
     [JsonPropertyName("cloudAgentTasks")]
     public CloudAgentTaskPage CloudAgentTasks { get; init; } = null!;

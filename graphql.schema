@@ -141,7 +141,9 @@ enum ActivePlatformFlag {
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
   MCP_OAUTH_AUDIENCE_ENFORCE
+  MCP_OAUTH_CIMD
   MCP_OAUTH_SCOPE_CHALLENGES
+  MCP_OAUTH_TOKEN_ROUTE_FENCE
   NEW_PROJECT_PAGE
   NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT
   NUDGES
@@ -829,6 +831,19 @@ type CloudAgentTask {
   sessionId: String
   startedAt: DateTime
   status: CloudAgentTaskStatus!
+  structuredOutput: JSON
+  """
+  The turn's closing text, once it has finished.
+  """
+  text: String
+}
+
+type CloudAgentTaskCancelResult {
+  """
+  The status when cancel was requested. Poll cloudAgentTask for the outcome.
+  """
+  status: CloudAgentTaskStatus!
+  taskId: ID!
 }
 
 input CloudAgentTaskDispatchInput {
@@ -2657,6 +2672,10 @@ type Mutation {
   """
   cloudAgentStateReport(input: CloudAgentStateReportInput!): Boolean!
   """
+  Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends failed with "The task was cancelled". A finished task is left as is.
+  """
+  cloudAgentTaskCancel(taskId: String!): CloudAgentTaskCancelResult!
+  """
   Start a task and return its handle. Creates a fresh agent by default; replyToTaskId continues the original conversation.
   """
   cloudAgentTaskDispatch(input: CloudAgentTaskDispatchInput!): CloudAgentTaskHandle!
@@ -4105,7 +4124,9 @@ enum PlatformFeatureFlag {
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
   MCP_OAUTH_AUDIENCE_ENFORCE
+  MCP_OAUTH_CIMD
   MCP_OAUTH_SCOPE_CHALLENGES
+  MCP_OAUTH_TOKEN_ROUTE_FENCE
   NEW_PROJECT_PAGE
   NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT
   NUDGES
@@ -4855,13 +4876,13 @@ type Query {
   """
   cloudAgentConsoleSessions(after: String, before: String, cloudAgentId: ID!, first: Int, last: Int): QueryCloudAgentConsoleSessionsConnection
   """
-  Read the latest task on an agent/session without waking the VM.
+  Read a task turn without waking the VM: the latest on the agent/session, or taskId's.
   """
-  cloudAgentTask(cloudAgentId: String!, sessionId: String!): CloudAgentTaskResult!
+  cloudAgentTask(cloudAgentId: String!, sessionId: String!, taskId: String): CloudAgentTaskResult!
   """
-  List task lifecycle records in an environment, newest first.
+  List task records in an environment, newest first. Filter to one agent, or with sessionId to one session's turns.
   """
-  cloudAgentTasks(cursor: String, environmentId: String!, limit: Int, status: CloudAgentTaskStatus): CloudAgentTaskPage!
+  cloudAgentTasks(cloudAgentId: String, cursor: String, environmentId: String!, limit: Int, sessionId: String, status: CloudAgentTaskStatus): CloudAgentTaskPage!
   """
   Cloud agents in an environment.
   """

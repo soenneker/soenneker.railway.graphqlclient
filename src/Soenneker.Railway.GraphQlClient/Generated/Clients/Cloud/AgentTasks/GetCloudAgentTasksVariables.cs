@@ -9,6 +9,9 @@ namespace Soenneker.Railway.GraphQlClient;
 /// </summary>
 public sealed class GetCloudAgentTasksVariables
 {
+    [JsonPropertyName("cloudAgentId")]
+    public string? CloudAgentId { get; init; }
+
     [JsonPropertyName("cursor")]
     public string? Cursor { get; init; }
 
@@ -17,6 +20,9 @@ public sealed class GetCloudAgentTasksVariables
 
     [JsonPropertyName("limit")]
     public int? Limit { get; init; }
+
+    [JsonPropertyName("sessionId")]
+    public string? SessionId { get; init; }
 
     [JsonPropertyName("status")]
     public CloudAgentTaskStatus? Status { get; init; }
