@@ -26,6 +26,12 @@ public sealed partial class Project : Node
     [JsonPropertyName("clearanceDefaultForNewEnvironments")]
     public bool ClearanceDefaultForNewEnvironments { get; init; }
 
+    /// <summary>
+    /// The project's Railway Authentication tokens that still work (not revoked, not expired), newest first.
+    /// </summary>
+    [JsonPropertyName("clearanceTokens")]
+    public List<ClearanceToken> ClearanceTokens { get; init; } = [];
+
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 

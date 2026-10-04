@@ -116,6 +116,18 @@ public sealed partial class Mutation
     public bool ClearPitrHaWorkflowProgress { get; init; }
 
     /// <summary>
+    /// Creates a Railway Authentication token for a project's protected services and returns it once. Requires a workspace admin and the workspace's Railway Authentication entitlement.
+    /// </summary>
+    [JsonPropertyName("clearanceTokenCreate")]
+    public ClearanceTokenCreatePayload ClearanceTokenCreate { get; init; } = null!;
+
+    /// <summary>
+    /// Revokes a Railway Authentication token. Requires a workspace admin; works without the entitlement. Revoking a revoked token succeeds.
+    /// </summary>
+    [JsonPropertyName("clearanceTokenRevoke")]
+    public bool ClearanceTokenRevoke { get; init; }
+
+    /// <summary>
     /// Track CLI authentication-attempt outcomes (signup / sign-in funnel)
     /// </summary>
     [JsonPropertyName("cliAuthEventTrack")]

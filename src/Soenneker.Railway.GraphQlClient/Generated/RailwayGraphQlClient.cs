@@ -38,6 +38,10 @@ public sealed partial class RailwayGraphQlClient
     public BucketBuilder Bucket => new BucketBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes grouped requests for the 'clearanceToken' resource.</summary>
+    public ClearanceTokenBuilder ClearanceToken => new ClearanceTokenBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes grouped requests for the 'cli' resource.</summary>
     public CliBuilder Cli => new CliBuilder(_graphQlClient);
 
