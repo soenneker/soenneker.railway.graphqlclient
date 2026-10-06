@@ -45,8 +45,6 @@ public enum ActiveFeatureFlag
 
     MAGICCONFIG,
 
-    MYSQLPITR,
-
     PRIORITYBOARDING,
 
     RAILWAYAGENTDASHBOARD,

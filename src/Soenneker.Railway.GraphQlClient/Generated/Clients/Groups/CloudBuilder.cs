@@ -21,6 +21,8 @@ public sealed partial class CloudBuilder
 
     public GetCloudAgentTaskRequestBuilder AgentTask => new GetCloudAgentTaskRequestBuilder(_graphQlClient);
 
+    public GetCloudAgentTaskModelsRequestBuilder AgentTaskModels => new GetCloudAgentTaskModelsRequestBuilder(_graphQlClient);
+
     public GetCloudAgentTasksRequestBuilder AgentTasks => new GetCloudAgentTasksRequestBuilder(_graphQlClient);
 
     public GetCloudAgentsRequestBuilder Agents => new GetCloudAgentsRequestBuilder(_graphQlClient);

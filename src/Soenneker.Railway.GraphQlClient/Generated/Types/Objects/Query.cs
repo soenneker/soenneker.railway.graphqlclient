@@ -122,6 +122,12 @@ public sealed partial class Query
     public CloudAgentTaskResult CloudAgentTask { get; init; } = null!;
 
     /// <summary>
+    /// The models a task in this environment can run on, and the default a new conversation starts on.
+    /// </summary>
+    [JsonPropertyName("cloudAgentTaskModels")]
+    public CloudAgentTaskModels CloudAgentTaskModels { get; init; } = null!;
+
+    /// <summary>
     /// List task records in an environment, newest first. Filter to one agent, or with sessionId to one session's turns.
     /// </summary>
     [JsonPropertyName("cloudAgentTasks")]

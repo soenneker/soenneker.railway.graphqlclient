@@ -22,7 +22,7 @@ public sealed partial class CloudAgentTaskRecoverRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<CloudAgentTaskRecoverData>> Execute(CloudAgentTaskRecoverVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation CloudAgentTaskRecover($cloudAgentId: String!, $sessionId: String!) { cloudAgentTaskRecover(cloudAgentId: $cloudAgentId, sessionId: $sessionId) { cloudAgentId completedAt error externalRef metadata pendingInteractions { actions expiresAt fields kind message requestId requestedAt server summary tool } progress { attempt steps todos tools updatedAt } sessionId sessionState status structuredOutput taskId text } }";
+        const string gqlQuery = @"mutation CloudAgentTaskRecover($cloudAgentId: String!, $sessionId: String!) { cloudAgentTaskRecover(cloudAgentId: $cloudAgentId, sessionId: $sessionId) { attachments { bytes contentType expiresAt filename id url } cloudAgentId completedAt error externalRef metadata model pendingInteractions { actions expiresAt fields kind message requestId requestedAt server summary tool } progress { attempt steps todos tools updatedAt } reasoningEffort sessionId sessionState status structuredOutput taskId text } }";
         return _graphQlClient.Execute<CloudAgentTaskRecoverData>(gqlQuery, request, cancellationToken);
     }
 

@@ -7,6 +7,12 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class CloudAgentTaskResult
 {
+    /// <summary>
+    /// Files the agent linked in its result, once it ends.
+    /// </summary>
+    [JsonPropertyName("attachments")]
+    public List<CloudAgentTaskAttachment> Attachments { get; init; } = [];
+
     [JsonPropertyName("cloudAgentId")]
     public string CloudAgentId { get; init; } = null!;
 
@@ -23,6 +29,12 @@ public sealed partial class CloudAgentTaskResult
     public System.Text.Json.JsonElement? Metadata { get; init; }
 
     /// <summary>
+    /// The model the turn ran on, once it was submitted.
+    /// </summary>
+    [JsonPropertyName("model")]
+    public string? Model { get; init; }
+
+    /// <summary>
     /// Answer these with cloudAgentTaskRespond.
     /// </summary>
     [JsonPropertyName("pendingInteractions")]
@@ -30,6 +42,9 @@ public sealed partial class CloudAgentTaskResult
 
     [JsonPropertyName("progress")]
     public CloudAgentTaskProgress? Progress { get; init; }
+
+    [JsonPropertyName("reasoningEffort")]
+    public string? ReasoningEffort { get; init; }
 
     [JsonPropertyName("sessionId")]
     public string SessionId { get; init; } = null!;
