@@ -22,7 +22,7 @@ public sealed partial class GetSandboxesRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetSandboxesData>> Execute(GetSandboxesVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetSandboxes($active: Boolean, $after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { sandboxes(active: $active, after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { createdAt environmentId id idleTimeoutMinutes networkIsolation region status } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetSandboxes($active: Boolean, $after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { sandboxes(active: $active, after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { createdAt environmentId id idleTimeoutMinutes networkIsolation privateDomain region status } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetSandboxesData>(gqlQuery, request, cancellationToken);
     }
 

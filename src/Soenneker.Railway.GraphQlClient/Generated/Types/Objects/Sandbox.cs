@@ -32,6 +32,12 @@ public sealed partial class Sandbox
     [JsonPropertyName("networkIsolation")]
     public SandboxNetworkIsolation NetworkIsolation { get; init; }
 
+    /// <summary>
+    /// Hostname on the environment's private network, e.g. &lt;name&gt;.railway.internal, reachable on any port from services in that environment. Null when the VM is isolated or its private endpoint isn't registered yet.
+    /// </summary>
+    [JsonPropertyName("privateDomain")]
+    public string? PrivateDomain { get; init; }
+
     [JsonPropertyName("region")]
     public string Region { get; init; } = null!;
 

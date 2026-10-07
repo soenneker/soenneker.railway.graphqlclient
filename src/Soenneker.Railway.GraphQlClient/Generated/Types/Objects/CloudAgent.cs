@@ -47,6 +47,12 @@ public sealed partial class CloudAgent
     [JsonPropertyName("name")]
     public string Name { get; init; } = null!;
 
+    /// <summary>
+    /// Hostname on the environment's private network, e.g. &lt;name&gt;.railway.internal, reachable on any port from services in that environment. Null when the VM is isolated or its private endpoint isn't registered yet.
+    /// </summary>
+    [JsonPropertyName("privateDomain")]
+    public string? PrivateDomain { get; init; }
+
     [JsonPropertyName("project")]
     public Project Project { get; init; } = null!;
 
@@ -60,7 +66,7 @@ public sealed partial class CloudAgent
     public string? Region { get; init; }
 
     /// <summary>
-    /// Live coding-agent sessions, one entry per session. Retained for 24h after the last report, so a sleeping agent still shows what it was last doing.
+    /// Coding-agent sessions, one entry per session, newest first. Kept while the agent sleeps, so it still lists what it was doing.
     /// </summary>
     [JsonPropertyName("sessions")]
     public List<CloudAgentSnapshot> Sessions { get; init; } = [];

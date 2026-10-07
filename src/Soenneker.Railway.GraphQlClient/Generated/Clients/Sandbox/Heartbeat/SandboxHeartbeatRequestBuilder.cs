@@ -22,7 +22,7 @@ public sealed partial class SandboxHeartbeatRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<SandboxHeartbeatData>> Execute(SandboxHeartbeatVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation SandboxHeartbeat($environmentId: String!, $id: String!) { sandboxHeartbeat(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation region status } }";
+        const string gqlQuery = @"mutation SandboxHeartbeat($environmentId: String!, $id: String!) { sandboxHeartbeat(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation privateDomain region status } }";
         return _graphQlClient.Execute<SandboxHeartbeatData>(gqlQuery, request, cancellationToken);
     }
 

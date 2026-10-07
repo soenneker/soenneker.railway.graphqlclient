@@ -22,7 +22,7 @@ public sealed partial class SandboxDestroyRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<SandboxDestroyData>> Execute(SandboxDestroyVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation SandboxDestroy($environmentId: String!, $id: String!) { sandboxDestroy(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation region status } }";
+        const string gqlQuery = @"mutation SandboxDestroy($environmentId: String!, $id: String!) { sandboxDestroy(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation privateDomain region status } }";
         return _graphQlClient.Execute<SandboxDestroyData>(gqlQuery, request, cancellationToken);
     }
 

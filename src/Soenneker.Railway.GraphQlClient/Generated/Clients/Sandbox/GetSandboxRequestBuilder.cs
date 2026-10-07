@@ -22,7 +22,7 @@ public sealed partial class GetSandboxRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetSandboxData>> Execute(GetSandboxVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetSandbox($environmentId: String!, $id: String!) { sandbox(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation region status } }";
+        const string gqlQuery = @"query GetSandbox($environmentId: String!, $id: String!) { sandbox(environmentId: $environmentId, id: $id) { createdAt domains { domain port prefix } environmentId id idleTimeoutMinutes networkIsolation privateDomain region status } }";
         return _graphQlClient.Execute<GetSandboxData>(gqlQuery, request, cancellationToken);
     }
 
