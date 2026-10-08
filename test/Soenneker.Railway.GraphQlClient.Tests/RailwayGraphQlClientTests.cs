@@ -11,13 +11,13 @@ namespace Soenneker.Railway.GraphQlClient.Tests;
 public sealed class RailwayGraphQlClientTests
 {
     [Test]
-    public async ValueTask SendsTypedQueryToExactEndpoint()
+    public async ValueTask SendsTypedQueryToExactEndpoint(CancellationToken cancellationToken)
     {
         using var handler = new Handler(async request =>
         {
             if (request.Method != HttpMethod.Post || request.RequestUri?.AbsoluteUri != "https://backboard.railway.com/graphql/v2")
                 throw new Exception("Incorrect GraphQL endpoint or method.");
-            using var body = JsonDocument.Parse(await request.Content!.ReadAsStringAsync());
+            using var body = JsonDocument.Parse(await request.Content!.ReadAsStringAsync(cancellationToken: cancellationToken));
             if (body.RootElement.GetProperty("variables").GetProperty("id").GetString() != "project-123" ||
                 !body.RootElement.GetProperty("query").GetString()!.Contains("project(id: $id)"))
                 throw new Exception("Typed query or variables were not serialized correctly.");
@@ -25,17 +25,17 @@ public sealed class RailwayGraphQlClientTests
         });
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://backboard.railway.com/graphql/v2") };
         var client = new RailwayGraphQlClient(new GraphQlHttpClient(http));
-        var result = await client.GetProject.GetValue(new GetProjectVariables { Id = "project-123" });
+        var result = await client.GetProject.GetValue(new GetProjectVariables { Id = "project-123" }, cancellationToken: cancellationToken);
         if (result?.Id != "project-123" || result.Name != "Example")
             throw new Exception("Typed response was not deserialized.");
     }
 
     [Test]
-    public async ValueTask PreservesGraphQlErrorsAndPartialData()
+    public async ValueTask PreservesGraphQlErrorsAndPartialData(CancellationToken cancellationToken)
     {
         using var handler = new Handler(_ => Task.FromResult(Json("""{"data":{"project":{"id":"p"}},"errors":[{"message":"Forbidden","path":["project","name"]}]}""")));
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.com/graphql") };
-        var response = await new RailwayGraphQlClient(new GraphQlHttpClient(http)).GetProject.Execute(new GetProjectVariables { Id = "p" });
+        var response = await new RailwayGraphQlClient(new GraphQlHttpClient(http)).GetProject.Execute(new GetProjectVariables { Id = "p" }, cancellationToken: cancellationToken);
         if (!response.HasErrors || response.Errors![0].Message != "Forbidden" || response.Data?.Project.Id != "p")
             throw new Exception("GraphQL errors or partial data were lost.");
     }
@@ -55,11 +55,11 @@ public sealed class RailwayGraphQlClientTests
     }
 
     [Test]
-    public async ValueTask PropagatesHttpFailures()
+    public async ValueTask PropagatesHttpFailures(CancellationToken cancellationToken)
     {
         using var handler = new Handler(_ => Task.FromResult(new HttpResponseMessage(HttpStatusCode.Unauthorized)));
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.com/graphql") };
-        try { await new GraphQlHttpClient(http).Execute<object>("{ me { id } }"); }
+        try { await new GraphQlHttpClient(http).Execute<object>("{ me { id } }", cancellationToken: cancellationToken); }
         catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.Unauthorized) { return; }
         throw new Exception("HTTP authentication failure was not propagated.");
     }

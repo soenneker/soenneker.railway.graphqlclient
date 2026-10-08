@@ -10,13 +10,13 @@ namespace Soenneker.Railway.GraphQlClient.Tests;
 public sealed class GraphQlAotTests
 {
     [Test]
-    public async ValueTask Generated_variables_and_response_use_generated_metadata()
+    public async ValueTask Generated_variables_and_response_use_generated_metadata(CancellationToken cancellationToken)
     {
         using var handler = new ResponseHandler();
         using var http = new HttpClient(handler) { BaseAddress = new Uri("https://example.invalid/graphql") };
         var client = new GraphQlHttpClient(http);
         var builder = new GetAgentUsageRequestBuilder(client);
-        var response = await builder.Execute(new GetAgentUsageVariables { WorkspaceId = "workspace-test" });
+        var response = await builder.Execute(new GetAgentUsageVariables { WorkspaceId = "workspace-test" }, cancellationToken: cancellationToken);
         if (response.Data is null || response.HasErrors)
             throw new Exception("The generated GraphQL response was not deserialized.");
         using var request = JsonDocument.Parse(handler.Body!);
