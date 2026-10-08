@@ -22,7 +22,7 @@ public sealed partial class CloudAgentCheckpointCreateRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<CloudAgentCheckpointCreateData>> Execute(CloudAgentCheckpointCreateVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation CloudAgentCheckpointCreate($id: ID!, $name: String) { cloudAgentCheckpointCreate(id: $id, name: $name) { createdAt environmentId failureReason id name region status } }";
+        const string gqlQuery = @"mutation CloudAgentCheckpointCreate($id: ID!, $name: String) { cloudAgentCheckpointCreate(id: $id, name: $name) { createdAt environmentId failureReason id name projectId region status } }";
         return _graphQlClient.Execute<CloudAgentCheckpointCreateData>(gqlQuery, request, cancellationToken);
     }
 

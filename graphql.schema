@@ -110,12 +110,14 @@ enum ActiveFeatureFlag {
   PRIORITY_BOARDING
   RAILWAY_AGENT_DASHBOARD
   RAILWAY_AGENT_FEED
+  RAILWAY_AUTOMATIONS
   TRACING
   USAGE_INSIGHTS
   VM_STORAGE_TRACES
 }
 
 enum ActivePlatformFlag {
+  AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
   BLOCK_TRIAL_RESTRICTION_APPEALS
@@ -646,13 +648,17 @@ A checkpoint of a cloud agent's disk.
 """
 type CloudAgentCheckpoint {
   createdAt: DateTime!
-  environmentId: String!
+  """
+  Set when the checkpoint boots only in this environment. Null boots anywhere in the project.
+  """
+  environmentId: String
   """
   Why the capture failed.
   """
   failureReason: String
   id: ID!
   name: String
+  projectId: String!
   """
   Region the checkpoint was captured in.
   """
@@ -4248,6 +4254,7 @@ type PlanLimitOverride implements Node {
 }
 
 enum PlatformFeatureFlag {
+  AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
   BLOCK_TRIAL_RESTRICTION_APPEALS

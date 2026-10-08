@@ -22,7 +22,7 @@ public sealed partial class GetCloudAgentCheckpointsRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetCloudAgentCheckpointsData>> Execute(GetCloudAgentCheckpointsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetCloudAgentCheckpoints($after: String, $before: String, $environmentId: ID!, $first: Int, $last: Int) { cloudAgentCheckpoints(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { createdAt environmentId failureReason id name region status } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetCloudAgentCheckpoints($after: String, $before: String, $environmentId: ID!, $first: Int, $last: Int) { cloudAgentCheckpoints(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { createdAt environmentId failureReason id name projectId region status } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetCloudAgentCheckpointsData>(gqlQuery, request, cancellationToken);
     }
 

@@ -13,8 +13,11 @@ public sealed partial class CloudAgentCheckpoint
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 
+    /// <summary>
+    /// Set when the checkpoint boots only in this environment. Null boots anywhere in the project.
+    /// </summary>
     [JsonPropertyName("environmentId")]
-    public string EnvironmentId { get; init; } = null!;
+    public string? EnvironmentId { get; init; }
 
     /// <summary>
     /// Why the capture failed.
@@ -27,6 +30,9 @@ public sealed partial class CloudAgentCheckpoint
 
     [JsonPropertyName("name")]
     public string? Name { get; init; }
+
+    [JsonPropertyName("projectId")]
+    public string ProjectId { get; init; } = null!;
 
     /// <summary>
     /// Region the checkpoint was captured in.
