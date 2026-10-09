@@ -1608,7 +1608,7 @@ input DisablePitrForHaClusterInput {
   """
   projectId: String!
   """
-  Root service of the HA Postgres cluster
+  The cluster's primary service (Postgres HA or MySQL HA).
   """
   rootServiceId: String!
 }
@@ -1803,7 +1803,7 @@ input EnablePitrForHaClusterInput {
   """
   projectId: String!
   """
-  Root service of the HA Postgres cluster
+  The cluster's primary service (Postgres HA or MySQL HA).
   """
   rootServiceId: String!
 }
@@ -3042,7 +3042,7 @@ type Mutation {
   """
   featureFlagRemove(input: FeatureFlagToggleInput!): Boolean!
   """
-  Mints a 5-minute JWT for opening a browser WS session against tcp-proxy.
+  Creates a short-lived (5-minute) token for opening a shell, file, or network session to a running deployment.
   """
   generateShellToken(input: ShellTokenInput!): String!
   """
@@ -3426,7 +3426,7 @@ type Mutation {
   """
   serviceInstanceAutoUpdateScheduleUpdate(environmentId: String!, schedule: [AutoUpdateScheduleWindowInput!]!, serviceId: String!): Boolean!
   """
-  Skip the next scheduled auto-update occurrence for a service instance, applied immediately (no config staging, no redeploy). The recurring maintenance window and update policy are untouched — this only delays the next fire.
+  Skip the next scheduled auto-update for a service instance. Takes effect immediately, with no staged change and no redeploy. The maintenance window and update policy stay as they are. This only delays the next scheduled update.
   """
   serviceInstanceAutoUpdateSnooze(environmentId: String!, serviceId: String!, snoozeDays: Int): Boolean!
   """
@@ -3458,11 +3458,11 @@ type Mutation {
   """
   serviceInstanceUpdate(environmentId: String, input: ServiceInstanceUpdateInput!, serviceId: String!): Boolean!
   """
-  Dismiss a platform-armed database security update notice and stand down the scheduled redeploy
+  Dismiss a pending database security update and cancel its scheduled redeploy.
   """
   serviceInstanceVulnRemediationDismiss(environmentId: String!, serviceId: String!): Boolean!
   """
-  Immediately apply a platform-armed database security update (backup + redeploy). Returns the new deployment id.
+  Apply a pending database security update now (backup, then redeploy). Returns the new deployment id.
   """
   serviceInstanceVulnRemediationPatchNow(environmentId: String!, serviceId: String!): String!
   """
@@ -4231,7 +4231,7 @@ type PitrHaWorkflowProgress {
 }
 
 """
-Estimated destination-volume scratch a PITR restore to a target needs: the base backup's data plus every WAL segment replayed from that backup to the target (Postgres holds replayed WAL in pg_wal faster than restartpoints recycle it). A conservative over-estimate for a non-blocking pre-restore warning — not a gate.
+Estimated disk space a point-in-time restore to a target needs, and whether it fits your plan's largest volume. A conservative estimate for the restore dialog's warning.
 """
 type PitrRestoreScratchEstimate {
   baseBackupLabel: String!
@@ -5603,7 +5603,7 @@ type Query {
   """
   volumeInstanceBackupScheduleList(volumeInstanceId: String!): [VolumeInstanceBackupSchedule!]!
   """
-  Estimated destination-volume scratch a PITR restore of this volume instance to a target would need, and whether it fits the workspace plan's max volume size. Read-only pre-check the restore dialog calls to warn before a restore that would fill the disk mid-replay; returns null when no estimate can be formed (non-pgBackRest source, incomplete archive creds, or a target before the earliest backup).
+  Estimated disk space a point-in-time restore to this target needs, and whether it fits your plan's largest volume. Returns null when no estimate is available.
   """
   volumeInstancePitrRestoreEstimate(sourceRepoPath: String, targetTimestamp: DateTime!, volumeInstanceId: String!): PitrRestoreScratchEstimate
   """
@@ -7247,6 +7247,7 @@ type Template implements Node {
   id: ID!
   image: String
   isApproved: Boolean!
+  isOuterEdge: Boolean!
   isV2Template: Boolean!
   isVerified: Boolean!
   languages: [String!]
@@ -7341,7 +7342,7 @@ input TemplateDeployService {
 input TemplateDeployV2Input {
   environmentId: String
   """
-  Use an existing service as the cluster root instead of creating a new one. A live cluster edge is resolved to the root it fronts. Used for HA cluster conversion where an existing postgres becomes the primary.
+  An existing database service to convert. If you pass a cluster's proxy service, Railway uses the database behind it.
   """
   existingRootServiceId: String
   projectId: String

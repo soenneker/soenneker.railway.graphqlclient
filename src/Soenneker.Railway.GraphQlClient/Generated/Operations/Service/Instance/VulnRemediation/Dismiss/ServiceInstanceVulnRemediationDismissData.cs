@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class ServiceInstanceVulnRemediationDismissData
 {
     /// <summary>
-    /// Dismiss a platform-armed database security update notice and stand down the scheduled redeploy
+    /// Dismiss a pending database security update and cancel its scheduled redeploy.
     /// </summary>
     [JsonPropertyName("serviceInstanceVulnRemediationDismiss")]
     public bool ServiceInstanceVulnRemediationDismiss { get; init; }

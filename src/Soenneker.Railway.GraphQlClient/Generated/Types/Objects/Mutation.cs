@@ -524,7 +524,7 @@ public sealed partial class Mutation
     public bool FeatureFlagRemove { get; init; }
 
     /// <summary>
-    /// Mints a 5-minute JWT for opening a browser WS session against tcp-proxy.
+    /// Creates a short-lived (5-minute) token for opening a shell, file, or network session to a running deployment.
     /// </summary>
     [JsonPropertyName("generateShellToken")]
     public string GenerateShellToken { get; init; } = null!;
@@ -1100,7 +1100,7 @@ public sealed partial class Mutation
     public bool ServiceInstanceAutoUpdateScheduleUpdate { get; init; }
 
     /// <summary>
-    /// Skip the next scheduled auto-update occurrence for a service instance, applied immediately (no config staging, no redeploy). The recurring maintenance window and update policy are untouched — this only delays the next fire.
+    /// Skip the next scheduled auto-update for a service instance. Takes effect immediately, with no staged change and no redeploy. The maintenance window and update policy stay as they are. This only delays the next scheduled update.
     /// </summary>
     [JsonPropertyName("serviceInstanceAutoUpdateSnooze")]
     public bool ServiceInstanceAutoUpdateSnooze { get; init; }
@@ -1148,13 +1148,13 @@ public sealed partial class Mutation
     public bool ServiceInstanceUpdate { get; init; }
 
     /// <summary>
-    /// Dismiss a platform-armed database security update notice and stand down the scheduled redeploy
+    /// Dismiss a pending database security update and cancel its scheduled redeploy.
     /// </summary>
     [JsonPropertyName("serviceInstanceVulnRemediationDismiss")]
     public bool ServiceInstanceVulnRemediationDismiss { get; init; }
 
     /// <summary>
-    /// Immediately apply a platform-armed database security update (backup + redeploy). Returns the new deployment id.
+    /// Apply a pending database security update now (backup, then redeploy). Returns the new deployment id.
     /// </summary>
     [JsonPropertyName("serviceInstanceVulnRemediationPatchNow")]
     public string ServiceInstanceVulnRemediationPatchNow { get; init; } = null!;

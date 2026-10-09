@@ -22,7 +22,7 @@ public sealed partial class GetTemplatesRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetTemplatesData>> Execute(GetTemplatesVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetTemplates($after: String, $before: String, $first: Int, $last: Int, $recommended: Boolean, $verified: Boolean) { templates(after: $after, before: $before, first: $first, last: $last, recommended: $recommended, verified: $verified) { edges { cursor node { activeProjects canvasConfig category code communityThreadSlug config createdAt demoProjectId description health id image isApproved isV2Template isVerified languages metadata name projects publishingRestrictionId readme recentProjects serializedConfig status supportHealthMetrics tags teamId totalPayout updatedAt workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetTemplates($after: String, $before: String, $first: Int, $last: Int, $recommended: Boolean, $verified: Boolean) { templates(after: $after, before: $before, first: $first, last: $last, recommended: $recommended, verified: $verified) { edges { cursor node { activeProjects canvasConfig category code communityThreadSlug config createdAt demoProjectId description health id image isApproved isOuterEdge isV2Template isVerified languages metadata name projects publishingRestrictionId readme recentProjects serializedConfig status supportHealthMetrics tags teamId totalPayout updatedAt workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetTemplatesData>(gqlQuery, request, cancellationToken);
     }
 

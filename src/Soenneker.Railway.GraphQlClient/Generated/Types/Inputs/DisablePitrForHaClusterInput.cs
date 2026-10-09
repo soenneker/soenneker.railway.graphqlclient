@@ -19,7 +19,7 @@ public sealed partial class DisablePitrForHaClusterInput
     public string ProjectId { get; init; } = null!;
 
     /// <summary>
-    /// Root service of the HA Postgres cluster
+    /// The cluster's primary service (Postgres HA or MySQL HA).
     /// </summary>
     [JsonPropertyName("rootServiceId")]
     public string RootServiceId { get; init; } = null!;

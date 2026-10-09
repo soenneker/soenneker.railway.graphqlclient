@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class ServiceInstanceVulnRemediationPatchNowData
 {
     /// <summary>
-    /// Immediately apply a platform-armed database security update (backup + redeploy). Returns the new deployment id.
+    /// Apply a pending database security update now (backup, then redeploy). Returns the new deployment id.
     /// </summary>
     [JsonPropertyName("serviceInstanceVulnRemediationPatchNow")]
     public string ServiceInstanceVulnRemediationPatchNow { get; init; } = null!;

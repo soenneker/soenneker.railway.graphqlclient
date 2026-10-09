@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class ServiceInstanceAutoUpdateSnoozeData
 {
     /// <summary>
-    /// Skip the next scheduled auto-update occurrence for a service instance, applied immediately (no config staging, no redeploy). The recurring maintenance window and update policy are untouched — this only delays the next fire.
+    /// Skip the next scheduled auto-update for a service instance. Takes effect immediately, with no staged change and no redeploy. The maintenance window and update policy stay as they are. This only delays the next scheduled update.
     /// </summary>
     [JsonPropertyName("serviceInstanceAutoUpdateSnooze")]
     public bool ServiceInstanceAutoUpdateSnooze { get; init; }

@@ -53,6 +53,9 @@ public sealed partial class Template : Node
     [JsonPropertyName("isApproved")]
     public bool IsApproved { get; init; }
 
+    [JsonPropertyName("isOuterEdge")]
+    public bool IsOuterEdge { get; init; }
+
     [JsonPropertyName("isV2Template")]
     public bool IsV2Template { get; init; }
 

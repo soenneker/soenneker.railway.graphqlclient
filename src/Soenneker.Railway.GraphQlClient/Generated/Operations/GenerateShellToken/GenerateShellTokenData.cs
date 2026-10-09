@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class GenerateShellTokenData
 {
     /// <summary>
-    /// Mints a 5-minute JWT for opening a browser WS session against tcp-proxy.
+    /// Creates a short-lived (5-minute) token for opening a shell, file, or network session to a running deployment.
     /// </summary>
     [JsonPropertyName("generateShellToken")]
     public string GenerateShellToken { get; init; } = null!;

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Soenneker.Railway.GraphQlClient;
 
 /// <summary>
-/// Estimated destination-volume scratch a PITR restore to a target needs: the base backup's data plus every WAL segment replayed from that backup to the target (Postgres holds replayed WAL in pg_wal faster than restartpoints recycle it). A conservative over-estimate for a non-blocking pre-restore warning — not a gate.
+/// Estimated disk space a point-in-time restore to a target needs, and whether it fits your plan's largest volume. A conservative estimate for the restore dialog's warning.
 /// </summary>
 public sealed partial class PitrRestoreScratchEstimate
 {

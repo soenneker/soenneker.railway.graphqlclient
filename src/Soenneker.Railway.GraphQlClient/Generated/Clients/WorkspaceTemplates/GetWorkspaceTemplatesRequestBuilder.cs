@@ -22,7 +22,7 @@ public sealed partial class GetWorkspaceTemplatesRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetWorkspaceTemplatesData>> Execute(GetWorkspaceTemplatesVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetWorkspaceTemplates($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) { workspaceTemplates(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) { edges { cursor node { activeProjects canvasConfig category code communityThreadSlug config createdAt demoProjectId description health id image isApproved isV2Template isVerified languages metadata name projects publishingRestrictionId readme recentProjects serializedConfig status supportHealthMetrics tags teamId totalPayout updatedAt workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetWorkspaceTemplates($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) { workspaceTemplates(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) { edges { cursor node { activeProjects canvasConfig category code communityThreadSlug config createdAt demoProjectId description health id image isApproved isOuterEdge isV2Template isVerified languages metadata name projects publishingRestrictionId readme recentProjects serializedConfig status supportHealthMetrics tags teamId totalPayout updatedAt workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetWorkspaceTemplatesData>(gqlQuery, request, cancellationToken);
     }
 

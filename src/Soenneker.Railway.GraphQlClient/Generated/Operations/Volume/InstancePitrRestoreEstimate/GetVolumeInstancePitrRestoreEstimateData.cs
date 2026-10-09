@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class GetVolumeInstancePitrRestoreEstimateData
 {
     /// <summary>
-    /// Estimated destination-volume scratch a PITR restore of this volume instance to a target would need, and whether it fits the workspace plan's max volume size. Read-only pre-check the restore dialog calls to warn before a restore that would fill the disk mid-replay; returns null when no estimate can be formed (non-pgBackRest source, incomplete archive creds, or a target before the earliest backup).
+    /// Estimated disk space a point-in-time restore to this target needs, and whether it fits your plan's largest volume. Returns null when no estimate is available.
     /// </summary>
     [JsonPropertyName("volumeInstancePitrRestoreEstimate")]
     public PitrRestoreScratchEstimate? VolumeInstancePitrRestoreEstimate { get; init; }

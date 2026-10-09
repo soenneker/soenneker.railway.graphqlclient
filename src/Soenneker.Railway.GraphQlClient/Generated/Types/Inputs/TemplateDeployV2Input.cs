@@ -10,7 +10,7 @@ public sealed partial class TemplateDeployV2Input
     public string? EnvironmentId { get; init; }
 
     /// <summary>
-    /// Use an existing service as the cluster root instead of creating a new one. A live cluster edge is resolved to the root it fronts. Used for HA cluster conversion where an existing postgres becomes the primary.
+    /// An existing database service to convert. If you pass a cluster's proxy service, Railway uses the database behind it.
     /// </summary>
     [JsonPropertyName("existingRootServiceId")]
     public string? ExistingRootServiceId { get; init; }
