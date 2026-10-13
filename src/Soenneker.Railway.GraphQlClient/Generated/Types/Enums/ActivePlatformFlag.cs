@@ -5,6 +5,8 @@ namespace Soenneker.Railway.GraphQlClient;
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<ActivePlatformFlag>))]
 public enum ActivePlatformFlag
 {
+    ACTIVITYFEEDFILTERSKILLSWITCH,
+
     AGENTCACHETOKENBILLING,
 
     AGENTUSAGECHINGEST,
@@ -89,6 +91,8 @@ public enum ActivePlatformFlag
 
     REMOVEDEPLOYMENTCOMPACT,
 
+    RESTRICTIONABUSEQUEUE,
+
     SERVICEINSTANCEDATALOADERFORSTATICURL,
 
     SPLITUSAGEQUERIES,
@@ -114,6 +118,8 @@ public enum ActivePlatformFlag
     UPDATEDVMQUERIES,
 
     USAGECHREADS,
+
+    VERIFIERS,
 
     VMCOUPONMIGRATION,
 

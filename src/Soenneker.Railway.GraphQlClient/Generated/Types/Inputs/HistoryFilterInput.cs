@@ -10,6 +10,12 @@ public sealed partial class HistoryFilterInput
     [JsonPropertyName("actions")]
     public List<string>? Actions { get; init; }
 
+    /// <summary>
+    /// ACTIVITY_FEED narrows history to what the dashboard's feed shows. It admits rows belonging to the project rather than to one environment, so a service arriving or leaving still appears. When `serviceIds` is given it also keeps rows that name no service, so the caller can scope them itself, and bounds the scan to thirty days unless `since` says otherwise. Leave unset for raw history.
+    /// </summary>
+    [JsonPropertyName("mode")]
+    public HistoryFilterMode? Mode { get; init; }
+
     [JsonPropertyName("objects")]
     public List<string>? Objects { get; init; }
 
@@ -21,5 +27,11 @@ public sealed partial class HistoryFilterInput
 
     [JsonPropertyName("serviceIds")]
     public List<string>? ServiceIds { get; init; }
+
+    /// <summary>
+    /// Inclusive ISO timestamp lower bound.
+    /// </summary>
+    [JsonPropertyName("since")]
+    public string? Since { get; init; }
 
 }

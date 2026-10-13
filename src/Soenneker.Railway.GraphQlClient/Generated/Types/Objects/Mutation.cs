@@ -188,6 +188,12 @@ public sealed partial class Mutation
     public string CloudAgentHarnessToken { get; init; } = null!;
 
     /// <summary>
+    /// Set a session's title, shown over its generated one. An empty title clears it.
+    /// </summary>
+    [JsonPropertyName("cloudAgentSessionRename")]
+    public bool CloudAgentSessionRename { get; init; }
+
+    /// <summary>
     /// Sleep a running cloud agent, keeping its volume. Processes on the machine are terminated; waking re-runs its entrypoint.
     /// </summary>
     [JsonPropertyName("cloudAgentSleep")]

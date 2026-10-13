@@ -27,6 +27,8 @@ public sealed partial class CloudAgentBuilder
 
     public CloudAgentHarnessTokenRequestBuilder HarnessToken => new CloudAgentHarnessTokenRequestBuilder(_graphQlClient);
 
+    public CloudAgentSessionRenameRequestBuilder SessionRename => new CloudAgentSessionRenameRequestBuilder(_graphQlClient);
+
     public CloudAgentSleepRequestBuilder Sleep => new CloudAgentSleepRequestBuilder(_graphQlClient);
 
     public CloudAgentStateReportRequestBuilder StateReport => new CloudAgentStateReportRequestBuilder(_graphQlClient);

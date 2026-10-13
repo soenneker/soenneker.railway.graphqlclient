@@ -87,6 +87,7 @@ type AccessRule {
 }
 
 enum ActiveFeatureFlag {
+  ACTIVITY_FEED_FILTERS
   ACTIVITY_FEED_HISTORY
   AGENT_BOOTSTRAPS
   AGENT_BYOK
@@ -103,7 +104,6 @@ enum ActiveFeatureFlag {
   CLOUD_AGENT_BUILDER
   CLOUD_AGENT_CHAT
   CS_MCP_EXPRESS
-  EMAIL_FORWARDING
   HA_FOR_MONGO
   IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
@@ -119,6 +119,7 @@ enum ActiveFeatureFlag {
 }
 
 enum ActivePlatformFlag {
+  ACTIVITY_FEED_FILTERS_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
@@ -161,6 +162,7 @@ enum ActivePlatformFlag {
   RADAR_HTTP_PATTERN_DETECTION
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
+  RESTRICTION_ABUSE_QUEUE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -174,12 +176,14 @@ enum ActivePlatformFlag {
   TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH
   UPDATED_VM_QUERIES
   USAGE_CH_READS
+  VERIFIERS
   VM_COUPON_MIGRATION
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
 }
 
 enum ActiveProjectFeatureFlag {
+  BUILDER_V4
   LEGACY_CONFIG_AS_CODE
   PLACEHOLDER
   RBS_VOLUMES
@@ -2242,12 +2246,27 @@ input HerokuImportVariablesInput {
 
 input HistoryFilterInput {
   actions: [String!]
+  """
+  ACTIVITY_FEED narrows history to what the dashboard's feed shows. It admits rows belonging to the project rather than to one environment, so a service arriving or leaving still appears. When `serviceIds` is given it also keeps rows that name no service, so the caller can scope them itself, and bounds the scan to thirty days unless `since` says otherwise. Leave unset for raw history.
+  """
+  mode: HistoryFilterMode
   objects: [String!]
   """
   Any of '', 'applied', 'failed'.
   """
   outcomes: [String!]
   serviceIds: [String!]
+  """
+  Inclusive ISO timestamp lower bound.
+  """
+  since: String
+}
+
+"""
+A named reading of history, not a peer of the filter's own fields: a mode expands into them.
+"""
+enum HistoryFilterMode {
+  ACTIVITY_FEED
 }
 
 """
@@ -2821,6 +2840,10 @@ type Mutation {
   Mint a short-lived (5m) JWT for the agent's harness WebSocket (see agentWsUrl). The in-VM gate verifies signature/exp/aud and pins it to this agent. Mint one per dial; the token only has to survive the upgrade.
   """
   cloudAgentHarnessToken(environmentId: String!, id: ID!): String!
+  """
+  Set a session's title, shown over its generated one. An empty title clears it.
+  """
+  cloudAgentSessionRename(cloudAgentId: ID!, sessionId: String!, title: String!): Boolean!
   """
   Sleep a running cloud agent, keeping its volume. Processes on the machine are terminated; waking re-runs its entrypoint.
   """
@@ -4258,6 +4281,7 @@ type PlanLimitOverride implements Node {
 }
 
 enum PlatformFeatureFlag {
+  ACTIVITY_FEED_FILTERS_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
@@ -4300,6 +4324,7 @@ enum PlatformFeatureFlag {
   RADAR_HTTP_PATTERN_DETECTION
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
+  RESTRICTION_ABUSE_QUEUE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -4313,6 +4338,7 @@ enum PlatformFeatureFlag {
   TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH
   UPDATED_VM_QUERIES
   USAGE_CH_READS
+  VERIFIERS
   VM_COUPON_MIGRATION
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
