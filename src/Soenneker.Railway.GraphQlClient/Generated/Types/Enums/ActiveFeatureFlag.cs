@@ -61,6 +61,8 @@ public enum ActiveFeatureFlag
 
     USAGEINSIGHTS,
 
+    VERIFIERS,
+
     VMSTORAGETRACES
 
 }

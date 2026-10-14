@@ -115,6 +115,7 @@ enum ActiveFeatureFlag {
   RAILWAY_AUTOMATIONS
   TRACING
   USAGE_INSIGHTS
+  VERIFIERS
   VM_STORAGE_TRACES
 }
 
@@ -159,6 +160,7 @@ enum ActivePlatformFlag {
   OAUTH_DCR_KILLSWITCH
   PRE_DEPLOY_TIMEOUT_KILLSWITCH
   PROJECT_HISTORY_DUAL_WRITE
+  RADAR_DNS_ANON_ENFORCEMENT
   RADAR_HTTP_PATTERN_DETECTION
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
@@ -1041,6 +1043,10 @@ type CloudAgentTaskInteraction {
 enum CloudAgentTaskInteractionAction {
   ACCEPT
   ALLOW
+  """
+  Same as ALLOW. Accepted as an answer; never listed.
+  """
+  APPROVE
   CANCEL
   DECLINE
   DENY
@@ -2865,7 +2871,7 @@ type Mutation {
   """
   cloudAgentTaskRecover(cloudAgentId: String!, sessionId: String!): CloudAgentTaskResult!
   """
-  Answer a question the task is waiting on. Never wakes the VM; poll cloudAgentTask for the outcome.
+  Answer a question the task is waiting on. Wakes a sleeping VM to deliver it (the question survives sleep); poll cloudAgentTask for the outcome.
   """
   cloudAgentTaskRespond(input: CloudAgentTaskRespondInput!): CloudAgentTaskRespondResult!
   """
@@ -4321,6 +4327,7 @@ enum PlatformFeatureFlag {
   OAUTH_DCR_KILLSWITCH
   PRE_DEPLOY_TIMEOUT_KILLSWITCH
   PROJECT_HISTORY_DUAL_WRITE
+  RADAR_DNS_ANON_ENFORCEMENT
   RADAR_HTTP_PATTERN_DETECTION
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT

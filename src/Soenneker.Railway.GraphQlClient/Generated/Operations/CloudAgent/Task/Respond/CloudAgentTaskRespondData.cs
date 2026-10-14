@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentTaskRespondData
 {
     /// <summary>
-    /// Answer a question the task is waiting on. Never wakes the VM; poll cloudAgentTask for the outcome.
+    /// Answer a question the task is waiting on. Wakes a sleeping VM to deliver it (the question survives sleep); poll cloudAgentTask for the outcome.
     /// </summary>
     [JsonPropertyName("cloudAgentTaskRespond")]
     public CloudAgentTaskRespondResult CloudAgentTaskRespond { get; init; } = null!;

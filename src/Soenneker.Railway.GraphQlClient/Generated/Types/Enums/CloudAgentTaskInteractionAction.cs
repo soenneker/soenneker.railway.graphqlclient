@@ -9,6 +9,11 @@ public enum CloudAgentTaskInteractionAction
 
     ALLOW,
 
+    /// <summary>
+    /// Same as ALLOW. Accepted as an answer; never listed.
+    /// </summary>
+    APPROVE,
+
     CANCEL,
 
     DECLINE,
