@@ -1021,4 +1021,10 @@ public sealed partial class Query
     [JsonPropertyName("workspaceUsageTotals")]
     public List<AggregatedUsage> WorkspaceUsageTotals { get; init; } = [];
 
+    /// <summary>
+    /// Details for the X build claim page: the build, whether it can be claimed, and whether the caller's connected X account owns it.
+    /// </summary>
+    [JsonPropertyName("xAgentClaimInfo")]
+    public XAgentClaimInfo XAgentClaimInfo { get; init; } = null!;
+
 }

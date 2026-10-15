@@ -37,6 +37,8 @@ public enum ActiveFeatureFlag
 
     CLOUDAGENTCHAT,
 
+    CONNECTORTUNNELS,
+
     CSMCPEXPRESS,
 
     HAFORMONGO,

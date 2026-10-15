@@ -103,6 +103,7 @@ enum ActiveFeatureFlag {
   CLOUD_AGENTS
   CLOUD_AGENT_BUILDER
   CLOUD_AGENT_CHAT
+  CONNECTOR_TUNNELS
   CS_MCP_EXPRESS
   HA_FOR_MONGO
   IN_DASHBOARD_SUPPORT
@@ -182,6 +183,7 @@ enum ActivePlatformFlag {
   VM_COUPON_MIGRATION
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
+  X_AGENT_BUILDS
 }
 
 enum ActiveProjectFeatureFlag {
@@ -952,6 +954,10 @@ input CloudAgentTaskDispatchInput {
   Up to 4 images the model sees with the prompt (screenshots, mockups), 5 MiB in total. Kept as the agent's attachments.
   """
   images: [CloudAgentTaskImageInput!]
+  """
+  Whether someone will answer the agent. true: it may ask a question, which parks the task in AWAITING_INPUT until your next prompt on the conversation (delivered as the answer) or a respond. false: nobody will answer, so it decides or gives up with a reason. Omit for neither. Requires PROMPT mode.
+  """
+  interactive: Boolean
   metadata: JSON
   mode: CloudAgentTaskMode
   """
@@ -987,6 +993,10 @@ input CloudAgentTaskDispatchInput {
 
 type CloudAgentTaskHandle {
   cloudAgentId: ID!
+  """
+  The prompt answered the agent's open question on this session instead of starting a turn; taskId is the task that asked.
+  """
+  deliveredAsReply: Boolean!
   replayed: Boolean!
   sessionId: String!
   status: CloudAgentTaskStatus!
@@ -3802,6 +3812,10 @@ type Mutation {
   Remove a user from a workspace
   """
   workspaceUserRemove(input: WorkspaceUserRemoveInput!, workspaceId: String!): Boolean!
+  """
+  Claim a build requested from @RailwayAgent on X into workspaceId. The caller's connected X account must be the one that requested it.
+  """
+  xAgentProjectClaim(buildId: String!, workspaceId: String!): XAgentClaimResult!
 }
 
 type MysqlPitrRestorableWindow {
@@ -4349,6 +4363,7 @@ enum PlatformFeatureFlag {
   VM_COUPON_MIGRATION
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
+  X_AGENT_BUILDS
 }
 
 type PlatformFeatureFlagStatus {
@@ -5677,6 +5692,10 @@ type Query {
   Workspace-wide SUM of the same UI usage rollup as `usage` grouped by project. Use this for the usage-page header so it does not wait on per-project rows. Deleted projects that still bill are included when `includeDeleted` is true.
   """
   workspaceUsageTotals(endDate: DateTime, includeDeleted: Boolean, measurements: [MetricMeasurement!]!, startDate: DateTime, teamId: String @deprecated(reason: "Use workspaceId instead - teams are now workspaces"), workspaceId: String): [AggregatedUsage!]!
+  """
+  Details for the X build claim page: the build, whether it can be claimed, and whether the caller's connected X account owns it.
+  """
+  xAgentClaimInfo(buildId: String!): XAgentClaimInfo!
 }
 
 type QueryApiTokensConnection {
@@ -8324,6 +8343,39 @@ input WorkspaceUserInviteInput {
 
 input WorkspaceUserRemoveInput {
   userId: String!
+}
+
+"""
+A build requested from @RailwayAgent on X, as its claim page shows it to the signed-in user.
+"""
+type XAgentClaimInfo {
+  buildId: String!
+  claimableWorkspaces: [XAgentClaimWorkspace!]!
+  connectedXUsername: String
+  expiresAt: DateTime
+  intent: String!
+  matchesOwner: Boolean!
+  ownerUsername: String!
+  previewUrl: String!
+  status: XAgentClaimStatus!
+}
+
+type XAgentClaimResult {
+  projectId: String!
+  projectUrl: String!
+  workspaceId: String!
+}
+
+enum XAgentClaimStatus {
+  CLAIMABLE
+  CLAIMED
+  UNAVAILABLE
+  UNDER_REVIEW
+}
+
+type XAgentClaimWorkspace {
+  id: String!
+  name: String!
 }
 
 input customerTogglePayoutsToCreditsInput {

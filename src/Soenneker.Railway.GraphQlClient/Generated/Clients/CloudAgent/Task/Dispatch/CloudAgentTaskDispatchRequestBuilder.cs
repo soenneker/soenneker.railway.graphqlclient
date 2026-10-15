@@ -22,7 +22,7 @@ public sealed partial class CloudAgentTaskDispatchRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<CloudAgentTaskDispatchData>> Execute(CloudAgentTaskDispatchVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation CloudAgentTaskDispatch($input: CloudAgentTaskDispatchInput!) { cloudAgentTaskDispatch(input: $input) { cloudAgentId replayed sessionId status taskId } }";
+        const string gqlQuery = @"mutation CloudAgentTaskDispatch($input: CloudAgentTaskDispatchInput!) { cloudAgentTaskDispatch(input: $input) { cloudAgentId deliveredAsReply replayed sessionId status taskId } }";
         return _graphQlClient.Execute<CloudAgentTaskDispatchData>(gqlQuery, request, cancellationToken);
     }
 

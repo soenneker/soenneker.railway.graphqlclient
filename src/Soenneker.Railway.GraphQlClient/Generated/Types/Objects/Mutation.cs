@@ -1621,4 +1621,10 @@ public sealed partial class Mutation
     [JsonPropertyName("workspaceUserRemove")]
     public bool WorkspaceUserRemove { get; init; }
 
+    /// <summary>
+    /// Claim a build requested from @RailwayAgent on X into workspaceId. The caller's connected X account must be the one that requested it.
+    /// </summary>
+    [JsonPropertyName("xAgentProjectClaim")]
+    public XAgentClaimResult XAgentProjectClaim { get; init; } = null!;
+
 }

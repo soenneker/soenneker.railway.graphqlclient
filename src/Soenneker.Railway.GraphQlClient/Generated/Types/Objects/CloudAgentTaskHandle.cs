@@ -9,6 +9,12 @@ public sealed partial class CloudAgentTaskHandle
     [JsonPropertyName("cloudAgentId")]
     public string CloudAgentId { get; init; } = null!;
 
+    /// <summary>
+    /// The prompt answered the agent's open question on this session instead of starting a turn; taskId is the task that asked.
+    /// </summary>
+    [JsonPropertyName("deliveredAsReply")]
+    public bool DeliveredAsReply { get; init; }
+
     [JsonPropertyName("replayed")]
     public bool Replayed { get; init; }
 

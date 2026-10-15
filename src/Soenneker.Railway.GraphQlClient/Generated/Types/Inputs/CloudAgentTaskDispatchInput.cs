@@ -43,6 +43,12 @@ public sealed partial class CloudAgentTaskDispatchInput
     [JsonPropertyName("images")]
     public List<CloudAgentTaskImageInput>? Images { get; init; }
 
+    /// <summary>
+    /// Whether someone will answer the agent. true: it may ask a question, which parks the task in AWAITING_INPUT until your next prompt on the conversation (delivered as the answer) or a respond. false: nobody will answer, so it decides or gives up with a reason. Omit for neither. Requires PROMPT mode.
+    /// </summary>
+    [JsonPropertyName("interactive")]
+    public bool? Interactive { get; init; }
+
     [JsonPropertyName("metadata")]
     public System.Text.Json.JsonElement? Metadata { get; init; }
 
