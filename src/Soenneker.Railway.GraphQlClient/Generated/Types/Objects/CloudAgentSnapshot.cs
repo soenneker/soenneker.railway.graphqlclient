@@ -57,4 +57,10 @@ public sealed partial class CloudAgentSnapshot
     [JsonPropertyName("updatedAt")]
     public string UpdatedAt { get; init; } = null!;
 
+    /// <summary>
+    /// Where this session's work stands.
+    /// </summary>
+    [JsonPropertyName("workStatus")]
+    public CloudAgentWorkStatus WorkStatus { get; init; } = null!;
+
 }

@@ -57,6 +57,9 @@ public sealed partial class CliEventTrackInput
     [JsonPropertyName("success")]
     public bool Success { get; init; }
 
+    [JsonPropertyName("ttyStreams")]
+    public string? TtyStreams { get; init; }
+
     [JsonPropertyName("workspaceId")]
     public string? WorkspaceId { get; init; }
 

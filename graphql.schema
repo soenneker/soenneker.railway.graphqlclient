@@ -87,8 +87,6 @@ type AccessRule {
 }
 
 enum ActiveFeatureFlag {
-  ACTIVITY_FEED_FILTERS
-  ACTIVITY_FEED_HISTORY
   AGENT_BOOTSTRAPS
   AGENT_BYOK
   AGENT_BYOK_ANTHROPIC
@@ -608,6 +606,7 @@ input CliEventTrackInput {
   sessionId: String
   subCommand: String
   success: Boolean!
+  ttyStreams: String
   workspaceId: String
 }
 
@@ -619,6 +618,10 @@ type CloudAgent {
   WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake. Prefers the machine observation; when that carries no gate domain it falls back to the domain network-cp actively serves, so an agent whose observation lagged still offers chat. Null on agents created before the gate existed, or asleep/absent machines.
   """
   agentWsUrl: String
+  """
+  When its owner archived the agent; null unless archived. Archiving only changes which lists show it.
+  """
+  archivedAt: DateTime
   """
   Target ID for console or command execution. Null while unavailable.
   """
@@ -654,6 +657,19 @@ type CloudAgent {
   """
   source: CloudAgentSource
   status: CloudAgentStatus!
+  """
+  Where the agent's work stands: its most urgent session's status. Kept while the agent sleeps.
+  """
+  workStatus: CloudAgentWorkStatus!
+}
+
+"""
+What a BLOCKED session waits on: a tool call to approve, a question to answer, or a login or credential.
+"""
+enum CloudAgentBlockedKind {
+  AUTH
+  PERMISSION
+  QUESTION
 }
 
 """
@@ -794,6 +810,10 @@ type CloudAgentSnapshot {
   """
   title: String
   updatedAt: String!
+  """
+  Where this session's work stands.
+  """
+  workStatus: CloudAgentWorkStatus!
 }
 
 input CloudAgentSnapshotInput {
@@ -1169,6 +1189,40 @@ enum CloudAgentTaskStatus {
 enum CloudAgentTaskVia {
   API
   MCP
+}
+
+"""
+Where a cloud agent's work stands, named after the OSC 7501 program-status states.
+"""
+enum CloudAgentWorkState {
+  BLOCKED
+  DONE
+  ERROR
+  IDLE
+  WORKING
+}
+
+"""
+Where work stands, computed on read from the native harness's run events, else the VM's session report.
+"""
+type CloudAgentWorkStatus {
+  """
+  When the fact behind the state happened, by the VM's clock.
+  """
+  at: DateTime
+  """
+  What a BLOCKED session waits on. Null when the harness doesn't say.
+  """
+  kind: CloudAgentBlockedKind
+  """
+  One line: the question, the failure, or the closing prose. Only the agent's owner sees it; null for everyone else. Untrusted agent text: render as plain text.
+  """
+  message: String
+  state: CloudAgentWorkState!
+  """
+  DONE or ERROR, and the owner hasn't looked since. On an agent: any session is. Cleared by cloudAgentMarkSeen.
+  """
+  unseen: Boolean!
 }
 
 type CnameCheck {
@@ -2826,6 +2880,10 @@ type Mutation {
   """
   cliEventTrack(input: CliEventTrackInput!): Boolean!
   """
+  Archive a cloud agent: hide it from lists that ask for unarchived agents. Its machine, sessions and history are untouched. Owner only.
+  """
+  cloudAgentArchive(id: ID!): Boolean!
+  """
   Checkpoint the agent's disk. Poll cloudAgentCheckpoint until SUCCEEDED.
   """
   cloudAgentCheckpointCreate(id: ID!, name: String): CloudAgentCheckpoint!
@@ -2858,6 +2916,10 @@ type Mutation {
   """
   cloudAgentHarnessToken(environmentId: String!, id: ID!): String!
   """
+  Record that the agent's owner looked, so its DONE and ERROR outcomes stop being unseen. Without sessionId, every session. Owner only.
+  """
+  cloudAgentMarkSeen(cloudAgentId: ID!, sessionId: String): Boolean!
+  """
   Set a session's title, shown over its generated one. An empty title clears it.
   """
   cloudAgentSessionRename(cloudAgentId: ID!, sessionId: String!, title: String!): Boolean!
@@ -2885,6 +2947,10 @@ type Mutation {
   Answer a question the task is waiting on. Wakes a sleeping VM to deliver it (the question survives sleep); poll cloudAgentTask for the outcome.
   """
   cloudAgentTaskRespond(input: CloudAgentTaskRespondInput!): CloudAgentTaskRespondResult!
+  """
+  Bring an archived cloud agent back. Owner only.
+  """
+  cloudAgentUnarchive(id: ID!): Boolean!
   """
   Wake a sleeping cloud agent.
   """
@@ -5105,7 +5171,7 @@ type Query {
   """
   Cloud agents in an environment.
   """
-  cloudAgents(environmentId: ID!, mine: Boolean): [CloudAgent!]!
+  cloudAgents(archived: Boolean, environmentId: ID!, mine: Boolean): [CloudAgent!]!
   """
   Get compliance agreements for a workspace including HIPAA BAA and GDPR DPA status.
   """
@@ -5317,7 +5383,7 @@ type Query {
   """
   Cloud agents you own, across every project and environment you can reach. Answers "where are my agents" in one request; `cloudAgents` needs one call per environment. Machine fields (`status`, `domain`, `domains`) read the last observed state in batched queries, so selecting them across many environments is fine.
   """
-  myCloudAgents: [CloudAgent!]!
+  myCloudAgents(archived: Boolean): [CloudAgent!]!
   """
   The point-in-time window a MySQL service's binlog archive can restore to, resolved from the archive bucket: the oldest full backup (floor), the newest shipped binlog (ceiling) and every full backup's timestamp. archiveConfigured is false when the service carries no complete BINLOG_ARCHIVE_* contract.
   """

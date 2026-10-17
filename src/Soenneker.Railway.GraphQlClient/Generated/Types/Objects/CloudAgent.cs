@@ -18,6 +18,12 @@ public sealed partial class CloudAgent
     public string? AgentWsUrl { get; init; }
 
     /// <summary>
+    /// When its owner archived the agent; null unless archived. Archiving only changes which lists show it.
+    /// </summary>
+    [JsonPropertyName("archivedAt")]
+    public DateTimeOffset? ArchivedAt { get; init; }
+
+    /// <summary>
     /// Target ID for console or command execution. Null while unavailable.
     /// </summary>
     [JsonPropertyName("consoleTargetId")]
@@ -79,5 +85,11 @@ public sealed partial class CloudAgent
 
     [JsonPropertyName("status")]
     public CloudAgentStatus Status { get; init; }
+
+    /// <summary>
+    /// Where the agent's work stands: its most urgent session's status. Kept while the agent sleeps.
+    /// </summary>
+    [JsonPropertyName("workStatus")]
+    public CloudAgentWorkStatus WorkStatus { get; init; } = null!;
 
 }

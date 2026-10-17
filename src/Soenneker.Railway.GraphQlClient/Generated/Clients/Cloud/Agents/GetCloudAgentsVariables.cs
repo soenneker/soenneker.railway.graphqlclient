@@ -9,6 +9,9 @@ namespace Soenneker.Railway.GraphQlClient;
 /// </summary>
 public sealed class GetCloudAgentsVariables
 {
+    [JsonPropertyName("archived")]
+    public bool? Archived { get; init; }
+
     [JsonPropertyName("environmentId")]
     public string EnvironmentId { get; init; } = null!;
 

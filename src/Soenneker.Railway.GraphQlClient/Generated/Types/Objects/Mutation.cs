@@ -140,6 +140,12 @@ public sealed partial class Mutation
     public bool CliEventTrack { get; init; }
 
     /// <summary>
+    /// Archive a cloud agent: hide it from lists that ask for unarchived agents. Its machine, sessions and history are untouched. Owner only.
+    /// </summary>
+    [JsonPropertyName("cloudAgentArchive")]
+    public bool CloudAgentArchive { get; init; }
+
+    /// <summary>
     /// Checkpoint the agent's disk. Poll cloudAgentCheckpoint until SUCCEEDED.
     /// </summary>
     [JsonPropertyName("cloudAgentCheckpointCreate")]
@@ -188,6 +194,12 @@ public sealed partial class Mutation
     public string CloudAgentHarnessToken { get; init; } = null!;
 
     /// <summary>
+    /// Record that the agent's owner looked, so its DONE and ERROR outcomes stop being unseen. Without sessionId, every session. Owner only.
+    /// </summary>
+    [JsonPropertyName("cloudAgentMarkSeen")]
+    public bool CloudAgentMarkSeen { get; init; }
+
+    /// <summary>
     /// Set a session's title, shown over its generated one. An empty title clears it.
     /// </summary>
     [JsonPropertyName("cloudAgentSessionRename")]
@@ -228,6 +240,12 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("cloudAgentTaskRespond")]
     public CloudAgentTaskRespondResult CloudAgentTaskRespond { get; init; } = null!;
+
+    /// <summary>
+    /// Bring an archived cloud agent back. Owner only.
+    /// </summary>
+    [JsonPropertyName("cloudAgentUnarchive")]
+    public bool CloudAgentUnarchive { get; init; }
 
     /// <summary>
     /// Wake a sleeping cloud agent.

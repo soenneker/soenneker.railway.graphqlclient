@@ -19,20 +19,20 @@ public sealed partial class GetMyCloudAgentsRequestBuilder
     }
 
     /// <summary>
-    /// Executes the GraphQL query 'myCloudAgents'.
+    /// Executes the GraphQL query 'myCloudAgents' with the given request parameters.
     /// </summary>
-    public ValueTask<GraphQlResponse<GetMyCloudAgentsData>> Execute(CancellationToken cancellationToken = default)
+    public ValueTask<GraphQlResponse<GetMyCloudAgentsData>> Execute(GetMyCloudAgentsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetMyCloudAgents { myCloudAgents { agentWsUrl consoleTargetId createdAt domain domains { domain port prefix } environmentId id name privateDomain project { baseEnvironment { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError configEtag createdAt deletedAt iacPartials id isEphemeral name projectId unmergedChangesCount updatedAt } baseEnvironmentId botPrEnvironments clearanceDefaultForNewEnvironments clearanceTokens { createdAt environmentId environmentName expiresAt id name } createdAt deletedAt description expiredAt featureFlags focusedPrEnvironments id isPublic isTempProject members { avatar email id name role } name prDeploys primaryEnvironmentId subscriptionPlanLimit subscriptionType team { adoptionLevel avatar createdAt id name preferredRegion slackChannelId updatedAt } teamId tracingEnabled tracingSampleRate updatedAt viewerRole workspace { adoptionLevel allowDeprecatedRegions avatar banReason createdAt discordRole has2FAEnforcement hasAutomaticDiagnosis hasGuardrailsAccess hasHipaaBAA hasSAML id name plan preferredRegion redactedDueTo2FAPending restrictProjectVisibilityToGroups slackChannelId subscriptionModel subscriptionPlanLimit updatedAt usersWithout2FA } workspaceId } projectId region sessions { harness lastEventKind latestPrompt prompt sessionId sessionName state taskId terminal title updatedAt } source { branch dir repo repos { path repo } serviceId status } status } }";
-        return _graphQlClient.Execute<GetMyCloudAgentsData>(gqlQuery, null, cancellationToken);
+        const string gqlQuery = @"query GetMyCloudAgents($archived: Boolean) { myCloudAgents(archived: $archived) { agentWsUrl archivedAt consoleTargetId createdAt domain domains { domain port prefix } environmentId id name privateDomain project { baseEnvironment { canAccess canvasGroupRefs clearanceCachingTurnedOff clearanceDefault clearanceDefaultUpdatedAt clearancePropagatedAt clearancePropagationError configEtag createdAt deletedAt iacPartials id isEphemeral name projectId unmergedChangesCount updatedAt } baseEnvironmentId botPrEnvironments clearanceDefaultForNewEnvironments clearanceTokens { createdAt environmentId environmentName expiresAt id name } createdAt deletedAt description expiredAt featureFlags focusedPrEnvironments id isPublic isTempProject members { avatar email id name role } name prDeploys primaryEnvironmentId subscriptionPlanLimit subscriptionType team { adoptionLevel avatar createdAt id name preferredRegion slackChannelId updatedAt } teamId tracingEnabled tracingSampleRate updatedAt viewerRole workspace { adoptionLevel allowDeprecatedRegions avatar banReason createdAt discordRole has2FAEnforcement hasAutomaticDiagnosis hasGuardrailsAccess hasHipaaBAA hasSAML id name plan preferredRegion redactedDueTo2FAPending restrictProjectVisibilityToGroups slackChannelId subscriptionModel subscriptionPlanLimit updatedAt usersWithout2FA } workspaceId } projectId region sessions { harness lastEventKind latestPrompt prompt sessionId sessionName state taskId terminal title updatedAt workStatus { at kind message state unseen } } source { branch dir repo repos { path repo } serviceId status } status workStatus { at kind message state unseen } } }";
+        return _graphQlClient.Execute<GetMyCloudAgentsData>(gqlQuery, request, cancellationToken);
     }
 
     /// <summary>
     /// Executes the operation and returns only the 'myCloudAgents' value from the GraphQL data envelope.
     /// </summary>
-    public async ValueTask<List<CloudAgent>?> GetValue(CancellationToken cancellationToken = default)
+    public async ValueTask<List<CloudAgent>?> GetValue(GetMyCloudAgentsVariables request, CancellationToken cancellationToken = default)
     {
-        GraphQlResponse<GetMyCloudAgentsData> response = await Execute(cancellationToken).ConfigureAwait(false);
+        GraphQlResponse<GetMyCloudAgentsData> response = await Execute(request, cancellationToken).ConfigureAwait(false);
         return response.Data?.MyCloudAgents;
     }
 }

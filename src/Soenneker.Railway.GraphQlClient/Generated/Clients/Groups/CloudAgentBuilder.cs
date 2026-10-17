@@ -15,6 +15,8 @@ public sealed partial class CloudAgentBuilder
 
     public CloudAgentTaskBuilder Task => new CloudAgentTaskBuilder(_graphQlClient);
 
+    public CloudAgentArchiveRequestBuilder Archive => new CloudAgentArchiveRequestBuilder(_graphQlClient);
+
     public CloudAgentCreateRequestBuilder Create => new CloudAgentCreateRequestBuilder(_graphQlClient);
 
     public CloudAgentDeleteRequestBuilder Delete => new CloudAgentDeleteRequestBuilder(_graphQlClient);
@@ -27,11 +29,15 @@ public sealed partial class CloudAgentBuilder
 
     public CloudAgentHarnessTokenRequestBuilder HarnessToken => new CloudAgentHarnessTokenRequestBuilder(_graphQlClient);
 
+    public CloudAgentMarkSeenRequestBuilder MarkSeen => new CloudAgentMarkSeenRequestBuilder(_graphQlClient);
+
     public CloudAgentSessionRenameRequestBuilder SessionRename => new CloudAgentSessionRenameRequestBuilder(_graphQlClient);
 
     public CloudAgentSleepRequestBuilder Sleep => new CloudAgentSleepRequestBuilder(_graphQlClient);
 
     public CloudAgentStateReportRequestBuilder StateReport => new CloudAgentStateReportRequestBuilder(_graphQlClient);
+
+    public CloudAgentUnarchiveRequestBuilder Unarchive => new CloudAgentUnarchiveRequestBuilder(_graphQlClient);
 
     public CloudAgentWakeRequestBuilder Wake => new CloudAgentWakeRequestBuilder(_graphQlClient);
 }
