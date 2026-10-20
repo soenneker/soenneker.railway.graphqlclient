@@ -3742,7 +3742,7 @@ type Mutation {
   """
   Unsubscribe from the Beta program.
   """
-  userBetaLeave: Boolean!
+  userBetaLeave: Boolean! @deprecated(reason: "Use featureFlagRemove with PRIORITY_BOARDING.")
   """
   Delete the currently authenticated user
   """
@@ -3754,11 +3754,11 @@ type Mutation {
   """
   Remove a flag on the user.
   """
-  userFlagsRemove(input: UserFlagsRemoveInput!): Boolean!
+  userFlagsRemove(input: UserFlagsRemoveInput!): Boolean! @deprecated(reason: "Use featureFlagRemove with PRIORITY_BOARDING. BETA leaves Priority Boarding.")
   """
   Set flags on the authenticated user.
   """
-  userFlagsSet(input: UserFlagsSetInput!): Boolean!
+  userFlagsSet(input: UserFlagsSetInput!): Boolean! @deprecated(reason: "Use featureFlagAdd with PRIORITY_BOARDING. BETA joins Priority Boarding.")
   """
   Updates the profile for the authenticated user
   """
@@ -7822,7 +7822,7 @@ type User implements Node {
   createdAt: DateTime!
   email: String!
   featureFlags: [ActiveFeatureFlag!]!
-  flags: [UserFlag!]!
+  flags: [UserFlag!]! @deprecated(reason: "Priority Boarding is the PRIORITY_BOARDING entry of \u0060featureFlags\u0060. BETA is reported while it is on.")
   githubProviderId: String
   githubUsername: String
   has2FA: Boolean!
