@@ -7,6 +7,9 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class ApiToken : Node
 {
+    [JsonPropertyName("createdAt")]
+    public DateTimeOffset CreatedAt { get; init; }
+
     [JsonPropertyName("displayToken")]
     public string DisplayToken { get; init; } = null!;
 

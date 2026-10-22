@@ -39,6 +39,8 @@ public enum ActiveFeatureFlag
 
     HAFORMONGO,
 
+    HAPASSWORDROTATION,
+
     INDASHBOARDSUPPORT,
 
     MAGICCONFIG,

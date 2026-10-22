@@ -22,7 +22,7 @@ public sealed partial class GetApiTokensRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetApiTokensData>> Execute(GetApiTokensVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetApiTokens($after: String, $before: String, $first: Int, $last: Int) { apiTokens(after: $after, before: $before, first: $first, last: $last) { edges { cursor node { displayToken expiresAt id name workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetApiTokens($after: String, $before: String, $first: Int, $last: Int) { apiTokens(after: $after, before: $before, first: $first, last: $last) { edges { cursor node { createdAt displayToken expiresAt id name workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetApiTokensData>(gqlQuery, request, cancellationToken);
     }
 

@@ -104,6 +104,7 @@ enum ActiveFeatureFlag {
   CONNECTOR_TUNNELS
   CS_MCP_EXPRESS
   HA_FOR_MONGO
+  HA_PASSWORD_ROTATION
   IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
   MANAGED_DATABASE_EDIT_WARNING
@@ -267,6 +268,7 @@ type AllDomains {
 }
 
 type ApiToken implements Node {
+  createdAt: DateTime!
   displayToken: String!
   expiresAt: DateTime
   id: ID!
