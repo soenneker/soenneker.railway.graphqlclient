@@ -254,6 +254,10 @@ public sealed partial class RailwayGraphQlClient
     public GetComplianceAgreementsRequestBuilder GetComplianceAgreements => new GetComplianceAgreementsRequestBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes requests for the 'databasePasswordRotationProgress' query.</summary>
+    public GetDatabasePasswordRotationProgressRequestBuilder GetDatabasePasswordRotationProgress => new GetDatabasePasswordRotationProgressRequestBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes requests for the 'deployment' query.</summary>
     public GetDeploymentRequestBuilder GetDeployment => new GetDeploymentRequestBuilder(_graphQlClient);
 
@@ -680,6 +684,10 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'clearPitrHaWorkflowProgress' mutation.</summary>
     public ClearPitrHaWorkflowProgressRequestBuilder ClearPitrHaWorkflowProgress => new ClearPitrHaWorkflowProgressRequestBuilder(_graphQlClient);
+
+    /// <summary>
+    /// Builds and executes requests for the 'databasePasswordReset' mutation.</summary>
+    public DatabasePasswordResetRequestBuilder DatabasePasswordReset => new DatabasePasswordResetRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'dockerComposeImport' mutation.</summary>

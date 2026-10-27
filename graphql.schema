@@ -1489,6 +1489,29 @@ type DNSRecords {
   zone: String!
 }
 
+input DatabasePasswordResetInput {
+  databaseType: String!
+  environmentId: String!
+  serviceId: String!
+}
+
+type DatabasePasswordResetResponse {
+  newPassword: String!
+  """
+  True when an HA cluster's rotation is still running: `newPassword` is live only once `databasePasswordRotationProgress` reports DONE, and `updatedVariables` is empty until then.
+  """
+  rotationInProgress: Boolean
+  updatedVariables: JSON!
+}
+
+type DatabasePasswordRotationProgress {
+  completedMembers: [String!]!
+  error: String
+  memberServiceId: String
+  memberServiceName: String
+  phase: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -2981,6 +3004,10 @@ type Mutation {
   Toggle whether a customer is automatically withdrawing to credits
   """
   customerTogglePayoutsToCredits(customerId: String!, input: customerTogglePayoutsToCreditsInput!): Boolean!
+  """
+  Reset database credentials, coordinating all members for an HA cluster. On an HA cluster the rotation keeps running after this returns (`rotationInProgress`); follow `databasePasswordRotationProgress` until it reports DONE.
+  """
+  databasePasswordReset(input: DatabasePasswordResetInput!): DatabasePasswordResetResponse!
   """
   Approves a deployment.
   """
@@ -5186,6 +5213,10 @@ type Query {
   Checks if a custom domain is available.
   """
   customDomainAvailable(domain: String!): DomainAvailable!
+  """
+  Progress of the HA password rotation running for a cluster, or null when none is.
+  """
+  databasePasswordRotationProgress(environmentId: String!, serviceId: String!): DatabasePasswordRotationProgress
   """
   Find a single deployment
   """
