@@ -158,6 +158,12 @@ public sealed partial class Query
     public DomainAvailable CustomDomainAvailable { get; init; } = null!;
 
     /// <summary>
+    /// Progress of the HA password rotation running for a cluster, or null when none is.
+    /// </summary>
+    [JsonPropertyName("databasePasswordRotationProgress")]
+    public DatabasePasswordRotationProgress? DatabasePasswordRotationProgress { get; init; }
+
+    /// <summary>
     /// Find a single deployment
     /// </summary>
     [JsonPropertyName("deployment")]

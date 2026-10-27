@@ -290,6 +290,12 @@ public sealed partial class Mutation
     public bool CustomerTogglePayoutsToCredits { get; init; }
 
     /// <summary>
+    /// Reset database credentials, coordinating all members for an HA cluster. On an HA cluster the rotation keeps running after this returns (`rotationInProgress`); follow `databasePasswordRotationProgress` until it reports DONE.
+    /// </summary>
+    [JsonPropertyName("databasePasswordReset")]
+    public DatabasePasswordResetResponse DatabasePasswordReset { get; init; } = null!;
+
+    /// <summary>
     /// Approves a deployment.
     /// </summary>
     [JsonPropertyName("deploymentApprove")]
