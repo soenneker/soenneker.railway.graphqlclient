@@ -22,7 +22,7 @@ public sealed partial class GetSshSignupInfoRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetSshSignupInfoData>> Execute(GetSshSignupInfoVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetSshSignupInfo($code: String!) { sshSignupInfo(code: $code) { claimableWorkspaces { id name } fingerprint trial { buildExpiresAt cloudAgentId projectId projectName } } }";
+        const string gqlQuery = @"query GetSshSignupInfo($code: String!) { sshSignupInfo(code: $code) { claimableWorkspaces { id name } fingerprint origin { ip requestedAt sameNetwork } trial { buildExpiresAt cloudAgentId projectId projectName } } }";
         return _graphQlClient.Execute<GetSshSignupInfoData>(gqlQuery, request, cancellationToken);
     }
 

@@ -13,6 +13,9 @@ public sealed partial class SSHSignupInfo
     [JsonPropertyName("fingerprint")]
     public string Fingerprint { get; init; } = null!;
 
+    [JsonPropertyName("origin")]
+    public SSHSignupOrigin Origin { get; init; } = null!;
+
     [JsonPropertyName("trial")]
     public SSHSignupTrial? Trial { get; init; }
 

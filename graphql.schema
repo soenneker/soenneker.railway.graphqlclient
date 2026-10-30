@@ -104,7 +104,6 @@ enum ActiveFeatureFlag {
   CONNECTOR_TUNNELS
   CS_MCP_EXPRESS
   HA_FOR_MONGO
-  HA_PASSWORD_ROTATION
   IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
   MANAGED_DATABASE_EDIT_WARNING
@@ -3374,10 +3373,6 @@ type Mutation {
   """
   projectInviteCodeCreate(projectId: String!, role: ProjectRole!): InviteCode!
   """
-  Invite a user by email to a project
-  """
-  projectInviteUser(id: String!, input: ProjectInviteUserInput!): Boolean!
-  """
   Leave project as currently authenticated user
   """
   projectLeave(id: String!): Boolean!
@@ -4838,11 +4833,6 @@ type ProjectInvitation {
 type ProjectInvitationInviter {
   email: String!
   name: String
-}
-
-input ProjectInviteUserInput {
-  email: String!
-  link: String!
 }
 
 input ProjectInvitee {
@@ -6428,7 +6418,20 @@ type SSHSignupClaimableWorkspace {
 type SSHSignupInfo {
   claimableWorkspaces: [SSHSignupClaimableWorkspace!]!
   fingerprint: String!
+  origin: SSHSignupOrigin!
   trial: SSHSignupTrial
+}
+
+"""
+Where the terminal that started an SSH signup connected from.
+"""
+type SSHSignupOrigin {
+  ip: String
+  requestedAt: DateTime!
+  """
+  Whether this request comes from the same IP as the terminal. False when the terminal's IP is unknown.
+  """
+  sameNetwork: Boolean!
 }
 
 """

@@ -836,12 +836,6 @@ public sealed partial class Mutation
     public InviteCode ProjectInviteCodeCreate { get; init; } = null!;
 
     /// <summary>
-    /// Invite a user by email to a project
-    /// </summary>
-    [JsonPropertyName("projectInviteUser")]
-    public bool ProjectInviteUser { get; init; }
-
-    /// <summary>
     /// Leave project as currently authenticated user
     /// </summary>
     [JsonPropertyName("projectLeave")]
