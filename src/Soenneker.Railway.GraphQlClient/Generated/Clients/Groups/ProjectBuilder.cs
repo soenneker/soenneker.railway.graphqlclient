@@ -15,6 +15,8 @@ public sealed partial class ProjectBuilder
 
     public ProjectInvitationBuilder Invitation => new ProjectInvitationBuilder(_graphQlClient);
 
+    public ProjectInviteBuilder Invite => new ProjectInviteBuilder(_graphQlClient);
+
     public ProjectMemberBuilder Member => new ProjectMemberBuilder(_graphQlClient);
 
     public ProjectScheduleBuilder Schedule => new ProjectScheduleBuilder(_graphQlClient);
@@ -30,8 +32,6 @@ public sealed partial class ProjectBuilder
     public ProjectDeleteRequestBuilder Delete => new ProjectDeleteRequestBuilder(_graphQlClient);
 
     public ProjectFavoriteSetRequestBuilder FavoriteSet => new ProjectFavoriteSetRequestBuilder(_graphQlClient);
-
-    public ProjectInviteUserRequestBuilder InviteUser => new ProjectInviteUserRequestBuilder(_graphQlClient);
 
     public ProjectLeaveRequestBuilder Leave => new ProjectLeaveRequestBuilder(_graphQlClient);
 

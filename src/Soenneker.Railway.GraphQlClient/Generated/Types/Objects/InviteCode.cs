@@ -13,8 +13,17 @@ public sealed partial class InviteCode : Node
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 
+    /// <summary>
+    /// When this invite link expires.
+    /// </summary>
+    [JsonPropertyName("expiresAt")]
+    public DateTimeOffset ExpiresAt { get; init; }
+
     [JsonPropertyName("id")]
     public string Id { get; init; } = null!;
+
+    [JsonPropertyName("isExpired")]
+    public bool IsExpired { get; init; }
 
     [JsonPropertyName("project")]
     public Project Project { get; init; } = null!;

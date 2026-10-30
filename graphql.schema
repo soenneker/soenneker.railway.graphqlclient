@@ -2601,7 +2601,12 @@ input IntegrationUpdateInput {
 type InviteCode implements Node {
   code: String!
   createdAt: DateTime!
+  """
+  When this invite link expires.
+  """
+  expiresAt: DateTime!
   id: ID!
+  isExpired: Boolean!
   project: Project!
   projectId: String!
   role: ProjectRole!
@@ -3364,6 +3369,10 @@ type Mutation {
   Resend an invitation for a project
   """
   projectInvitationResend(id: String!): ProjectInvitation!
+  """
+  Create a 24-hour project invite link, reusing a link created within the last hour
+  """
+  projectInviteCodeCreate(projectId: String!, role: ProjectRole!): InviteCode!
   """
   Invite a user by email to a project
   """

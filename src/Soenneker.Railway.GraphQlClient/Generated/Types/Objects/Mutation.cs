@@ -830,6 +830,12 @@ public sealed partial class Mutation
     public ProjectInvitation ProjectInvitationResend { get; init; } = null!;
 
     /// <summary>
+    /// Create a 24-hour project invite link, reusing a link created within the last hour
+    /// </summary>
+    [JsonPropertyName("projectInviteCodeCreate")]
+    public InviteCode ProjectInviteCodeCreate { get; init; } = null!;
+
+    /// <summary>
     /// Invite a user by email to a project
     /// </summary>
     [JsonPropertyName("projectInviteUser")]
