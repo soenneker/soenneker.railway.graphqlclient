@@ -10,6 +10,9 @@ public sealed partial class ApiToken : Node
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
 
+    [JsonPropertyName("creator")]
+    public UserSummary Creator { get; init; } = null!;
+
     [JsonPropertyName("displayToken")]
     public string DisplayToken { get; init; } = null!;
 

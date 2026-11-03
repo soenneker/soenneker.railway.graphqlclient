@@ -17,6 +17,8 @@ public sealed partial class WorkspaceBuilder
 
     public WorkspaceUserBuilder User => new WorkspaceUserBuilder(_graphQlClient);
 
+    public WorkspaceApiTokenDeleteRequestBuilder ApiTokenDelete => new WorkspaceApiTokenDeleteRequestBuilder(_graphQlClient);
+
     public WorkspaceDeleteRequestBuilder Delete => new WorkspaceDeleteRequestBuilder(_graphQlClient);
 
     public WorkspaceLeaveRequestBuilder Leave => new WorkspaceLeaveRequestBuilder(_graphQlClient);

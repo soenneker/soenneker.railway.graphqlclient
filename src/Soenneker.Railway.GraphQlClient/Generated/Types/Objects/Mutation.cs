@@ -1562,6 +1562,12 @@ public sealed partial class Mutation
     public int WebhookTest { get; init; }
 
     /// <summary>
+    /// Revokes an API token scoped to a workspace. Requires workspace admin access.
+    /// </summary>
+    [JsonPropertyName("workspaceApiTokenDelete")]
+    public bool WorkspaceApiTokenDelete { get; init; }
+
+    /// <summary>
     /// Delete a workspace and all data associated with it
     /// </summary>
     [JsonPropertyName("workspaceDelete")]

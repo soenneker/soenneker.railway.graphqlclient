@@ -634,6 +634,10 @@ public sealed partial class RailwayGraphQlClient
     public GetWorkspaceRequestBuilder GetWorkspace => new GetWorkspaceRequestBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes requests for the 'workspaceApiTokens' query.</summary>
+    public GetWorkspaceApiTokensRequestBuilder GetWorkspaceApiTokens => new GetWorkspaceApiTokensRequestBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes requests for the 'workspaceByCode' query.</summary>
     public GetWorkspaceByCodeRequestBuilder GetWorkspaceByCode => new GetWorkspaceByCodeRequestBuilder(_graphQlClient);
 

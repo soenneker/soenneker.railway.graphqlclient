@@ -29,7 +29,7 @@ type AccessGroupMember implements Node {
   createdAt: DateTime!
   id: ID!
   updatedAt: DateTime!
-  user: User!
+  user: UserSummary!
   userId: String!
 }
 
@@ -124,7 +124,6 @@ enum ActivePlatformFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
   BLOCK_TRIAL_RESTRICTION_APPEALS
-  BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
   CANVAS_CROSS_ENV_GUARD_ENFORCE
@@ -186,14 +185,12 @@ enum ActivePlatformFlag {
 }
 
 enum ActiveProjectFeatureFlag {
-  BUILDER_V4
   LEGACY_CONFIG_AS_CODE
   PLACEHOLDER
   RBS_VOLUMES
 }
 
 enum ActiveServiceFeatureFlag {
-  BUILDER_V4
   COPY_VOLUME_TO_ENVIRONMENT
   PLACEHOLDER
   SKIPPED_BUILDS
@@ -268,6 +265,7 @@ type AllDomains {
 
 type ApiToken implements Node {
   createdAt: DateTime!
+  creator: UserSummary!
   displayToken: String!
   expiresAt: DateTime
   id: ID!
@@ -788,11 +786,11 @@ type CloudAgentSnapshot {
   harness: String!
   lastEventKind: String!
   """
-  Truncated most recent prompt of the session, display-only. Null when the harness never reported one.
+  Truncated most recent prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
   """
   latestPrompt: String
   """
-  Truncated first prompt of the session, display-only. Null when the harness never reported one.
+  Truncated first prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
   """
   prompt: String
   sessionId: String!
@@ -807,7 +805,7 @@ type CloudAgentSnapshot {
   taskId: String
   terminal: Boolean!
   """
-  Generated display title for the session, display-only. Null until generated; fall back to latestPrompt, then prompt.
+  Generated display title for the session, display-only. Null until generated, or for viewers who don't own the agent; fall back to latestPrompt, then prompt.
   """
   title: String
   updatedAt: String!
@@ -3857,6 +3855,10 @@ type Mutation {
   """
   webhookTest(headers: [WebhookHeaderInput!], notificationRuleId: String, payload: String!, url: String!): Int!
   """
+  Revokes an API token scoped to a workspace. Requires workspace admin access.
+  """
+  workspaceApiTokenDelete(id: String!, workspaceId: String!): Boolean!
+  """
   Delete a workspace and all data associated with it
   """
   workspaceDelete(id: String!): Boolean!
@@ -4406,7 +4408,6 @@ enum PlatformFeatureFlag {
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
   BLOCK_TRIAL_RESTRICTION_APPEALS
-  BUILDER_V4_ROLLOUT
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
   CANVAS_CROSS_ENV_GUARD_ENFORCE
@@ -5769,6 +5770,10 @@ type Query {
   """
   workspace(workspaceId: String!): Workspace!
   """
+  Lists API tokens scoped to a workspace. Requires workspace admin access.
+  """
+  workspaceApiTokens(after: String, before: String, first: Int, last: Int, workspaceId: String!): QueryWorkspaceApiTokensConnection!
+  """
   Find a workspace by invite code
   """
   workspaceByCode(code: String!): Workspace!
@@ -6066,6 +6071,16 @@ type QueryUserTemplatesConnection {
 type QueryUserTemplatesConnectionEdge {
   cursor: String!
   node: Template!
+}
+
+type QueryWorkspaceApiTokensConnection {
+  edges: [QueryWorkspaceApiTokensConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryWorkspaceApiTokensConnectionEdge {
+  cursor: String!
+  node: ApiToken!
 }
 
 type QueryWorkspaceIdentityProvidersConnection {
@@ -7968,6 +7983,14 @@ type UserProviderAuthsConnectionEdge {
   node: ProviderAuth!
 }
 
+type UserSummary {
+  avatar: String
+  email: String!
+  id: ID!
+  name: String
+  username: String
+}
+
 input ValidateServiceEdgeRulesInput {
   edgeRules: JSON!
   environmentId: String!
@@ -8381,7 +8404,7 @@ type WorkspacePolicy implements Node {
 }
 
 type WorkspacePolicyDeploySourceAllowlist implements Node {
-  addedBy: User
+  addedBy: UserSummary
   createdAt: DateTime!
   id: ID!
   sourceIcon: String

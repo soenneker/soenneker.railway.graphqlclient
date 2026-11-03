@@ -23,7 +23,7 @@ public sealed partial class AccessGroupMember : Node
     public DateTimeOffset UpdatedAt { get; init; }
 
     [JsonPropertyName("user")]
-    public User User { get; init; } = null!;
+    public UserSummary User { get; init; } = null!;
 
     [JsonPropertyName("userId")]
     public string UserId { get; init; } = null!;

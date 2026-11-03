@@ -992,6 +992,12 @@ public sealed partial class Query
     public Workspace Workspace { get; init; } = null!;
 
     /// <summary>
+    /// Lists API tokens scoped to a workspace. Requires workspace admin access.
+    /// </summary>
+    [JsonPropertyName("workspaceApiTokens")]
+    public QueryWorkspaceApiTokensConnection WorkspaceApiTokens { get; init; } = null!;
+
+    /// <summary>
     /// Find a workspace by invite code
     /// </summary>
     [JsonPropertyName("workspaceByCode")]

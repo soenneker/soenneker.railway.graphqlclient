@@ -8,7 +8,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class WorkspacePolicyDeploySourceAllowlist : Node
 {
     [JsonPropertyName("addedBy")]
-    public User? AddedBy { get; init; }
+    public UserSummary? AddedBy { get; init; }
 
     [JsonPropertyName("createdAt")]
     public DateTimeOffset CreatedAt { get; init; }
