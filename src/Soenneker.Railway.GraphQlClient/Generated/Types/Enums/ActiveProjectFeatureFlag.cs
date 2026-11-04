@@ -9,6 +9,8 @@ public enum ActiveProjectFeatureFlag
 
     PLACEHOLDER,
 
-    RBSVOLUMES
+    RBSVOLUMES,
+
+    VMNEWSERVICES
 
 }

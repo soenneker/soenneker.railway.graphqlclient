@@ -51,8 +51,6 @@ public enum ActiveFeatureFlag
 
     RAILWAYAGENTDASHBOARD,
 
-    RAILWAYAGENTFEED,
-
     RAILWAYAUTOMATIONS,
 
     TRACING,

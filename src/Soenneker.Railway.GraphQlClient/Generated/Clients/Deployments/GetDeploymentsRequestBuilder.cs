@@ -22,7 +22,7 @@ public sealed partial class GetDeploymentsRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetDeploymentsData>> Execute(GetDeploymentsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetDeployments($after: String, $before: String, $first: Int, $input: DeploymentListInput!, $last: Int) { deployments(after: $after, before: $before, first: $first, input: $input, last: $last) { edges { cursor node { canRedeploy canRollback createdAt deploymentStopped diagnosis environmentId id meta projectId serviceId snapshotId staticUrl status statusUpdatedAt suggestAddServiceDomain updatedAt url } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetDeployments($after: String, $before: String, $first: Int, $input: DeploymentListInput!, $last: Int) { deployments(after: $after, before: $before, first: $first, input: $input, last: $last) { edges { cursor node { canRedeploy canRollback createdAt deploymentStopped diagnosis environmentId id isArchived meta projectId serviceId snapshotId staticUrl status statusUpdatedAt suggestAddServiceDomain updatedAt url } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetDeploymentsData>(gqlQuery, request, cancellationToken);
     }
 

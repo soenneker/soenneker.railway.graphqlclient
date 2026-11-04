@@ -22,7 +22,7 @@ public sealed partial class GetDeploymentSnapshotRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetDeploymentSnapshotData>> Execute(GetDeploymentSnapshotVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetDeploymentSnapshot($deploymentId: String!) { deploymentSnapshot(deploymentId: $deploymentId) { createdAt id updatedAt variables } }";
+        const string gqlQuery = @"query GetDeploymentSnapshot($deploymentId: String!) { deploymentSnapshot(deploymentId: $deploymentId) { createdAt id updatedAt variables variablesRedacted } }";
         return _graphQlClient.Execute<GetDeploymentSnapshotData>(gqlQuery, request, cancellationToken);
     }
 

@@ -16,7 +16,16 @@ public sealed partial class DeploymentSnapshot : Node
     [JsonPropertyName("updatedAt")]
     public DateTimeOffset UpdatedAt { get; init; }
 
+    /// <summary>
+    /// Empty for archived deployments, whose variables are not kept (see variablesRedacted).
+    /// </summary>
     [JsonPropertyName("variables")]
     public System.Text.Json.JsonElement Variables { get; init; }
+
+    /// <summary>
+    /// True when the snapshot belongs only to archived deployments, so its variables are not returned.
+    /// </summary>
+    [JsonPropertyName("variablesRedacted")]
+    public bool VariablesRedacted { get; init; }
 
 }

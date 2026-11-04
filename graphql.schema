@@ -110,7 +110,6 @@ enum ActiveFeatureFlag {
   MANAGED_DATABASE_SETUP
   PRIORITY_BOARDING
   RAILWAY_AGENT_DASHBOARD
-  RAILWAY_AGENT_FEED
   RAILWAY_AUTOMATIONS
   TRACING
   USAGE_INSIGHTS
@@ -140,6 +139,7 @@ enum ActivePlatformFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
+  ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
@@ -161,6 +161,7 @@ enum ActivePlatformFlag {
   PROJECT_HISTORY_DUAL_WRITE
   RADAR_DNS_ANON_ENFORCEMENT
   RADAR_HTTP_PATTERN_DETECTION
+  RADAR_SIGNUP_ENFORCE
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
@@ -179,6 +180,8 @@ enum ActivePlatformFlag {
   USAGE_CH_READS
   VERIFIERS
   VM_COUPON_MIGRATION
+  VM_NEW_SERVICES_HOBBY_ROLLOUT
+  VM_NEW_SERVICES_TRIAL_ROLLOUT
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
   X_AGENT_BUILDS
@@ -188,6 +191,7 @@ enum ActiveProjectFeatureFlag {
   LEGACY_CONFIG_AS_CODE
   PLACEHOLDER
   RBS_VOLUMES
+  VM_NEW_SERVICES
 }
 
 enum ActiveServiceFeatureFlag {
@@ -1528,6 +1532,10 @@ type Deployment implements Node {
   environmentId: String!
   id: ID!
   instances: [DeploymentDeploymentInstance!]!
+  """
+  Older terminal deployment kept as history only: it can be redeployed but not rolled back to. Whether its snapshot's variables are still returned is DeploymentSnapshot.variablesRedacted.
+  """
+  isArchived: Boolean!
   meta: DeploymentMeta
   projectId: String!
   service: Service!
@@ -1637,7 +1645,14 @@ type DeploymentSnapshot implements Node {
   createdAt: DateTime!
   id: ID!
   updatedAt: DateTime!
+  """
+  Empty for archived deployments, whose variables are not kept (see variablesRedacted).
+  """
   variables: EnvironmentVariables!
+  """
+  True when the snapshot belongs only to archived deployments, so its variables are not returned.
+  """
+  variablesRedacted: Boolean!
 }
 
 type DeploymentSocket {
@@ -4424,6 +4439,7 @@ enum PlatformFeatureFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
+  ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
@@ -4445,6 +4461,7 @@ enum PlatformFeatureFlag {
   PROJECT_HISTORY_DUAL_WRITE
   RADAR_DNS_ANON_ENFORCEMENT
   RADAR_HTTP_PATTERN_DETECTION
+  RADAR_SIGNUP_ENFORCE
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
@@ -4463,6 +4480,8 @@ enum PlatformFeatureFlag {
   USAGE_CH_READS
   VERIFIERS
   VM_COUPON_MIGRATION
+  VM_NEW_SERVICES_HOBBY_ROLLOUT
+  VM_NEW_SERVICES_TRIAL_ROLLOUT
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
   X_AGENT_BUILDS

@@ -41,6 +41,12 @@ public sealed partial class Deployment : Node
     [JsonPropertyName("instances")]
     public List<DeploymentDeploymentInstance> Instances { get; init; } = [];
 
+    /// <summary>
+    /// Older terminal deployment kept as history only: it can be redeployed but not rolled back to. Whether its snapshot's variables are still returned is DeploymentSnapshot.variablesRedacted.
+    /// </summary>
+    [JsonPropertyName("isArchived")]
+    public bool IsArchived { get; init; }
+
     [JsonPropertyName("meta")]
     public System.Text.Json.JsonElement? Meta { get; init; }
 
