@@ -354,10 +354,6 @@ public sealed partial class RailwayGraphQlClient
     public GetExternalWorkspacesRequestBuilder GetExternalWorkspaces => new GetExternalWorkspacesRequestBuilder(_graphQlClient);
 
     /// <summary>
-    /// Builds and executes requests for the 'herokuApps' query.</summary>
-    public GetHerokuAppsRequestBuilder GetHerokuApps => new GetHerokuAppsRequestBuilder(_graphQlClient);
-
-    /// <summary>
     /// Builds and executes requests for the 'integrations' query.</summary>
     public GetIntegrationsRequestBuilder GetIntegrations => new GetIntegrationsRequestBuilder(_graphQlClient);
 
@@ -704,10 +700,6 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'generateShellToken' mutation.</summary>
     public GenerateShellTokenRequestBuilder GenerateShellToken => new GenerateShellTokenRequestBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes requests for the 'herokuImportVariables' mutation.</summary>
-    public HerokuImportVariablesRequestBuilder HerokuImportVariables => new HerokuImportVariablesRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'inviteCodeUse' mutation.</summary>

@@ -2340,18 +2340,6 @@ type Group implements Node {
   projectId: String!
 }
 
-type HerokuApp {
-  id: String!
-  name: String!
-}
-
-input HerokuImportVariablesInput {
-  environmentId: String!
-  herokuAppId: String!
-  projectId: String!
-  serviceId: String!
-}
-
 input HistoryFilterInput {
   actions: [String!]
   """
@@ -3209,10 +3197,6 @@ type Mutation {
   Updates a GitHub repo through the linked template
   """
   githubRepoUpdate(input: GitHubRepoUpdateInput!): Boolean!
-  """
-  Import variables from a Heroku app into a Railway service. Returns the number of variables imports
-  """
-  herokuImportVariables(input: HerokuImportVariablesInput!): Int!
   """
   Create an integration for a project
   """
@@ -5388,10 +5372,6 @@ type Query {
   Get a list of scopes the user has installed the installation to
   """
   githubWritableScopes: [String!]!
-  """
-  Get the Herokus apps for the current user
-  """
-  herokuApps: [HerokuApp!]!
   """
   Get HTTP request duration metrics for a service (avg, p50, p90, p95, p99)
   """

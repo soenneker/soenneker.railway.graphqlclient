@@ -572,12 +572,6 @@ public sealed partial class Mutation
     public bool GithubRepoUpdate { get; init; }
 
     /// <summary>
-    /// Import variables from a Heroku app into a Railway service. Returns the number of variables imports
-    /// </summary>
-    [JsonPropertyName("herokuImportVariables")]
-    public int HerokuImportVariables { get; init; }
-
-    /// <summary>
     /// Create an integration for a project
     /// </summary>
     [JsonPropertyName("integrationCreate")]

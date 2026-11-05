@@ -392,12 +392,6 @@ public sealed partial class Query
     public List<string> GithubWritableScopes { get; init; } = [];
 
     /// <summary>
-    /// Get the Herokus apps for the current user
-    /// </summary>
-    [JsonPropertyName("herokuApps")]
-    public List<HerokuApp> HerokuApps { get; init; } = [];
-
-    /// <summary>
     /// Get HTTP request duration metrics for a service (avg, p50, p90, p95, p99)
     /// </summary>
     [JsonPropertyName("httpDurationMetrics")]
