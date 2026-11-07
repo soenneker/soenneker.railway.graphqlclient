@@ -19,6 +19,8 @@ public enum ActiveFeatureFlag
 
     AGENTBYOKOPENROUTER,
 
+    AGENTCLAUDECONNECT,
+
     AGENTCONNECTORS,
 
     AGENTTASKS,
