@@ -134,6 +134,7 @@ enum ActivePlatformFlag {
   CTRD_IMAGE_STORE_ROLLOUT
   DEFAULT_USAGE_ALERTS
   DEMO_PERCENTAGE_ROLLOUT
+  DEPLOYMENT_ARCHIVE_PRODUCE
   DEPLOYMENT_DIAGNOSIS_KILLSWITCH
   DEPLOY_SUPERSEDE_ON_PUSH
   DEV_STUDIO
@@ -141,6 +142,8 @@ enum ActivePlatformFlag {
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
+  ENVIRONMENT_PATCH_ARCHIVE_READ
+  ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
   IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
@@ -2081,6 +2084,10 @@ type EnvironmentPatch implements Node {
   patch(decryptVariables: Boolean): EnvironmentConfig!
   status: EnvironmentPatchStatus!
   updatedAt: DateTime!
+  """
+  True when this patch is served from the long-term archive: variable names are kept, values are not.
+  """
+  variablesRedacted: Boolean!
 }
 
 enum EnvironmentPatchStatus {
@@ -4418,6 +4425,7 @@ enum PlatformFeatureFlag {
   CTRD_IMAGE_STORE_ROLLOUT
   DEFAULT_USAGE_ALERTS
   DEMO_PERCENTAGE_ROLLOUT
+  DEPLOYMENT_ARCHIVE_PRODUCE
   DEPLOYMENT_DIAGNOSIS_KILLSWITCH
   DEPLOY_SUPERSEDE_ON_PUSH
   DEV_STUDIO
@@ -4425,6 +4433,8 @@ enum PlatformFeatureFlag {
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
+  ENVIRONMENT_PATCH_ARCHIVE_READ
+  ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
   IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
@@ -5300,7 +5310,7 @@ type Query {
   """
   Get a single environment patch by ID
   """
-  environmentPatch(id: String!): EnvironmentPatch!
+  environmentPatch(environmentId: String, id: String!): EnvironmentPatch!
   """
   Get the patches for an environment
   """

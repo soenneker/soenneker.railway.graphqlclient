@@ -22,7 +22,7 @@ public sealed partial class GetEnvironmentPatchesRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetEnvironmentPatchesData>> Execute(GetEnvironmentPatchesVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetEnvironmentPatches($after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { environmentPatches(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { appliedAt createdAt environmentId id lastAppliedError message status updatedAt } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetEnvironmentPatches($after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { environmentPatches(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { appliedAt createdAt environmentId id lastAppliedError message status updatedAt variablesRedacted } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetEnvironmentPatchesData>(gqlQuery, request, cancellationToken);
     }
 

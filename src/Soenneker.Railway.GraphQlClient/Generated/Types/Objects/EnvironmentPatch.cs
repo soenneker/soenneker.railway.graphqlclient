@@ -40,4 +40,10 @@ public sealed partial class EnvironmentPatch : Node
     [JsonPropertyName("updatedAt")]
     public DateTimeOffset UpdatedAt { get; init; }
 
+    /// <summary>
+    /// True when this patch is served from the long-term archive: variable names are kept, values are not.
+    /// </summary>
+    [JsonPropertyName("variablesRedacted")]
+    public bool VariablesRedacted { get; init; }
+
 }

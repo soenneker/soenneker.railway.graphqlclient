@@ -9,6 +9,9 @@ namespace Soenneker.Railway.GraphQlClient;
 /// </summary>
 public sealed class GetEnvironmentPatchVariables
 {
+    [JsonPropertyName("environmentId")]
+    public string? EnvironmentId { get; init; }
+
     [JsonPropertyName("id")]
     public string Id { get; init; } = null!;
 
