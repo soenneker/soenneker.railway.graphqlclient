@@ -122,10 +122,6 @@ public sealed partial class RailwayGraphQlClient
     public HttpBuilder Http => new HttpBuilder(_graphQlClient);
 
     /// <summary>
-    /// Builds and executes grouped requests for the 'integration' resource.</summary>
-    public IntegrationBuilder Integration => new IntegrationBuilder(_graphQlClient);
-
-    /// <summary>
     /// Builds and executes grouped requests for the 'loginSession' resource.</summary>
     public LoginSessionBuilder LoginSession => new LoginSessionBuilder(_graphQlClient);
 
@@ -140,10 +136,6 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes grouped requests for the 'pitrHa' resource.</summary>
     public PitrHaBuilder PitrHa => new PitrHaBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes grouped requests for the 'plugin' resource.</summary>
-    public PluginBuilder Plugin => new PluginBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes grouped requests for the 'private' resource.</summary>
@@ -244,10 +236,6 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'canvasViewMergePreview' query.</summary>
     public GetCanvasViewMergePreviewRequestBuilder GetCanvasViewMergePreview => new GetCanvasViewMergePreviewRequestBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes requests for the 'changelogBlockImage' query.</summary>
-    public GetChangelogBlockImageRequestBuilder GetChangelogBlockImage => new GetChangelogBlockImageRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'complianceAgreements' query.</summary>
@@ -354,10 +342,6 @@ public sealed partial class RailwayGraphQlClient
     public GetExternalWorkspacesRequestBuilder GetExternalWorkspaces => new GetExternalWorkspacesRequestBuilder(_graphQlClient);
 
     /// <summary>
-    /// Builds and executes requests for the 'integrations' query.</summary>
-    public GetIntegrationsRequestBuilder GetIntegrations => new GetIntegrationsRequestBuilder(_graphQlClient);
-
-    /// <summary>
     /// Builds and executes requests for the 'inviteCode' query.</summary>
     public GetInviteCodeRequestBuilder GetInviteCode => new GetInviteCodeRequestBuilder(_graphQlClient);
 
@@ -392,14 +376,6 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'platformStatus' query.</summary>
     public GetPlatformStatusRequestBuilder GetPlatformStatus => new GetPlatformStatusRequestBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes requests for the 'plugin' query.</summary>
-    public GetPluginRequestBuilder GetPlugin => new GetPluginRequestBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes requests for the 'pluginLogs' query.</summary>
-    public GetPluginLogsRequestBuilder GetPluginLogs => new GetPluginLogsRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'preferences' query.</summary>
@@ -618,10 +594,6 @@ public sealed partial class RailwayGraphQlClient
     public GetVariablesForServiceDeploymentRequestBuilder GetVariablesForServiceDeployment => new GetVariablesForServiceDeploymentRequestBuilder(_graphQlClient);
 
     /// <summary>
-    /// Builds and executes requests for the 'vercelInfo' query.</summary>
-    public GetVercelInfoRequestBuilder GetVercelInfo => new GetVercelInfoRequestBuilder(_graphQlClient);
-
-    /// <summary>
     /// Builds and executes requests for the 'workflowStatus' query.</summary>
     public GetWorkflowStatusRequestBuilder GetWorkflowStatus => new GetWorkflowStatusRequestBuilder(_graphQlClient);
 
@@ -716,6 +688,10 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'preferencesUpdate' mutation.</summary>
     public PreferencesUpdateRequestBuilder PreferencesUpdate => new PreferencesUpdateRequestBuilder(_graphQlClient);
+
+    /// <summary>
+    /// Builds and executes requests for the 'privateNetworkEndpointRename' mutation.</summary>
+    public PrivateNetworkEndpointRenameRequestBuilder PrivateNetworkEndpointRename => new PrivateNetworkEndpointRenameRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'providerAuthRemove' mutation.</summary>

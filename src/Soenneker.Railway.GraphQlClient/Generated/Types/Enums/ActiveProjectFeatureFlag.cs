@@ -11,6 +11,8 @@ public enum ActiveProjectFeatureFlag
 
     RBSVOLUMES,
 
-    VMNEWSERVICES
+    VMNEWSERVICES,
+
+    VMVOLUMES
 
 }

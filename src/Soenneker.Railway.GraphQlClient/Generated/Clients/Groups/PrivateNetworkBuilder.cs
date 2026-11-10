@@ -11,10 +11,6 @@ public sealed partial class PrivateNetworkBuilder
 
     public PrivateNetworkBuilder(IGraphQlClient graphQlClient) => _graphQlClient = graphQlClient;
 
-    public PrivateNetworkEndpointBuilder Endpoint => new PrivateNetworkEndpointBuilder(_graphQlClient);
-
-    public PrivateNetworkCreateOrGetRequestBuilder CreateOrGet => new PrivateNetworkCreateOrGetRequestBuilder(_graphQlClient);
-
     public GetPrivateNetworkEndpointRequestBuilder GetEndpoint => new GetPrivateNetworkEndpointRequestBuilder(_graphQlClient);
 
     public GetPrivateNetworkEndpointNameAvailableRequestBuilder EndpointNameAvailable => new GetPrivateNetworkEndpointNameAvailableRequestBuilder(_graphQlClient);

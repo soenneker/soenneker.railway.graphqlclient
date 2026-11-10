@@ -15,5 +15,7 @@ public sealed partial class EnvironmentPatchBuilder
 
     public EnvironmentPatchCommitStagedRequestBuilder CommitStaged => new EnvironmentPatchCommitStagedRequestBuilder(_graphQlClient);
 
+    public EnvironmentPatchDismissFailureRequestBuilder DismissFailure => new EnvironmentPatchDismissFailureRequestBuilder(_graphQlClient);
+
     public EnvironmentPatchRestageRequestBuilder Restage => new EnvironmentPatchRestageRequestBuilder(_graphQlClient);
 }

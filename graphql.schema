@@ -196,6 +196,7 @@ enum ActiveProjectFeatureFlag {
   PLACEHOLDER
   RBS_VOLUMES
   VM_NEW_SERVICES
+  VM_VOLUMES
 }
 
 enum ActiveServiceFeatureFlag {
@@ -2568,44 +2569,6 @@ enum IncidentStatus {
   RESOLVED
 }
 
-type Integration implements Node {
-  config: JSON!
-  id: ID!
-  name: String!
-  projectId: String!
-}
-
-type IntegrationAuth implements Node {
-  id: ID!
-  integrations(after: String, before: String, first: Int, last: Int): IntegrationAuthIntegrationsConnection!
-  provider: String!
-  providerId: String!
-}
-
-type IntegrationAuthIntegrationsConnection {
-  edges: [IntegrationAuthIntegrationsConnectionEdge!]!
-  pageInfo: PageInfo!
-}
-
-type IntegrationAuthIntegrationsConnectionEdge {
-  cursor: String!
-  node: Integration!
-}
-
-input IntegrationCreateInput {
-  config: JSON!
-  integrationAuthId: String
-  name: String!
-  projectId: String!
-}
-
-input IntegrationUpdateInput {
-  config: JSON!
-  integrationAuthId: String
-  name: String!
-  projectId: String!
-}
-
 type InviteCode implements Node {
   code: String!
   createdAt: DateTime!
@@ -2629,6 +2592,7 @@ input JobApplicationCreateInput {
   email: String!
   jobId: String!
   name: String!
+  turnstileToken: String
   why: String!
 }
 
@@ -3158,6 +3122,10 @@ type Mutation {
   """
   environmentPatchCommitStaged(commitMessage: String, environmentId: String!, skipDeploys: Boolean): String!
   """
+  Acknowledge a FAILED patch so it no longer shows as the environment's latest failure. The patch is left untouched.
+  """
+  environmentPatchDismissFailure(patchId: String!): Boolean!
+  """
   Copy a FAILED patch's changes into the environment's staged patch (creating one if needed). The FAILED patch is left untouched.
   """
   environmentPatchRestage(patchId: String!): EnvironmentPatch!
@@ -3205,18 +3173,6 @@ type Mutation {
   Updates a GitHub repo through the linked template
   """
   githubRepoUpdate(input: GitHubRepoUpdateInput!): Boolean!
-  """
-  Create an integration for a project
-  """
-  integrationCreate(input: IntegrationCreateInput!): Integration!
-  """
-  Delete an integration for a project
-  """
-  integrationDelete(id: String!): Boolean!
-  """
-  Update an integration for a project
-  """
-  integrationUpdate(id: String!, input: IntegrationUpdateInput!): Integration!
   """
   Join a project using an invite code
   """
@@ -3278,57 +3234,13 @@ type Mutation {
   """
   passkeyDelete(id: String!): Boolean!
   """
-  Creates a new plugin.
-  """
-  pluginCreate(input: PluginCreateInput!): Plugin! @deprecated(reason: "Plugins are deprecated on Railway. Use database templates instead.")
-  """
-  Deletes a plugin.
-  """
-  pluginDelete(environmentId: String, id: String!): Boolean! @deprecated(reason: "Plugins are deprecated")
-  """
-  Reset envs and container for a plugin in an environment
-  """
-  pluginReset(id: String!, input: ResetPluginInput!): Boolean! @deprecated(reason: "Plugins are deprecated")
-  """
-  Resets the credentials for a plugin in an environment
-  """
-  pluginResetCredentials(id: String!, input: ResetPluginCredentialsInput!): String! @deprecated(reason: "Plugins are deprecated")
-  """
-  Restarts a plugin.
-  """
-  pluginRestart(id: String!, input: PluginRestartInput!): Plugin! @deprecated(reason: "Plugins are deprecated")
-  """
-  Force start a plugin
-  """
-  pluginStart(id: String!, input: PluginRestartInput!): Boolean! @deprecated(reason: "Plugins are deprecated")
-  """
-  Updates an existing plugin.
-  """
-  pluginUpdate(id: String!, input: PluginUpdateInput!): Plugin! @deprecated(reason: "Plugins are deprecated")
-  """
   Update the email preferences for a user
   """
   preferencesUpdate(input: PreferencesUpdateData!): Preferences!
   """
-  Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-  """
-  privateNetworkCreateOrGet(input: PrivateNetworkCreateOrGetInput!): PrivateNetwork! @deprecated(reason: "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.")
-  """
-  Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-  """
-  privateNetworkEndpointCreateOrGet(input: PrivateNetworkEndpointCreateOrGetInput!): PrivateNetworkEndpoint! @deprecated(reason: "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.")
-  """
-  Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-  """
-  privateNetworkEndpointDelete(id: String!): Boolean! @deprecated(reason: "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.")
-  """
   Rename a private network endpoint.
   """
   privateNetworkEndpointRename(dnsName: String!, id: String!, privateNetworkId: String!): Boolean!
-  """
-  Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-  """
-  privateNetworksForEnvironmentDelete(environmentId: String!): Boolean! @deprecated(reason: "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.")
   """
   Claims a project.
   """
@@ -4525,17 +4437,6 @@ type PluginContainersConnectionEdge {
   node: Container!
 }
 
-input PluginCreateInput {
-  environmentId: String
-  friendlyName: String
-  name: String!
-  projectId: String!
-}
-
-input PluginRestartInput {
-  environmentId: String
-}
-
 enum PluginStatus {
   DEPRECATED
   LOCKED
@@ -4549,10 +4450,6 @@ enum PluginType {
   mysql
   postgresql
   redis
-}
-
-input PluginUpdateInput {
-  friendlyName: String!
 }
 
 type PluginVariablesConnection {
@@ -4603,13 +4500,6 @@ type PrivateNetwork {
   tags: [String!]!
 }
 
-input PrivateNetworkCreateOrGetInput {
-  environmentId: String!
-  name: String!
-  projectId: String!
-  tags: [String!]!
-}
-
 type PrivateNetworkEndpoint {
   createdAt: DateTime
   deletedAt: DateTime
@@ -4619,14 +4509,6 @@ type PrivateNetworkEndpoint {
   publicId: String!
   serviceInstanceId: String!
   syncStatus: PrivateNetworkEndpointSyncStatus!
-  tags: [String!]!
-}
-
-input PrivateNetworkEndpointCreateOrGetInput {
-  environmentId: String!
-  privateNetworkId: String!
-  serviceId: String!
-  serviceName: String!
   tags: [String!]!
 }
 
@@ -5180,10 +5062,6 @@ type Query {
   """
   canvasViewMergePreview(sourceEnvironmentId: String!, targetEnvironmentId: String!): CanvasViewMergePreview!
   """
-  Gets the image URL for a Notion image block
-  """
-  changelogBlockImage(id: String!): String!
-  """
   A cloud agent by ID, within an environment. Null when the agent belongs to another one, so a caller cannot render an agent it has switched away from.
   """
   cloudAgent(environmentId: ID!, id: ID!): CloudAgent
@@ -5400,18 +5278,6 @@ type Query {
   """
   httpMetricsGroupedByStatus(endDate: DateTime!, environmentId: String!, method: String, path: String, serviceId: String!, startDate: DateTime!, stepSeconds: Int): [HttpMetricsByStatusResult!]!
   """
-  Get an integration auth by provider providerId
-  """
-  integrationAuth(provider: String!, providerId: String!): IntegrationAuth!
-  """
-  Get all integration auths for a user
-  """
-  integrationAuths(after: String, before: String, first: Int, last: Int): QueryIntegrationAuthsConnection!
-  """
-  Get all integrations for a project
-  """
-  integrations(after: String, before: String, first: Int, last: Int, projectId: String!): QueryIntegrationsConnection!
-  """
   Get an invite code by the code
   """
   inviteCode(code: String!): InviteCode!
@@ -5467,14 +5333,6 @@ type Query {
   Get the current status of the platform
   """
   platformStatus: PlatformStatus!
-  """
-  Get a plugin by ID.
-  """
-  plugin(id: String!): Plugin! @deprecated(reason: "Plugins are deprecated")
-  """
-  Fetch logs for a plugin
-  """
-  pluginLogs(endDate: DateTime, environmentId: String!, filter: String, limit: Int, pluginId: String!, startDate: DateTime): [Log!]! @deprecated(reason: "Plugins are deprecated")
   """
   Get the email preferences for a user
   """
@@ -5752,10 +5610,6 @@ type Query {
   """
   variablesForServiceDeployment(environmentId: String!, projectId: String!, serviceId: String!): EnvironmentVariables!
   """
-  Get information about the user's Vercel accounts
-  """
-  vercelInfo: VercelInfo!
-  """
   Get a single volume instance by id
   """
   volumeInstance(id: String!): VolumeInstance!
@@ -5921,26 +5775,6 @@ type QueryEventsConnection {
 type QueryEventsConnectionEdge {
   cursor: String!
   node: Event!
-}
-
-type QueryIntegrationAuthsConnection {
-  edges: [QueryIntegrationAuthsConnectionEdge!]!
-  pageInfo: PageInfo!
-}
-
-type QueryIntegrationAuthsConnectionEdge {
-  cursor: String!
-  node: IntegrationAuth!
-}
-
-type QueryIntegrationsConnection {
-  edges: [QueryIntegrationsConnectionEdge!]!
-  pageInfo: PageInfo!
-}
-
-type QueryIntegrationsConnectionEdge {
-  cursor: String!
-  node: Integration!
 }
 
 type QueryNotificationDeliveriesConnection {
@@ -6379,14 +6213,6 @@ enum ReplicateVolumeInstanceStatus {
   QUEUED
   TRANSFERRING_OFFLINE
   TRANSFERRING_ONLINE
-}
-
-input ResetPluginCredentialsInput {
-  environmentId: String!
-}
-
-input ResetPluginInput {
-  environmentId: String!
 }
 
 """
@@ -7287,10 +7113,6 @@ type Subscription {
   """
   notificationDeliveryUpdated: NotificationDeliveryUpdate!
   """
-  Stream logs for a plugin
-  """
-  pluginLogs(environmentId: String!, filter: String, limit: Int, pluginId: String!): [Log!]! @deprecated(reason: "Plugins are deprecated")
-  """
   Subscribe to migration progress updates for a volume
   """
   replicationProgress(volumeInstanceId: String!): VolumeReplicationProgressUpdate!
@@ -8054,25 +7876,6 @@ input VariableUpsertInput {
   """
   skipDeploys: Boolean = false
   value: String!
-}
-
-type VercelAccount {
-  id: String!
-  integrationAuthId: String!
-  isUser: Boolean!
-  name: String
-  projects: [VercelProject!]!
-  slug: String
-}
-
-type VercelInfo {
-  accounts: [VercelAccount!]!
-}
-
-type VercelProject {
-  accountId: String!
-  id: String!
-  name: String!
 }
 
 type Volume implements Node {

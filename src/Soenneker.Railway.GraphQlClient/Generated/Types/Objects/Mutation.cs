@@ -500,6 +500,12 @@ public sealed partial class Mutation
     public string EnvironmentPatchCommitStaged { get; init; } = null!;
 
     /// <summary>
+    /// Acknowledge a FAILED patch so it no longer shows as the environment's latest failure. The patch is left untouched.
+    /// </summary>
+    [JsonPropertyName("environmentPatchDismissFailure")]
+    public bool EnvironmentPatchDismissFailure { get; init; }
+
+    /// <summary>
     /// Copy a FAILED patch's changes into the environment's staged patch (creating one if needed). The FAILED patch is left untouched.
     /// </summary>
     [JsonPropertyName("environmentPatchRestage")]
@@ -570,24 +576,6 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("githubRepoUpdate")]
     public bool GithubRepoUpdate { get; init; }
-
-    /// <summary>
-    /// Create an integration for a project
-    /// </summary>
-    [JsonPropertyName("integrationCreate")]
-    public Integration IntegrationCreate { get; init; } = null!;
-
-    /// <summary>
-    /// Delete an integration for a project
-    /// </summary>
-    [JsonPropertyName("integrationDelete")]
-    public bool IntegrationDelete { get; init; }
-
-    /// <summary>
-    /// Update an integration for a project
-    /// </summary>
-    [JsonPropertyName("integrationUpdate")]
-    public Integration IntegrationUpdate { get; init; } = null!;
 
     /// <summary>
     /// Join a project using an invite code
@@ -680,82 +668,16 @@ public sealed partial class Mutation
     public bool PasskeyDelete { get; init; }
 
     /// <summary>
-    /// Creates a new plugin.
-    /// </summary>
-    [JsonPropertyName("pluginCreate")]
-    public Plugin PluginCreate { get; init; } = null!;
-
-    /// <summary>
-    /// Deletes a plugin.
-    /// </summary>
-    [JsonPropertyName("pluginDelete")]
-    public bool PluginDelete { get; init; }
-
-    /// <summary>
-    /// Reset envs and container for a plugin in an environment
-    /// </summary>
-    [JsonPropertyName("pluginReset")]
-    public bool PluginReset { get; init; }
-
-    /// <summary>
-    /// Resets the credentials for a plugin in an environment
-    /// </summary>
-    [JsonPropertyName("pluginResetCredentials")]
-    public string PluginResetCredentials { get; init; } = null!;
-
-    /// <summary>
-    /// Restarts a plugin.
-    /// </summary>
-    [JsonPropertyName("pluginRestart")]
-    public Plugin PluginRestart { get; init; } = null!;
-
-    /// <summary>
-    /// Force start a plugin
-    /// </summary>
-    [JsonPropertyName("pluginStart")]
-    public bool PluginStart { get; init; }
-
-    /// <summary>
-    /// Updates an existing plugin.
-    /// </summary>
-    [JsonPropertyName("pluginUpdate")]
-    public Plugin PluginUpdate { get; init; } = null!;
-
-    /// <summary>
     /// Update the email preferences for a user
     /// </summary>
     [JsonPropertyName("preferencesUpdate")]
     public Preferences PreferencesUpdate { get; init; } = null!;
 
     /// <summary>
-    /// Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-    /// </summary>
-    [JsonPropertyName("privateNetworkCreateOrGet")]
-    public PrivateNetwork PrivateNetworkCreateOrGet { get; init; } = null!;
-
-    /// <summary>
-    /// Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-    /// </summary>
-    [JsonPropertyName("privateNetworkEndpointCreateOrGet")]
-    public PrivateNetworkEndpoint PrivateNetworkEndpointCreateOrGet { get; init; } = null!;
-
-    /// <summary>
-    /// Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-    /// </summary>
-    [JsonPropertyName("privateNetworkEndpointDelete")]
-    public bool PrivateNetworkEndpointDelete { get; init; }
-
-    /// <summary>
     /// Rename a private network endpoint.
     /// </summary>
     [JsonPropertyName("privateNetworkEndpointRename")]
     public bool PrivateNetworkEndpointRename { get; init; }
-
-    /// <summary>
-    /// Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.
-    /// </summary>
-    [JsonPropertyName("privateNetworksForEnvironmentDelete")]
-    public bool PrivateNetworksForEnvironmentDelete { get; init; }
 
     /// <summary>
     /// Claims a project.

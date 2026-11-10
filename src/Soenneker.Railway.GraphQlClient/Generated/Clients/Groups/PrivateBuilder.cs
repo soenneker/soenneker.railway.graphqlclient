@@ -14,6 +14,4 @@ public sealed partial class PrivateBuilder
     public PrivateNetworkBuilder Network => new PrivateNetworkBuilder(_graphQlClient);
 
     public GetPrivateNetworksRequestBuilder Networks => new GetPrivateNetworksRequestBuilder(_graphQlClient);
-
-    public PrivateNetworksForEnvironmentDeleteRequestBuilder NetworksForEnvironmentDelete => new PrivateNetworksForEnvironmentDeleteRequestBuilder(_graphQlClient);
 }

@@ -86,12 +86,6 @@ public sealed partial class Query
     public CanvasViewMergePreview CanvasViewMergePreview { get; init; } = null!;
 
     /// <summary>
-    /// Gets the image URL for a Notion image block
-    /// </summary>
-    [JsonPropertyName("changelogBlockImage")]
-    public string ChangelogBlockImage { get; init; } = null!;
-
-    /// <summary>
     /// A cloud agent by ID, within an environment. Null when the agent belongs to another one, so a caller cannot render an agent it has switched away from.
     /// </summary>
     [JsonPropertyName("cloudAgent")]
@@ -416,24 +410,6 @@ public sealed partial class Query
     public List<HttpMetricsByStatusResult> HttpMetricsGroupedByStatus { get; init; } = [];
 
     /// <summary>
-    /// Get an integration auth by provider providerId
-    /// </summary>
-    [JsonPropertyName("integrationAuth")]
-    public IntegrationAuth IntegrationAuth { get; init; } = null!;
-
-    /// <summary>
-    /// Get all integration auths for a user
-    /// </summary>
-    [JsonPropertyName("integrationAuths")]
-    public QueryIntegrationAuthsConnection IntegrationAuths { get; init; } = null!;
-
-    /// <summary>
-    /// Get all integrations for a project
-    /// </summary>
-    [JsonPropertyName("integrations")]
-    public QueryIntegrationsConnection Integrations { get; init; } = null!;
-
-    /// <summary>
     /// Get an invite code by the code
     /// </summary>
     [JsonPropertyName("inviteCode")]
@@ -516,18 +492,6 @@ public sealed partial class Query
     /// </summary>
     [JsonPropertyName("platformStatus")]
     public PlatformStatus PlatformStatus { get; init; } = null!;
-
-    /// <summary>
-    /// Get a plugin by ID.
-    /// </summary>
-    [JsonPropertyName("plugin")]
-    public Plugin Plugin { get; init; } = null!;
-
-    /// <summary>
-    /// Fetch logs for a plugin
-    /// </summary>
-    [JsonPropertyName("pluginLogs")]
-    public List<Log> PluginLogs { get; init; } = [];
 
     /// <summary>
     /// Get the email preferences for a user
@@ -942,12 +906,6 @@ public sealed partial class Query
     /// </summary>
     [JsonPropertyName("variablesForServiceDeployment")]
     public System.Text.Json.JsonElement VariablesForServiceDeployment { get; init; }
-
-    /// <summary>
-    /// Get information about the user's Vercel accounts
-    /// </summary>
-    [JsonPropertyName("vercelInfo")]
-    public VercelInfo VercelInfo { get; init; } = null!;
 
     /// <summary>
     /// Get a single volume instance by id

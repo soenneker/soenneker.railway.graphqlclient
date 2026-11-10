@@ -15,6 +15,9 @@ public sealed partial class JobApplicationCreateInput
     [JsonPropertyName("name")]
     public string Name { get; init; } = null!;
 
+    [JsonPropertyName("turnstileToken")]
+    public string? TurnstileToken { get; init; }
+
     [JsonPropertyName("why")]
     public string Why { get; init; } = null!;
 

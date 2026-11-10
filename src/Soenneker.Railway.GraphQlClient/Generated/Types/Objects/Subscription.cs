@@ -74,12 +74,6 @@ public sealed partial class Subscription
     public NotificationDeliveryUpdate NotificationDeliveryUpdated { get; init; } = null!;
 
     /// <summary>
-    /// Stream logs for a plugin
-    /// </summary>
-    [JsonPropertyName("pluginLogs")]
-    public List<Log> PluginLogs { get; init; } = [];
-
-    /// <summary>
     /// Subscribe to migration progress updates for a volume
     /// </summary>
     [JsonPropertyName("replicationProgress")]
