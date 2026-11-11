@@ -169,6 +169,7 @@ enum ActivePlatformFlag {
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
+  SECRETS_SHADOW_COMPARE_SAMPLE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -2822,6 +2823,14 @@ type Mutation {
   """
   accessGroupUpdate(id: String!, input: AccessGroupUpdateInput!): AccessGroup!
   """
+  Drops the caller's admin sudo elevation immediately.
+  """
+  adminSudoDisable: Boolean!
+  """
+  Mints a one-time token to begin the admin sudo Okta step-up from the dashboard.
+  """
+  adminSudoStepUpStart: String!
+  """
   Set agent usage limit for a workspace
   """
   agentUsageLimitSet(input: AgentUsageLimitSetInput!): Boolean!
@@ -3529,6 +3538,10 @@ type Mutation {
   Remove the upstream URL from all service instances for this service
   """
   serviceRemoveUpstreamUrl(id: String!): Service!
+  """
+  Record that a workspace admin confirms subsequent deployments will exclude the content named in this notice, lifting its persistent takedown restriction. any other restriction on the service, and any other outstanding takedown, still applies. It permits a subsequent deployment; it does not restore an earlier one, and it is not Railway verifying the removal.
+  """
+  serviceTakedownAcknowledge(input: TakedownAcknowledgeInput!): ServiceTakedownAcknowledgment!
   """
   Updates a service.
   """
@@ -4372,6 +4385,7 @@ enum PlatformFeatureFlag {
   RELAY_SPEND_RESERVATION_KILLSWITCH
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
+  SECRETS_SHADOW_COMPARE_SAMPLE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -6547,10 +6561,18 @@ type Service implements Node {
   """
   isRestricted: Boolean!
   name: String!
+  """
+  The takedown notice blocking deployment, readable by workspace members and staff. Public-project visibility does not grant notice access.
+  """
+  pendingTakedownAcknowledgment: ServiceTakedownAcknowledgment
   project: Project!
   projectId: String!
   repoTriggers(after: String, before: String, first: Int, last: Int): ServiceRepoTriggersConnection!
   serviceInstances(after: String, before: String, first: Int, last: Int): ServiceServiceInstancesConnection! @deprecated(reason: "Use environment.serviceInstances for properly scoped access control")
+  """
+  Every takedown requirement this service has had, newest first, outstanding or cleared. Retained after the service deploys again so the history survives the redeploy it permitted.
+  """
+  takedownAcknowledgments: [ServiceTakedownAcknowledgment!]!
   templateId: String
   templateServiceId: String
   templateThreadSlug: String
@@ -6836,6 +6858,52 @@ type ServiceSource {
 input ServiceSourceInput {
   image: String
   repo: String
+}
+
+"""
+A takedown notice the customer must acknowledge before the service can deploy again.
+"""
+type ServiceTakedownAcknowledgment {
+  acknowledgedAt: DateTime
+  """
+  The person who attested. Retained after the service deploys again, so the record outlives the gate it cleared.
+  """
+  acknowledgedBy: UserSummary
+  """
+  The attestation exactly as it was worded when it was confirmed.
+  """
+  acknowledgedStatement: String
+  clearedAt: DateTime
+  customerNotice: String
+  """
+  False when no customer-visible notice beyond the dashboard page was recorded, so the UI can say so rather than implying the original complaint is linked.
+  """
+  hasExternalNotice: Boolean!
+  """
+  Customer-safe statement of what happened and why.
+  """
+  headline: String!
+  id: ID!
+  """
+  What the customer has to do before deploying again.
+  """
+  instruction: String!
+  """
+  The service teardown has not yet completed; acknowledgment remains unavailable.
+  """
+  isApplying: Boolean!
+  noticeKind: TakedownNoticeKind!
+  """
+  Where to read the notice. Always resolvable: it falls back to the dashboard restriction detail page.
+  """
+  noticeUrl: String!
+  restrictionId: String!
+  """
+  The attestation the customer must explicitly confirm. Opening or reading the notice is not acknowledgment.
+  """
+  statement: String!
+  status: TakedownAcknowledgmentStatus!
+  takenDownAt: DateTime!
 }
 
 """
@@ -7192,6 +7260,29 @@ enum TCPProxySyncStatus {
   DELETING
   UNSPECIFIED
   UPDATING
+}
+
+input TakedownAcknowledgeInput {
+  acknowledgmentId: String!
+  """
+  The exact statement shown to and confirmed by the admin.
+  """
+  statement: String!
+}
+
+enum TakedownAcknowledgmentStatus {
+  ACKNOWLEDGED
+  CLEARED
+  REQUIRED
+}
+
+"""
+Which complaint a takedown answered. OTHER keeps generic wording rather than asserting a legal basis Railway did not record.
+"""
+enum TakedownNoticeKind {
+  DMCA
+  OTHER
+  TRADEMARK
 }
 
 type Team implements Node {
@@ -7707,6 +7798,9 @@ input UsageLimitSetInput {
 }
 
 type User implements Node {
+  adminMfaEnrolled: Boolean!
+  adminSudoActive: Boolean!
+  adminSudoSecondsRemaining: Int!
   agreedFairUse: Boolean!
   apiTokenRateLimit: ApiTokenRateLimit
   avatar: String

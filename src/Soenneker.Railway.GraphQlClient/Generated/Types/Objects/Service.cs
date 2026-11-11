@@ -47,6 +47,12 @@ public sealed partial class Service : Node
     [JsonPropertyName("name")]
     public string Name { get; init; } = null!;
 
+    /// <summary>
+    /// The takedown notice blocking deployment, readable by workspace members and staff. Public-project visibility does not grant notice access.
+    /// </summary>
+    [JsonPropertyName("pendingTakedownAcknowledgment")]
+    public ServiceTakedownAcknowledgment? PendingTakedownAcknowledgment { get; init; }
+
     [JsonPropertyName("project")]
     public Project Project { get; init; } = null!;
 
@@ -58,6 +64,12 @@ public sealed partial class Service : Node
 
     [JsonPropertyName("serviceInstances")]
     public ServiceServiceInstancesConnection ServiceInstances { get; init; } = null!;
+
+    /// <summary>
+    /// Every takedown requirement this service has had, newest first, outstanding or cleared. Retained after the service deploys again so the history survives the redeploy it permitted.
+    /// </summary>
+    [JsonPropertyName("takedownAcknowledgments")]
+    public List<ServiceTakedownAcknowledgment> TakedownAcknowledgments { get; init; } = [];
 
     [JsonPropertyName("templateId")]
     public string? TemplateId { get; init; }

@@ -50,6 +50,18 @@ public sealed partial class Mutation
     public AccessGroup AccessGroupUpdate { get; init; } = null!;
 
     /// <summary>
+    /// Drops the caller's admin sudo elevation immediately.
+    /// </summary>
+    [JsonPropertyName("adminSudoDisable")]
+    public bool AdminSudoDisable { get; init; }
+
+    /// <summary>
+    /// Mints a one-time token to begin the admin sudo Okta step-up from the dashboard.
+    /// </summary>
+    [JsonPropertyName("adminSudoStepUpStart")]
+    public string AdminSudoStepUpStart { get; init; } = null!;
+
+    /// <summary>
     /// Set agent usage limit for a workspace
     /// </summary>
     [JsonPropertyName("agentUsageLimitSet")]
@@ -1110,6 +1122,12 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("serviceRemoveUpstreamUrl")]
     public Service ServiceRemoveUpstreamUrl { get; init; } = null!;
+
+    /// <summary>
+    /// Record that a workspace admin confirms subsequent deployments will exclude the content named in this notice, lifting its persistent takedown restriction. any other restriction on the service, and any other outstanding takedown, still applies. It permits a subsequent deployment; it does not restore an earlier one, and it is not Railway verifying the removal.
+    /// </summary>
+    [JsonPropertyName("serviceTakedownAcknowledge")]
+    public ServiceTakedownAcknowledgment ServiceTakedownAcknowledge { get; init; } = null!;
 
     /// <summary>
     /// Updates a service.

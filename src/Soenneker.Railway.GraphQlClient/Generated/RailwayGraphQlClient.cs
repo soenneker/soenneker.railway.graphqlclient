@@ -22,6 +22,10 @@ public sealed partial class RailwayGraphQlClient
     public AccessGroupBuilder AccessGroup => new AccessGroupBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes grouped requests for the 'adminSudo' resource.</summary>
+    public AdminSudoBuilder AdminSudo => new AdminSudoBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes grouped requests for the 'api' resource.</summary>
     public ApiBuilder Api => new ApiBuilder(_graphQlClient);
 

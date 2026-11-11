@@ -29,5 +29,7 @@ public sealed partial class ServiceBuilder
 
     public ServiceRemoveUpstreamUrlRequestBuilder RemoveUpstreamUrl => new ServiceRemoveUpstreamUrlRequestBuilder(_graphQlClient);
 
+    public ServiceTakedownAcknowledgeRequestBuilder TakedownAcknowledge => new ServiceTakedownAcknowledgeRequestBuilder(_graphQlClient);
+
     public ServiceUpdateRequestBuilder Update => new ServiceUpdateRequestBuilder(_graphQlClient);
 }
