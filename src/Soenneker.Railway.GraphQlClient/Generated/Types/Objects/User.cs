@@ -8,15 +8,6 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class User : Node
 {
-    [JsonPropertyName("adminMfaEnrolled")]
-    public bool AdminMfaEnrolled { get; init; }
-
-    [JsonPropertyName("adminSudoActive")]
-    public bool AdminSudoActive { get; init; }
-
-    [JsonPropertyName("adminSudoSecondsRemaining")]
-    public int AdminSudoSecondsRemaining { get; init; }
-
     [JsonPropertyName("agreedFairUse")]
     public bool AgreedFairUse { get; init; }
 

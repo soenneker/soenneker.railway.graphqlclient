@@ -96,7 +96,6 @@ enum ActiveFeatureFlag {
   AGENT_BYOK_OPENROUTER
   AGENT_CLAUDE_CONNECT
   AGENT_CONNECTORS
-  AGENT_TASKS
   CHAT_SANDBOX
   CLEARANCE
   CLOUD_AGENTS
@@ -104,12 +103,14 @@ enum ActiveFeatureFlag {
   CLOUD_AGENT_CHAT
   CONNECTOR_TUNNELS
   CS_MCP_EXPRESS
+  DATABASE_AGENT_TOOLS
   HA_FOR_MONGO
   IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
   MANAGED_DATABASE_EDIT_WARNING
   MANAGED_DATABASE_SETUP
   PRIORITY_BOARDING
+  RAILQL
   RAILWAY_AGENT_DASHBOARD
   RAILWAY_AUTOMATIONS
   TRACING
@@ -170,6 +171,8 @@ enum ActivePlatformFlag {
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
   SECRETS_SHADOW_COMPARE_SAMPLE
+  SECRET_SCANNING_EMAIL
+  SECRET_SCANNING_REVOKE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -202,6 +205,7 @@ enum ActiveProjectFeatureFlag {
 
 enum ActiveServiceFeatureFlag {
   COPY_VOLUME_TO_ENVIRONMENT
+  LIVENESS_CHECKS
   PLACEHOLDER
   SKIPPED_BUILDS
   USE_DEPLOYMENT_VMS
@@ -2657,6 +2661,18 @@ input LoginSessionAuthInput {
   hostname: String
 }
 
+"""
+Where the CLI that started a login session connected from.
+"""
+type LoginSessionOrigin {
+  ip: String
+  requestedAt: DateTime
+  """
+  Whether this request comes from the same IP as the CLI. False when the CLI's IP is unknown.
+  """
+  sameNetwork: Boolean!
+}
+
 type MaintainerWorkspace {
   avatar: String
   id: String!
@@ -2822,14 +2838,6 @@ type Mutation {
   Update an access group's name or role.
   """
   accessGroupUpdate(id: String!, input: AccessGroupUpdateInput!): AccessGroup!
-  """
-  Drops the caller's admin sudo elevation immediately.
-  """
-  adminSudoDisable: Boolean!
-  """
-  Mints a one-time token to begin the admin sudo Okta step-up from the dashboard.
-  """
-  adminSudoStepUpStart: String!
   """
   Set agent usage limit for a workspace
   """
@@ -4386,6 +4394,8 @@ enum PlatformFeatureFlag {
   REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
   SECRETS_SHADOW_COMPARE_SAMPLE
+  SECRET_SCANNING_EMAIL
+  SECRET_SCANNING_REVOKE
   SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL
   SPLIT_USAGE_QUERIES
   SSH_ANON_PROVISIONING
@@ -5295,6 +5305,10 @@ type Query {
   Get an invite code by the code
   """
   inviteCode(code: String!): InviteCode!
+  """
+  Where a waiting CLI login session was started. Null when the session does not exist or was already verified.
+  """
+  loginSessionOrigin(code: String!): LoginSessionOrigin
   """
   Gets the authenticated user.
   """
@@ -7798,9 +7812,6 @@ input UsageLimitSetInput {
 }
 
 type User implements Node {
-  adminMfaEnrolled: Boolean!
-  adminSudoActive: Boolean!
-  adminSudoSecondsRemaining: Int!
   agreedFairUse: Boolean!
   apiTokenRateLimit: ApiTokenRateLimit
   avatar: String

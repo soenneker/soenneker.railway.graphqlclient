@@ -416,6 +416,12 @@ public sealed partial class Query
     public InviteCode InviteCode { get; init; } = null!;
 
     /// <summary>
+    /// Where a waiting CLI login session was started. Null when the session does not exist or was already verified.
+    /// </summary>
+    [JsonPropertyName("loginSessionOrigin")]
+    public LoginSessionOrigin? LoginSessionOrigin { get; init; }
+
+    /// <summary>
     /// Gets the authenticated user.
     /// </summary>
     [JsonPropertyName("me")]

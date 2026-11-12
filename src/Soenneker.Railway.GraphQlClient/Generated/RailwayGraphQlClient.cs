@@ -22,10 +22,6 @@ public sealed partial class RailwayGraphQlClient
     public AccessGroupBuilder AccessGroup => new AccessGroupBuilder(_graphQlClient);
 
     /// <summary>
-    /// Builds and executes grouped requests for the 'adminSudo' resource.</summary>
-    public AdminSudoBuilder AdminSudo => new AdminSudoBuilder(_graphQlClient);
-
-    /// <summary>
     /// Builds and executes grouped requests for the 'api' resource.</summary>
     public ApiBuilder Api => new ApiBuilder(_graphQlClient);
 
@@ -348,6 +344,10 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'inviteCode' query.</summary>
     public GetInviteCodeRequestBuilder GetInviteCode => new GetInviteCodeRequestBuilder(_graphQlClient);
+
+    /// <summary>
+    /// Builds and executes requests for the 'loginSessionOrigin' query.</summary>
+    public GetLoginSessionOriginRequestBuilder GetLoginSessionOrigin => new GetLoginSessionOriginRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'me' query.</summary>

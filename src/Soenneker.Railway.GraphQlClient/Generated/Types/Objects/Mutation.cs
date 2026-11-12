@@ -50,18 +50,6 @@ public sealed partial class Mutation
     public AccessGroup AccessGroupUpdate { get; init; } = null!;
 
     /// <summary>
-    /// Drops the caller's admin sudo elevation immediately.
-    /// </summary>
-    [JsonPropertyName("adminSudoDisable")]
-    public bool AdminSudoDisable { get; init; }
-
-    /// <summary>
-    /// Mints a one-time token to begin the admin sudo Okta step-up from the dashboard.
-    /// </summary>
-    [JsonPropertyName("adminSudoStepUpStart")]
-    public string AdminSudoStepUpStart { get; init; } = null!;
-
-    /// <summary>
     /// Set agent usage limit for a workspace
     /// </summary>
     [JsonPropertyName("agentUsageLimitSet")]

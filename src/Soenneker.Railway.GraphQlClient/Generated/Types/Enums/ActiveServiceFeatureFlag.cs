@@ -7,6 +7,8 @@ public enum ActiveServiceFeatureFlag
 {
     COPYVOLUMETOENVIRONMENT,
 
+    LIVENESSCHECKS,
+
     PLACEHOLDER,
 
     SKIPPEDBUILDS,

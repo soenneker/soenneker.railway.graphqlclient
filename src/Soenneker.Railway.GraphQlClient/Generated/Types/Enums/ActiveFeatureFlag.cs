@@ -23,8 +23,6 @@ public enum ActiveFeatureFlag
 
     AGENTCONNECTORS,
 
-    AGENTTASKS,
-
     CHATSANDBOX,
 
     CLEARANCE,
@@ -39,6 +37,8 @@ public enum ActiveFeatureFlag
 
     CSMCPEXPRESS,
 
+    DATABASEAGENTTOOLS,
+
     HAFORMONGO,
 
     INDASHBOARDSUPPORT,
@@ -50,6 +50,8 @@ public enum ActiveFeatureFlag
     MANAGEDDATABASESETUP,
 
     PRIORITYBOARDING,
+
+    RAILQL,
 
     RAILWAYAGENTDASHBOARD,
 
