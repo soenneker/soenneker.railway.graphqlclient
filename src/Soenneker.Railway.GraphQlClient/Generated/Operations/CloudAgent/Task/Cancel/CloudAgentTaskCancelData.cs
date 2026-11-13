@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentTaskCancelData
 {
     /// <summary>
-    /// Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends failed with "The task was cancelled". A finished task is left as is.
+    /// Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends CANCELLED, with "The task was cancelled" as its error. A finished task is left as is.
     /// </summary>
     [JsonPropertyName("cloudAgentTaskCancel")]
     public CloudAgentTaskCancelResult CloudAgentTaskCancel { get; init; } = null!;

@@ -90,12 +90,9 @@ enum ActiveFeatureFlag {
   AGENT_BOOTSTRAPS
   AGENT_BYOK
   AGENT_BYOK_ANTHROPIC
-  AGENT_BYOK_CHATGPT
   AGENT_BYOK_FIREWORKS
   AGENT_BYOK_OPENAI
-  AGENT_BYOK_OPENROUTER
   AGENT_CLAUDE_CONNECT
-  AGENT_CONNECTORS
   CHAT_SANDBOX
   CLEARANCE
   CLOUD_AGENTS
@@ -121,6 +118,7 @@ enum ActiveFeatureFlag {
 
 enum ActivePlatformFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
+  AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH
@@ -970,6 +968,10 @@ type CloudAgentTaskCancelResult {
 input CloudAgentTaskDispatchInput {
   agentName: String
   """
+  false refuses, with code AGENT_CREATE_REQUIRED, a task that would start a new agent, so you can ask before one is billed. Nothing is created or charged. Defaults to true.
+  """
+  allowCreate: Boolean
+  """
   Explicit agent reuse. Omit all targets to create a fresh agent.
   """
   cloudAgentId: String
@@ -1193,6 +1195,10 @@ type CloudAgentTaskResult {
 
 enum CloudAgentTaskStatus {
   AWAITING_INPUT
+  """
+  Stopped by cloudAgentTaskCancel. Terminal, like FAILED, and its error says so.
+  """
+  CANCELLED
   COMPLETED
   FAILED
   PENDING
@@ -2951,7 +2957,7 @@ type Mutation {
   """
   cloudAgentStateReport(input: CloudAgentStateReportInput!): Boolean!
   """
-  Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends failed with "The task was cancelled". A finished task is left as is.
+  Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends CANCELLED, with "The task was cancelled" as its error. A finished task is left as is.
   """
   cloudAgentTaskCancel(taskId: String!): CloudAgentTaskCancelResult!
   """
@@ -4344,6 +4350,7 @@ type PlanLimitOverride implements Node {
 
 enum PlatformFeatureFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
+  AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
   ALERT_SUS_USERS_CRON_KILLSWITCH

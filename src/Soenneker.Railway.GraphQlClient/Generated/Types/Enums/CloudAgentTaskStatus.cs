@@ -7,6 +7,11 @@ public enum CloudAgentTaskStatus
 {
     AWAITINGINPUT,
 
+    /// <summary>
+    /// Stopped by cloudAgentTaskCancel. Terminal, like FAILED, and its error says so.
+    /// </summary>
+    CANCELLED,
+
     COMPLETED,
 
     FAILED,

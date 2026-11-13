@@ -11,6 +11,12 @@ public sealed partial class CloudAgentTaskDispatchInput
     public string? AgentName { get; init; }
 
     /// <summary>
+    /// false refuses, with code AGENT_CREATE_REQUIRED, a task that would start a new agent, so you can ask before one is billed. Nothing is created or charged. Defaults to true.
+    /// </summary>
+    [JsonPropertyName("allowCreate")]
+    public bool? AllowCreate { get; init; }
+
+    /// <summary>
     /// Explicit agent reuse. Omit all targets to create a fresh agent.
     /// </summary>
     [JsonPropertyName("cloudAgentId")]
