@@ -9,11 +9,7 @@ public enum ActiveFeatureFlag
 
     AGENTBYOK,
 
-    AGENTBYOKANTHROPIC,
-
     AGENTBYOKFIREWORKS,
-
-    AGENTBYOKOPENAI,
 
     AGENTCLAUDECONNECT,
 
@@ -32,6 +28,8 @@ public enum ActiveFeatureFlag
     CSMCPEXPRESS,
 
     DATABASEAGENTTOOLS,
+
+    ENVIRONMENTFORKS,
 
     HAFORMONGO,
 
