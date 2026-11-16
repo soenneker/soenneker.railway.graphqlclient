@@ -92,6 +92,12 @@ public sealed partial class Environment : Node
     [JsonPropertyName("sourceEnvironment")]
     public Environment? SourceEnvironment { get; init; }
 
+    /// <summary>
+    /// Name of the environment this one was copied from. A project token can read this on its own environment. It does not grant access to the source environment.
+    /// </summary>
+    [JsonPropertyName("sourceEnvironmentName")]
+    public string? SourceEnvironmentName { get; init; }
+
     [JsonPropertyName("unmergedChangesCount")]
     public int? UnmergedChangesCount { get; init; }
 

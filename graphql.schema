@@ -139,6 +139,8 @@ enum ActivePlatformFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
+  EMAIL_LOGIN_SELF_HOSTED
+  EMAIL_LOGIN_SELF_HOSTED_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
   ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
@@ -1986,6 +1988,10 @@ type Environment implements Node {
   projectId: String!
   serviceInstances(after: String, before: String, first: Int, last: Int): EnvironmentServiceInstancesConnection!
   sourceEnvironment: Environment
+  """
+  Name of the environment this one was copied from. A project token can read this on its own environment. It does not grant access to the source environment.
+  """
+  sourceEnvironmentName: String
   unmergedChangesCount: Int
   updatedAt: DateTime!
   variables(after: String, before: String, first: Int, last: Int): EnvironmentVariablesConnection!
@@ -4371,6 +4377,8 @@ enum PlatformFeatureFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
+  EMAIL_LOGIN_SELF_HOSTED
+  EMAIL_LOGIN_SELF_HOSTED_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
   ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
