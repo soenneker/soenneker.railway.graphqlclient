@@ -108,6 +108,7 @@ enum ActiveFeatureFlag {
   RAILQL
   RAILWAY_AGENT_DASHBOARD
   RAILWAY_AUTOMATIONS
+  RAILWAY_AUTOMATION_EVENT_TRIGGERS
   TRACING
   USAGE_INSIGHTS
   VERIFIERS
@@ -138,7 +139,6 @@ enum ActivePlatformFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
-  EMAIL_LOGIN_SELF_HOSTED
   EMAIL_LOGIN_SELF_HOSTED_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
@@ -186,8 +186,8 @@ enum ActivePlatformFlag {
   USAGE_CH_READS
   VERIFIERS
   VM_COUPON_MIGRATION
-  VM_NEW_SERVICES_HOBBY_ROLLOUT
-  VM_NEW_SERVICES_TRIAL_ROLLOUT
+  VM_ROLLOUT_EVACUATE
+  VM_ROLLOUT_PAUSE
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
   X_AGENT_BUILDS
@@ -197,6 +197,7 @@ enum ActiveProjectFeatureFlag {
   LEGACY_CONFIG_AS_CODE
   PLACEHOLDER
   RBS_VOLUMES
+  TRACING_AUTO_INSTRUMENTATION
   VM_NEW_SERVICES
   VM_VOLUMES
 }
@@ -4376,7 +4377,6 @@ enum PlatformFeatureFlag {
   DEV_STUDIO_ANON_PROVISIONS
   DOMAIN_RECONCILE_KILLSWITCH
   EMAIL_FORWARDING_KILLSWITCH
-  EMAIL_LOGIN_SELF_HOSTED
   EMAIL_LOGIN_SELF_HOSTED_KILLSWITCH
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
@@ -4424,8 +4424,8 @@ enum PlatformFeatureFlag {
   USAGE_CH_READS
   VERIFIERS
   VM_COUPON_MIGRATION
-  VM_NEW_SERVICES_HOBBY_ROLLOUT
-  VM_NEW_SERVICES_TRIAL_ROLLOUT
+  VM_ROLLOUT_EVACUATE
+  VM_ROLLOUT_PAUSE
   VM_USAGE_CH_INGEST
   WORKSPACE_MCP_KILLSWITCH
   X_AGENT_BUILDS
@@ -4497,6 +4497,81 @@ type PluginVariablesConnection {
 type PluginVariablesConnectionEdge {
   cursor: String!
   node: Variable!
+}
+
+type PostgresHaUptimeCluster {
+  availability: Float
+  degradedMinutes: Int!
+  downMinutes: Int!
+  environmentId: String!
+  environmentName: String
+  excludedMinutes: Int!
+  """
+  The last local probe round's redundancy reading, as JSON: the verdict, its class, the reading's counts (expected/healthy replicas, etcd, HAProxy) and every member's probe outcome and role. Null until a round has run for the cluster.
+  """
+  lastRedundancyRound: String
+  measuredMinutes: Int!
+  openWindow: PostgresHaUptimeOpenWindow
+  platformDownMinutes: Int!
+  projectId: String!
+  projectName: String
+  recent: String!
+  redundancy: Float
+  redundancyMeasuredMinutes: Int!
+  region: String
+  """
+  The cluster's root Postgres service.
+  """
+  rootServiceId: String!
+  rootServiceName: String
+  unknownMinutes: Int!
+  upMinutes: Int!
+  windows: Int!
+  workspaceName: String
+}
+
+type PostgresHaUptimeClusterReport {
+  cluster: PostgresHaUptimeCluster
+  daily: [PostgresHaUptimeDay!]!
+  windows: [PostgresHaUptimeWindow!]!
+}
+
+type PostgresHaUptimeDay {
+  day: String!
+  degradedMinutes: Int!
+  downMinutes: Int!
+  excludedMinutes: Int!
+  measuredMinutes: Int!
+  redundancyMeasuredMinutes: Int!
+  unknownMinutes: Int!
+  upMinutes: Int!
+}
+
+type PostgresHaUptimeOpenWindow {
+  customerInitiated: Boolean!
+  failureClass: String
+  id: String!
+  startedAt: String!
+}
+
+type PostgresHaUptimeWindow {
+  customerInitiated: Boolean!
+  endedAt: String
+  environmentId: String!
+  environmentName: String
+  evidence: String
+  failureClass: String
+  id: String!
+  minutes: Int!
+  projectId: String!
+  projectName: String
+  redundancyClass: String
+  """
+  The cluster's root Postgres service.
+  """
+  rootServiceId: String!
+  sli: String!
+  startedAt: String!
 }
 
 type Preferences implements Node {
@@ -5374,6 +5449,10 @@ type Query {
   Get the current status of the platform
   """
   platformStatus: PlatformStatus!
+  """
+  One Postgres HA cluster's uptime SLI over the last N days: its row, its windows, its daily rollups. The cluster is named by any of its member services, since an environment can hold more than one. Errors when the service is not part of a Postgres HA cluster.
+  """
+  postgresHaClusterUptime(days: Int, environmentId: String!, serviceId: String!): PostgresHaUptimeClusterReport!
   """
   Get the email preferences for a user
   """

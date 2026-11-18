@@ -500,6 +500,12 @@ public sealed partial class Query
     public PlatformStatus PlatformStatus { get; init; } = null!;
 
     /// <summary>
+    /// One Postgres HA cluster's uptime SLI over the last N days: its row, its windows, its daily rollups. The cluster is named by any of its member services, since an environment can hold more than one. Errors when the service is not part of a Postgres HA cluster.
+    /// </summary>
+    [JsonPropertyName("postgresHaClusterUptime")]
+    public PostgresHaUptimeClusterReport PostgresHaClusterUptime { get; init; } = null!;
+
+    /// <summary>
     /// Get the email preferences for a user
     /// </summary>
     [JsonPropertyName("preferences")]

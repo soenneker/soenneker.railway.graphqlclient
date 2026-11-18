@@ -382,6 +382,10 @@ public sealed partial class RailwayGraphQlClient
     public GetPlatformStatusRequestBuilder GetPlatformStatus => new GetPlatformStatusRequestBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes requests for the 'postgresHaClusterUptime' query.</summary>
+    public GetPostgresHaClusterUptimeRequestBuilder GetPostgresHaClusterUptime => new GetPostgresHaClusterUptimeRequestBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes requests for the 'preferences' query.</summary>
     public GetPreferencesRequestBuilder GetPreferences => new GetPreferencesRequestBuilder(_graphQlClient);
 
