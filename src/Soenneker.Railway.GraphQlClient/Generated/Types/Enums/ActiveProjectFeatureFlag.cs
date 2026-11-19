@@ -15,6 +15,8 @@ public enum ActiveProjectFeatureFlag
 
     VMNEWSERVICES,
 
-    VMVOLUMES
+    VMVOLUMES,
+
+    VOLUMEAUTOGROW
 
 }
