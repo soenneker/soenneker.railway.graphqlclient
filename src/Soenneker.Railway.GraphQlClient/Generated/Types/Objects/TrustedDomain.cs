@@ -6,6 +6,9 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class TrustedDomain
 {
+    [JsonPropertyName("autoJoinEnabled")]
+    public bool AutoJoinEnabled { get; init; }
+
     [JsonPropertyName("domainName")]
     public string DomainName { get; init; } = null!;
 

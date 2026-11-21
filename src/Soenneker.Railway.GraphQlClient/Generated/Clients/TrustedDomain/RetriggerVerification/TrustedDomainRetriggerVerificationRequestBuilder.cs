@@ -22,7 +22,7 @@ public sealed partial class TrustedDomainRetriggerVerificationRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<TrustedDomainRetriggerVerificationData>> Execute(TrustedDomainRetriggerVerificationVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation TrustedDomainRetriggerVerification($id: String!) { trustedDomainRetriggerVerification(id: $id) { domainName id role status verificationData { dnsHost domainMatch { cdnMode createdAt deletedAt domain edgeId environmentId id projectId serviceId targetPort updatedAt } domainStatus { cdnProvider certificateErrorMessage certificateErrorType certificateRetryable certificateStatus certificateStatusDetailed verificationDnsHost verificationToken verified } token } verificationType workspaceId } }";
+        const string gqlQuery = @"mutation TrustedDomainRetriggerVerification($id: String!) { trustedDomainRetriggerVerification(id: $id) { autoJoinEnabled domainName id role status verificationData { dnsHost domainMatch { cdnMode createdAt deletedAt domain edgeId environmentId id projectId serviceId targetPort updatedAt } domainStatus { cdnProvider certificateErrorMessage certificateErrorType certificateRetryable certificateStatus certificateStatusDetailed verificationDnsHost verificationToken verified } token } verificationType workspaceId } }";
         return _graphQlClient.Execute<TrustedDomainRetriggerVerificationData>(gqlQuery, request, cancellationToken);
     }
 

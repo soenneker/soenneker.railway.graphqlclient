@@ -22,7 +22,7 @@ public sealed partial class GetTrustedDomainsRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetTrustedDomainsData>> Execute(GetTrustedDomainsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetTrustedDomains($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) { trustedDomains(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) { edges { cursor node { domainName id role status verificationType workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetTrustedDomains($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) { trustedDomains(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) { edges { cursor node { autoJoinEnabled domainName id role status verificationType workspaceId } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetTrustedDomainsData>(gqlQuery, request, cancellationToken);
     }
 

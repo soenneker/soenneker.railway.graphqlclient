@@ -108,7 +108,6 @@ enum ActiveFeatureFlag {
   RAILWAY_AGENT_DASHBOARD
   RAILWAY_AUTOMATIONS
   TRACING
-  USAGE_INSIGHTS
   VERIFIERS
   VM_STORAGE_TRACES
 }
@@ -118,7 +117,9 @@ enum ActivePlatformFlag {
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
+  AI_GATEWAY_AGENTS
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  AUTHZ_ENFORCE
   BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -165,7 +166,6 @@ enum ActivePlatformFlag {
   RADAR_HTTP_PATTERN_DETECTION
   RADAR_SIGNUP_ENFORCE
   RELAY_SPEND_RESERVATION_KILLSWITCH
-  REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
   SECRETS_SHADOW_COMPARE_SAMPLE
   SECRET_SCANNING_EMAIL
@@ -3678,11 +3678,11 @@ type Mutation {
   """
   trustedDomainDelete(id: String!): Boolean!
   """
-  Retrigger verification for a failed trusted domain
+  Check the DNS record for a workspace email domain
   """
   trustedDomainRetriggerVerification(id: String!): TrustedDomain
   """
-  Update the role of a trusted domain
+  Update the automatic joining policy for a workspace email domain
   """
   trustedDomainUpdate(input: WorkspaceTrustedDomainUpdateInput!): TrustedDomain!
   """
@@ -4358,7 +4358,9 @@ enum PlatformFeatureFlag {
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_USAGE_CH_INGEST
+  AI_GATEWAY_AGENTS
   ALERT_SUS_USERS_CRON_KILLSWITCH
+  AUTHZ_ENFORCE
   BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -4405,7 +4407,6 @@ enum PlatformFeatureFlag {
   RADAR_HTTP_PATTERN_DETECTION
   RADAR_SIGNUP_ENFORCE
   RELAY_SPEND_RESERVATION_KILLSWITCH
-  REMOVE_DEPLOYMENT_COMPACT
   RESTRICTION_ABUSE_QUEUE
   SECRETS_SHADOW_COMPARE_SAMPLE
   SECRET_SCANNING_EMAIL
@@ -7809,6 +7810,7 @@ type TraceSummary {
 }
 
 type TrustedDomain {
+  autoJoinEnabled: Boolean!
   domainName: String!
   id: ID!
   role: String!
@@ -8473,8 +8475,9 @@ input WorkspaceTrustedDomainCreateInput {
 }
 
 input WorkspaceTrustedDomainUpdateInput {
+  autoJoinEnabled: Boolean
   id: String!
-  role: String!
+  role: String
 }
 
 input WorkspaceUpdateInput {

@@ -1292,13 +1292,13 @@ public sealed partial class Mutation
     public bool TrustedDomainDelete { get; init; }
 
     /// <summary>
-    /// Retrigger verification for a failed trusted domain
+    /// Check the DNS record for a workspace email domain
     /// </summary>
     [JsonPropertyName("trustedDomainRetriggerVerification")]
     public TrustedDomain? TrustedDomainRetriggerVerification { get; init; }
 
     /// <summary>
-    /// Update the role of a trusted domain
+    /// Update the automatic joining policy for a workspace email domain
     /// </summary>
     [JsonPropertyName("trustedDomainUpdate")]
     public TrustedDomain TrustedDomainUpdate { get; init; } = null!;

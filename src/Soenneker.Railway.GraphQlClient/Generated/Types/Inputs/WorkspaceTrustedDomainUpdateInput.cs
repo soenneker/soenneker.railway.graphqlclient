@@ -6,10 +6,13 @@ namespace Soenneker.Railway.GraphQlClient;
 
 public sealed partial class WorkspaceTrustedDomainUpdateInput
 {
+    [JsonPropertyName("autoJoinEnabled")]
+    public bool? AutoJoinEnabled { get; init; }
+
     [JsonPropertyName("id")]
     public string Id { get; init; } = null!;
 
     [JsonPropertyName("role")]
-    public string Role { get; init; } = null!;
+    public string? Role { get; init; }
 
 }

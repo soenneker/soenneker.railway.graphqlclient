@@ -22,7 +22,7 @@ public sealed partial class TrustedDomainUpdateRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<TrustedDomainUpdateData>> Execute(TrustedDomainUpdateVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation TrustedDomainUpdate($input: WorkspaceTrustedDomainUpdateInput!) { trustedDomainUpdate(input: $input) { domainName id role status verificationData { dnsHost domainMatch { cdnMode createdAt deletedAt domain edgeId environmentId id projectId serviceId targetPort updatedAt } domainStatus { cdnProvider certificateErrorMessage certificateErrorType certificateRetryable certificateStatus certificateStatusDetailed verificationDnsHost verificationToken verified } token } verificationType workspaceId } }";
+        const string gqlQuery = @"mutation TrustedDomainUpdate($input: WorkspaceTrustedDomainUpdateInput!) { trustedDomainUpdate(input: $input) { autoJoinEnabled domainName id role status verificationData { dnsHost domainMatch { cdnMode createdAt deletedAt domain edgeId environmentId id projectId serviceId targetPort updatedAt } domainStatus { cdnProvider certificateErrorMessage certificateErrorType certificateRetryable certificateStatus certificateStatusDetailed verificationDnsHost verificationToken verified } token } verificationType workspaceId } }";
         return _graphQlClient.Execute<TrustedDomainUpdateData>(gqlQuery, request, cancellationToken);
     }
 

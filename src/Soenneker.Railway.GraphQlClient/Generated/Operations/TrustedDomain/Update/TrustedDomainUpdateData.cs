@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class TrustedDomainUpdateData
 {
     /// <summary>
-    /// Update the role of a trusted domain
+    /// Update the automatic joining policy for a workspace email domain
     /// </summary>
     [JsonPropertyName("trustedDomainUpdate")]
     public TrustedDomain TrustedDomainUpdate { get; init; } = null!;

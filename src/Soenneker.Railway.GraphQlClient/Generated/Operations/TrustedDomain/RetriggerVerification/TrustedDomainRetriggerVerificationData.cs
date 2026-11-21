@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class TrustedDomainRetriggerVerificationData
 {
     /// <summary>
-    /// Retrigger verification for a failed trusted domain
+    /// Check the DNS record for a workspace email domain
     /// </summary>
     [JsonPropertyName("trustedDomainRetriggerVerification")]
     public TrustedDomain? TrustedDomainRetriggerVerification { get; init; }
