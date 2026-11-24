@@ -47,7 +47,7 @@ public sealed partial class TraceSpan
     public string? ParentSpanId { get; init; }
 
     /// <summary>
-    /// Resource attributes as exported, without the railway.* keys Railway promotes into typed fields
+    /// Resource attributes as exported, without the railway.* keys Railway promotes into typed fields, and with cloud.region as the airport code of the region (edge/&lt;pop&gt; on an edge span)
     /// </summary>
     [JsonPropertyName("resourceAttributes")]
     public System.Text.Json.JsonElement ResourceAttributes { get; init; }

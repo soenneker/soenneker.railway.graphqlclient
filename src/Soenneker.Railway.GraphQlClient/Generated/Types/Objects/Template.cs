@@ -78,6 +78,12 @@ public sealed partial class Template : Node
     public int Projects { get; init; }
 
     /// <summary>
+    /// This template's workspace's publishing limits and usage. Null for anyone but the template's owner, and for a template with no workspace.
+    /// </summary>
+    [JsonPropertyName("publishingAllowance")]
+    public TemplatePublishingAllowance? PublishingAllowance { get; init; }
+
+    /// <summary>
     /// The active restriction stopping this workspace publishing templates, so a restricted author can be sent to the page that explains it and takes the appeal. Null when publishing is not restricted, and for anyone but the template's owner: the `template` query is public, and whether a workspace is under an abuse restriction is not.
     /// </summary>
     [JsonPropertyName("publishingRestrictionId")]

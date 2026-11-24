@@ -7473,6 +7473,10 @@ type Template implements Node {
   name: String!
   projects: Int!
   """
+  This template's workspace's publishing limits and usage. Null for anyone but the template's owner, and for a template with no workspace.
+  """
+  publishingAllowance: TemplatePublishingAllowance
+  """
   The active restriction stopping this workspace publishing templates, so a restricted author can be sent to the page that explains it and takes the appeal. Null when publishing is not restricted, and for anyone but the template's owner: the `template` query is public, and whether a workspace is under an abuse restriction is not.
   """
   publishingRestrictionId: String
@@ -7608,6 +7612,42 @@ input TemplatePublishInput {
   workspaceId: String
 }
 
+"""
+How many templates this template's workspace may have live, and how many it has. New publishes are also rate limited per day; that limit is not reported here and surfaces as an error when hit. See https://docs.railway.com/templates/publish-and-share#publishing-limits
+"""
+type TemplatePublishingAllowance {
+  """
+  Why the live limit stops this template being published, or null when it doesn't. Always null for a template that is already live: limits gate going live, not edits.
+  """
+  blockedReason: String
+  """
+  Distinct other workspaces that have deployed any of this workspace's templates.
+  """
+  deployingWorkspaces: Int!
+  """
+  Deploying workspaces it takes to raise the live limit by one.
+  """
+  deployingWorkspacesPerExtraLive: Int!
+  """
+  Null when exempt.
+  """
+  liveLimit: Int
+  liveTemplates: Int!
+  status: TemplatePublishingStatus!
+  workspaceAgeDays: Int!
+}
+
+enum TemplatePublishingStatus {
+  """
+  Railway, Enterprise and partner workspaces: no limits.
+  """
+  EXEMPT
+  """
+  Held to the limits on this allowance.
+  """
+  LIMITED
+}
+
 input TemplateRevertInput {
   """
   The environment ID containing the cluster
@@ -7709,7 +7749,7 @@ type TraceSpan {
   """
   parentSpanId: String
   """
-  Resource attributes as exported, without the railway.* keys Railway promotes into typed fields
+  Resource attributes as exported, without the railway.* keys Railway promotes into typed fields, and with cloud.region as the airport code of the region (edge/<pop> on an edge span)
   """
   resourceAttributes: JSON!
   """
