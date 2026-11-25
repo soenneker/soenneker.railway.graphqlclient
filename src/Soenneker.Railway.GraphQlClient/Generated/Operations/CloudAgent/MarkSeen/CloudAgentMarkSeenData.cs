@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentMarkSeenData
 {
     /// <summary>
-    /// Record that the agent's owner looked, so its DONE and ERROR outcomes stop being unseen. Without sessionId, every session. Owner only.
+    /// Mark the agent's finished and failed sessions as seen, or only sessionId's. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentMarkSeen")]
     public bool CloudAgentMarkSeen { get; init; }

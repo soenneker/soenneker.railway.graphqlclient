@@ -16,13 +16,13 @@ public sealed partial class CloudAgentSnapshot
     public string LastEventKind { get; init; } = null!;
 
     /// <summary>
-    /// Truncated most recent prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
+    /// The session's latest prompt, truncated for display. Null if none was reported or you can't manage this agent.
     /// </summary>
     [JsonPropertyName("latestPrompt")]
     public string? LatestPrompt { get; init; }
 
     /// <summary>
-    /// Truncated first prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
+    /// The session's first prompt, truncated for display. Null if none was reported or you can't manage this agent.
     /// </summary>
     [JsonPropertyName("prompt")]
     public string? Prompt { get; init; }
@@ -49,7 +49,7 @@ public sealed partial class CloudAgentSnapshot
     public bool Terminal { get; init; }
 
     /// <summary>
-    /// Generated display title for the session, display-only. Null until generated, or for viewers who don't own the agent; fall back to latestPrompt, then prompt.
+    /// The session's generated title; fall back to latestPrompt, then prompt. Null until generated or if you can't manage this agent.
     /// </summary>
     [JsonPropertyName("title")]
     public string? Title { get; init; }

@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentArchiveData
 {
     /// <summary>
-    /// Archive a cloud agent: hide it from lists that ask for unarchived agents. Its machine, sessions and history are untouched. Owner only.
+    /// Archive a cloud agent, hiding it from lists of unarchived agents. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentArchive")]
     public bool CloudAgentArchive { get; init; }

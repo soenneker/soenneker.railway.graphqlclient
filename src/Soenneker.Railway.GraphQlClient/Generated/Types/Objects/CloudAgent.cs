@@ -18,7 +18,7 @@ public sealed partial class CloudAgent
     public string? AgentWsUrl { get; init; }
 
     /// <summary>
-    /// When its owner archived the agent; null unless archived. Archiving only changes which lists show it.
+    /// When the agent was archived; null if it isn't.
     /// </summary>
     [JsonPropertyName("archivedAt")]
     public DateTimeOffset? ArchivedAt { get; init; }

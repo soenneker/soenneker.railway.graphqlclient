@@ -11,6 +11,8 @@ public sealed partial class EmailChangeBuilder
 
     public EmailChangeBuilder(IGraphQlClient graphQlClient) => _graphQlClient = graphQlClient;
 
+    public EmailChangeCancelRequestBuilder Cancel => new EmailChangeCancelRequestBuilder(_graphQlClient);
+
     public EmailChangeConfirmRequestBuilder Confirm => new EmailChangeConfirmRequestBuilder(_graphQlClient);
 
     public EmailChangeInitiateRequestBuilder Initiate => new EmailChangeInitiateRequestBuilder(_graphQlClient);

@@ -22,7 +22,7 @@ public sealed partial class GetObservabilityDashboardsRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<GetObservabilityDashboardsData>> Execute(GetObservabilityDashboardsVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"query GetObservabilityDashboards($after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { observabilityDashboards(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { id } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
+        const string gqlQuery = @"query GetObservabilityDashboards($after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) { observabilityDashboards(after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) { edges { cursor node { id revision } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }";
         return _graphQlClient.Execute<GetObservabilityDashboardsData>(gqlQuery, request, cancellationToken);
     }
 

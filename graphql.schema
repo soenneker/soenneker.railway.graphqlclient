@@ -90,6 +90,7 @@ enum ActiveFeatureFlag {
   AGENT_BOOTSTRAPS
   AGENT_BYOK
   AGENT_BYOK_FIREWORKS
+  AGENT_FORK_TASKS
   CHAT_SANDBOX
   CLEARANCE
   CLOUD_AGENTS
@@ -116,10 +117,11 @@ enum ActivePlatformFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
+  AGENT_DASHBOARD_NEW_ACCOUNTS
   AGENT_USAGE_CH_INGEST
   AI_GATEWAY_AGENTS
   ALERT_SUS_USERS_CRON_KILLSWITCH
-  AUTHZ_ENFORCE
+  AUTOMATION_PR_TRIGGER_WEBHOOK
   BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -200,6 +202,7 @@ enum ActiveProjectFeatureFlag {
   VM_NEW_SERVICES
   VM_VOLUMES
   VOLUME_AUTO_GROW
+  WEBSITES
 }
 
 enum ActiveServiceFeatureFlag {
@@ -631,7 +634,7 @@ type CloudAgent {
   """
   agentWsUrl: String
   """
-  When its owner archived the agent; null unless archived. Archiving only changes which lists show it.
+  When the agent was archived; null if it isn't.
   """
   archivedAt: DateTime
   """
@@ -799,11 +802,11 @@ type CloudAgentSnapshot {
   harness: String!
   lastEventKind: String!
   """
-  Truncated most recent prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
+  The session's latest prompt, truncated for display. Null if none was reported or you can't manage this agent.
   """
   latestPrompt: String
   """
-  Truncated first prompt of the session, display-only. Null when the harness never reported one, or for viewers who don't own the agent.
+  The session's first prompt, truncated for display. Null if none was reported or you can't manage this agent.
   """
   prompt: String
   sessionId: String!
@@ -818,7 +821,7 @@ type CloudAgentSnapshot {
   taskId: String
   terminal: Boolean!
   """
-  Generated display title for the session, display-only. Null until generated, or for viewers who don't own the agent; fall back to latestPrompt, then prompt.
+  The session's generated title; fall back to latestPrompt, then prompt. Null until generated or if you can't manage this agent.
   """
   title: String
   updatedAt: String!
@@ -1235,7 +1238,7 @@ type CloudAgentWorkStatus {
   """
   kind: CloudAgentBlockedKind
   """
-  One line: the question, the failure, or the closing prose. Only the agent's owner sees it; null for everyone else. Untrusted agent text: render as plain text.
+  The session's latest status line: its open question, failure or final summary. Written by the agent; display as plain text. Null unless you can manage this agent.
   """
   message: String
   state: CloudAgentWorkState!
@@ -2803,6 +2806,11 @@ enum MonitorAlertResourceType {
   VOLUME
 }
 
+input MonitorConfigInput {
+  threshold: MonitorThresholdConfigInput
+  type: MonitorType!
+}
+
 enum MonitorStatus {
   ALERT
   OK
@@ -2818,6 +2826,15 @@ type MonitorThresholdConfig {
   measurement: MetricMeasurement
   threshold: Float!
   type: String!
+}
+
+input MonitorThresholdConfigInput {
+  condition: MonitorThresholdCondition!
+  threshold: Float!
+}
+
+enum MonitorType {
+  threshold
 }
 
 type Mutation {
@@ -2910,7 +2927,7 @@ type Mutation {
   """
   cliEventTrack(input: CliEventTrackInput!): Boolean!
   """
-  Archive a cloud agent: hide it from lists that ask for unarchived agents. Its machine, sessions and history are untouched. Owner only.
+  Archive a cloud agent, hiding it from lists of unarchived agents. Requires permission to manage the agent.
   """
   cloudAgentArchive(id: ID!): Boolean!
   """
@@ -2946,7 +2963,7 @@ type Mutation {
   """
   cloudAgentHarnessToken(environmentId: String!, id: ID!): String!
   """
-  Record that the agent's owner looked, so its DONE and ERROR outcomes stop being unseen. Without sessionId, every session. Owner only.
+  Mark the agent's finished and failed sessions as seen, or only sessionId's. Requires permission to manage the agent.
   """
   cloudAgentMarkSeen(cloudAgentId: ID!, sessionId: String): Boolean!
   """
@@ -2978,7 +2995,7 @@ type Mutation {
   """
   cloudAgentTaskRespond(input: CloudAgentTaskRespondInput!): CloudAgentTaskRespondResult!
   """
-  Bring an archived cloud agent back. Owner only.
+  Restore an archived cloud agent. Requires permission to manage the agent.
   """
   cloudAgentUnarchive(id: ID!): Boolean!
   """
@@ -3098,11 +3115,15 @@ type Mutation {
   """
   egressGatewayUpgradeToHA(input: EgressGatewayServiceTargetInput!): [EgressGateway!]!
   """
+  Cancel the authenticated user's pending email change, so its link stops working.
+  """
+  emailChangeCancel: Boolean!
+  """
   Change the User's account email if there is a valid change email request.
   """
   emailChangeConfirm(nonce: String!): Boolean!
   """
-  Initiate an email change request for a user
+  Email a confirmation link to a new address for the authenticated user. Replaces any pending email change, so earlier links stop working.
   """
   emailChangeInitiate(newEmail: String!): Boolean!
   """
@@ -3250,13 +3271,25 @@ type Mutation {
   """
   observabilityDashboardCreate(input: ObservabilityDashboardCreateInput!): Boolean!
   """
+  Create an observability monitor for a dashboard item
+  """
+  observabilityDashboardMonitorCreate(dashboardItemId: String!, input: ObservabilityDashboardMonitorCreateInput!): Boolean!
+  """
+  Remove an observability monitor from a dashboard item
+  """
+  observabilityDashboardMonitorRemove(id: String!): Boolean!
+  """
+  Update an observability monitor for a dashboard item
+  """
+  observabilityDashboardMonitorUpdate(id: String!, input: ObservabilityDashboardMonitorUpdateInput!): Boolean!
+  """
   Reset an observability dashboard to default dashboard items
   """
   observabilityDashboardReset(id: String!): Boolean!
   """
   Update an observability dashboard
   """
-  observabilityDashboardUpdate(id: String!, input: [ObservabilityDashboardUpdateInput!]!): Boolean!
+  observabilityDashboardUpdate(id: String!, input: [ObservabilityDashboardUpdateInput!]!, revision: String): Boolean!
   """
   Deletes a Passkey
   """
@@ -3456,7 +3489,7 @@ type Mutation {
   """
   Execute a command inside a running sandbox.
   """
-  sandboxExec(command: String!, environmentId: String!, id: String!, timeoutSec: Int): SandboxExecResult!
+  sandboxExec(command: String!, environmentId: String!, id: String!, timeoutSec: Int): SandboxExecResult! @deprecated(reason: "Use sandbox.exec() in the Railway SDK or \u0060railway sandbox exec\u0060 in the CLI.")
   """
   Extend a sandbox's lifetime.
   """
@@ -4114,6 +4147,10 @@ enum NotificationStatus {
 type ObservabilityDashboard implements Node {
   id: ID!
   items: [ObservabilityDashboardItemInstance!]!
+  """
+  Changes with every write to the dashboard. Pass it to observabilityDashboardUpdate, which refuses a save based on an older one.
+  """
+  revision: String!
 }
 
 type ObservabilityDashboardAlert implements Node {
@@ -4147,7 +4184,12 @@ type ObservabilityDashboardItemConfig {
   logsFilter: String
   measurements: [MetricMeasurement!]
   projectUsageProperties: [ProjectUsageProperty!]
+  query: String
   resourceIds: [String!]
+  """
+  How the panel draws its query. Absent means the default for the query's type.
+  """
+  visualization: String
 }
 
 input ObservabilityDashboardItemConfigInput {
@@ -4155,7 +4197,15 @@ input ObservabilityDashboardItemConfigInput {
   logsFilter: String
   measurements: [MetricMeasurement!]
   projectUsageProperties: [ProjectUsageProperty!]
+  """
+  The panel's RailQL query. Left out, the panel keeps its stored query and visualization.
+  """
+  query: String
   resourceIds: [String!]
+  """
+  How the panel draws its query, one the query's result allows. Absent means the default for the query's type.
+  """
+  visualization: String
 }
 
 input ObservabilityDashboardItemCreateInput {
@@ -4178,6 +4228,7 @@ enum ObservabilityDashboardItemType {
   HTTP_METRICS_ITEM
   NETWORK_LOGS_ITEM
   PROJECT_USAGE_ITEM
+  RAILQL_ITEM
   SERVICE_LOGS_ITEM
   SERVICE_METRICS_ITEM
   VOLUME_METRICS_ITEM
@@ -4192,6 +4243,14 @@ type ObservabilityDashboardMonitor implements Node {
 }
 
 union ObservabilityDashboardMonitorConfig = MonitorThresholdConfig
+
+input ObservabilityDashboardMonitorCreateInput {
+  config: MonitorConfigInput!
+}
+
+input ObservabilityDashboardMonitorUpdateInput {
+  config: MonitorConfigInput!
+}
 
 input ObservabilityDashboardUpdateInput {
   dashboardItem: ObservabilityDashboardItemCreateInput!
@@ -4251,6 +4310,21 @@ type PaymentMethodCard {
   brand: String!
   country: String
   last4: String!
+}
+
+"""
+An email change the authenticated user requested and has not confirmed yet.
+"""
+type PendingEmailChange {
+  """
+  The address the change is to.
+  """
+  email: String!
+  """
+  When the confirmation link stops working.
+  """
+  expiresAt: DateTime!
+  requestedAt: DateTime!
 }
 
 """
@@ -4357,10 +4431,11 @@ enum PlatformFeatureFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
+  AGENT_DASHBOARD_NEW_ACCOUNTS
   AGENT_USAGE_CH_INGEST
   AI_GATEWAY_AGENTS
   ALERT_SUS_USERS_CRON_KILLSWITCH
-  AUTHZ_ENFORCE
+  AUTOMATION_PR_TRIGGER_WEBHOOK
   BLOCK_TRIAL_RESTRICTION_APPEALS
   BUILD_DEPLOY_QUEUE_V2
   CAC_T0_KILLSWITCH
@@ -5439,6 +5514,10 @@ type Query {
   Gets all passkeys for the authenticated user
   """
   passkeys(after: String, before: String, first: Int, last: Int): QueryPasskeysConnection!
+  """
+  The authenticated user's unconfirmed email change, if there is one.
+  """
+  pendingEmailChange: PendingEmailChange
   """
   Live replication health for an HA database cluster (Postgres HA, MySQL HA). Use it to gate the Enable/Disable PITR buttons so a rollout can't start while a member is too far behind to rejoin. Returns null when the service isn't an HA root.
   """
@@ -6668,6 +6747,10 @@ type Service implements Node {
   Whether this service has an active restriction that limits its capabilities.
   """
   isRestricted: Boolean!
+  """
+  Null for an ordinary service.
+  """
+  kind: ServiceKind
   name: String!
   """
   The takedown notice blocking deployment, readable by workspace members and staff. Public-project visibility does not grant notice access.
@@ -6936,6 +7019,13 @@ input ServiceInstanceUpdateInput {
   """
   tracingEnabled: Boolean
   watchPatterns: [String!]
+}
+
+"""
+What a service is, when it isn't an ordinary service. A Website's builds upload a release that the edge serves.
+"""
+enum ServiceKind {
+  WEBSITE
 }
 
 type ServiceRepoTriggersConnection {

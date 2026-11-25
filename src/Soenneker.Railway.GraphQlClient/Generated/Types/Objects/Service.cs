@@ -44,6 +44,12 @@ public sealed partial class Service : Node
     [JsonPropertyName("isRestricted")]
     public bool IsRestricted { get; init; }
 
+    /// <summary>
+    /// Null for an ordinary service.
+    /// </summary>
+    [JsonPropertyName("kind")]
+    public ServiceKind? Kind { get; init; }
+
     [JsonPropertyName("name")]
     public string Name { get; init; } = null!;
 

@@ -11,6 +11,8 @@ public enum ActiveFeatureFlag
 
     AGENTBYOKFIREWORKS,
 
+    AGENTFORKTASKS,
+
     CHATSANDBOX,
 
     CLEARANCE,

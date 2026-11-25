@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentUnarchiveData
 {
     /// <summary>
-    /// Bring an archived cloud agent back. Owner only.
+    /// Restore an archived cloud agent. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentUnarchive")]
     public bool CloudAgentUnarchive { get; init; }

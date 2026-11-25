@@ -16,4 +16,7 @@ public sealed class ObservabilityDashboardUpdateVariables
     [JsonPropertyName("input")]
     public List<ObservabilityDashboardUpdateInput> Input { get; init; } = [];
 
+    [JsonPropertyName("revision")]
+    public string? Revision { get; init; }
+
 }

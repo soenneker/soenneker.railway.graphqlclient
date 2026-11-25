@@ -19,7 +19,19 @@ public sealed partial class ObservabilityDashboardItemConfigInput
     [JsonPropertyName("projectUsageProperties")]
     public List<ProjectUsageProperty>? ProjectUsageProperties { get; init; }
 
+    /// <summary>
+    /// The panel's RailQL query. Left out, the panel keeps its stored query and visualization.
+    /// </summary>
+    [JsonPropertyName("query")]
+    public string? Query { get; init; }
+
     [JsonPropertyName("resourceIds")]
     public List<string>? ResourceIds { get; init; }
+
+    /// <summary>
+    /// How the panel draws its query, one the query's result allows. Absent means the default for the query's type.
+    /// </summary>
+    [JsonPropertyName("visualization")]
+    public string? Visualization { get; init; }
 
 }

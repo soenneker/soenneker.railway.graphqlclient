@@ -22,7 +22,7 @@ public sealed partial class ObservabilityDashboardUpdateRequestBuilder
     /// </summary>
     public ValueTask<GraphQlResponse<ObservabilityDashboardUpdateData>> Execute(ObservabilityDashboardUpdateVariables request, CancellationToken cancellationToken = default)
     {
-        const string gqlQuery = @"mutation ObservabilityDashboardUpdate($id: String!, $input: [ObservabilityDashboardUpdateInput!]!) { observabilityDashboardUpdate(id: $id, input: $input) }";
+        const string gqlQuery = @"mutation ObservabilityDashboardUpdate($id: String!, $input: [ObservabilityDashboardUpdateInput!]!, $revision: String) { observabilityDashboardUpdate(id: $id, input: $input, revision: $revision) }";
         return _graphQlClient.Execute<ObservabilityDashboardUpdateData>(gqlQuery, request, cancellationToken);
     }
 

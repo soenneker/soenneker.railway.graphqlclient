@@ -13,4 +13,10 @@ public sealed partial class ObservabilityDashboard : Node
     [JsonPropertyName("items")]
     public List<ObservabilityDashboardItemInstance> Items { get; init; } = [];
 
+    /// <summary>
+    /// Changes with every write to the dashboard. Pass it to observabilityDashboardUpdate, which refuses a save based on an older one.
+    /// </summary>
+    [JsonPropertyName("revision")]
+    public string Revision { get; init; } = null!;
+
 }

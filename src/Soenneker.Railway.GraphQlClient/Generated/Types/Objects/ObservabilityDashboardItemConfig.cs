@@ -19,7 +19,16 @@ public sealed partial class ObservabilityDashboardItemConfig
     [JsonPropertyName("projectUsageProperties")]
     public List<ProjectUsageProperty>? ProjectUsageProperties { get; init; }
 
+    [JsonPropertyName("query")]
+    public string? Query { get; init; }
+
     [JsonPropertyName("resourceIds")]
     public List<string>? ResourceIds { get; init; }
+
+    /// <summary>
+    /// How the panel draws its query. Absent means the default for the query's type.
+    /// </summary>
+    [JsonPropertyName("visualization")]
+    public string? Visualization { get; init; }
 
 }

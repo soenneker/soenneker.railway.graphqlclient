@@ -17,6 +17,8 @@ public enum ActiveProjectFeatureFlag
 
     VMVOLUMES,
 
-    VOLUMEAUTOGROW
+    VOLUMEAUTOGROW,
+
+    WEBSITES
 
 }

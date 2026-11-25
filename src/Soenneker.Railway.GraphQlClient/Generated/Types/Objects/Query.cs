@@ -482,6 +482,12 @@ public sealed partial class Query
     public QueryPasskeysConnection Passkeys { get; init; } = null!;
 
     /// <summary>
+    /// The authenticated user's unconfirmed email change, if there is one.
+    /// </summary>
+    [JsonPropertyName("pendingEmailChange")]
+    public PendingEmailChange? PendingEmailChange { get; init; }
+
+    /// <summary>
     /// Live replication health for an HA database cluster (Postgres HA, MySQL HA). Use it to gate the Enable/Disable PITR buttons so a rollout can't start while a member is too far behind to rejoin. Returns null when the service isn't an HA root.
     /// </summary>
     [JsonPropertyName("pitrHaClusterReplicationHealth")]

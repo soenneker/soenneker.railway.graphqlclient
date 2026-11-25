@@ -140,7 +140,7 @@ public sealed partial class Mutation
     public bool CliEventTrack { get; init; }
 
     /// <summary>
-    /// Archive a cloud agent: hide it from lists that ask for unarchived agents. Its machine, sessions and history are untouched. Owner only.
+    /// Archive a cloud agent, hiding it from lists of unarchived agents. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentArchive")]
     public bool CloudAgentArchive { get; init; }
@@ -194,7 +194,7 @@ public sealed partial class Mutation
     public string CloudAgentHarnessToken { get; init; } = null!;
 
     /// <summary>
-    /// Record that the agent's owner looked, so its DONE and ERROR outcomes stop being unseen. Without sessionId, every session. Owner only.
+    /// Mark the agent's finished and failed sessions as seen, or only sessionId's. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentMarkSeen")]
     public bool CloudAgentMarkSeen { get; init; }
@@ -242,7 +242,7 @@ public sealed partial class Mutation
     public CloudAgentTaskRespondResult CloudAgentTaskRespond { get; init; } = null!;
 
     /// <summary>
-    /// Bring an archived cloud agent back. Owner only.
+    /// Restore an archived cloud agent. Requires permission to manage the agent.
     /// </summary>
     [JsonPropertyName("cloudAgentUnarchive")]
     public bool CloudAgentUnarchive { get; init; }
@@ -422,13 +422,19 @@ public sealed partial class Mutation
     public List<EgressGateway> EgressGatewayUpgradeToHA { get; init; } = [];
 
     /// <summary>
+    /// Cancel the authenticated user's pending email change, so its link stops working.
+    /// </summary>
+    [JsonPropertyName("emailChangeCancel")]
+    public bool EmailChangeCancel { get; init; }
+
+    /// <summary>
     /// Change the User's account email if there is a valid change email request.
     /// </summary>
     [JsonPropertyName("emailChangeConfirm")]
     public bool EmailChangeConfirm { get; init; }
 
     /// <summary>
-    /// Initiate an email change request for a user
+    /// Email a confirmation link to a new address for the authenticated user. Replaces any pending email change, so earlier links stop working.
     /// </summary>
     [JsonPropertyName("emailChangeInitiate")]
     public bool EmailChangeInitiate { get; init; }
@@ -648,6 +654,24 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("observabilityDashboardCreate")]
     public bool ObservabilityDashboardCreate { get; init; }
+
+    /// <summary>
+    /// Create an observability monitor for a dashboard item
+    /// </summary>
+    [JsonPropertyName("observabilityDashboardMonitorCreate")]
+    public bool ObservabilityDashboardMonitorCreate { get; init; }
+
+    /// <summary>
+    /// Remove an observability monitor from a dashboard item
+    /// </summary>
+    [JsonPropertyName("observabilityDashboardMonitorRemove")]
+    public bool ObservabilityDashboardMonitorRemove { get; init; }
+
+    /// <summary>
+    /// Update an observability monitor for a dashboard item
+    /// </summary>
+    [JsonPropertyName("observabilityDashboardMonitorUpdate")]
+    public bool ObservabilityDashboardMonitorUpdate { get; init; }
 
     /// <summary>
     /// Reset an observability dashboard to default dashboard items

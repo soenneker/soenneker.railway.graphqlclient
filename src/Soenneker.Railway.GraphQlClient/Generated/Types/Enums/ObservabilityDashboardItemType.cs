@@ -15,6 +15,8 @@ public enum ObservabilityDashboardItemType
 
     PROJECTUSAGEITEM,
 
+    RAILQLITEM,
+
     SERVICELOGSITEM,
 
     SERVICEMETRICSITEM,

@@ -378,6 +378,10 @@ public sealed partial class RailwayGraphQlClient
     public GetPasskeysRequestBuilder GetPasskeys => new GetPasskeysRequestBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes requests for the 'pendingEmailChange' query.</summary>
+    public GetPendingEmailChangeRequestBuilder GetPendingEmailChange => new GetPendingEmailChangeRequestBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes requests for the 'platformStatus' query.</summary>
     public GetPlatformStatusRequestBuilder GetPlatformStatus => new GetPlatformStatusRequestBuilder(_graphQlClient);
 

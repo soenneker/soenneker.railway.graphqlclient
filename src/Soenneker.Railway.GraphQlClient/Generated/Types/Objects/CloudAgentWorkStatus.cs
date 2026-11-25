@@ -23,7 +23,7 @@ public sealed partial class CloudAgentWorkStatus
     public CloudAgentBlockedKind? Kind { get; init; }
 
     /// <summary>
-    /// One line: the question, the failure, or the closing prose. Only the agent's owner sees it; null for everyone else. Untrusted agent text: render as plain text.
+    /// The session's latest status line: its open question, failure or final summary. Written by the agent; display as plain text. Null unless you can manage this agent.
     /// </summary>
     [JsonPropertyName("message")]
     public string? Message { get; init; }

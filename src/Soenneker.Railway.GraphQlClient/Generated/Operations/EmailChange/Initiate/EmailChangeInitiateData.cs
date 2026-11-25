@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class EmailChangeInitiateData
 {
     /// <summary>
-    /// Initiate an email change request for a user
+    /// Email a confirmation link to a new address for the authenticated user. Replaces any pending email change, so earlier links stop working.
     /// </summary>
     [JsonPropertyName("emailChangeInitiate")]
     public bool EmailChangeInitiate { get; init; }

@@ -11,6 +11,8 @@ public sealed partial class ObservabilityDashboardBuilder
 
     public ObservabilityDashboardBuilder(IGraphQlClient graphQlClient) => _graphQlClient = graphQlClient;
 
+    public ObservabilityDashboardMonitorBuilder Monitor => new ObservabilityDashboardMonitorBuilder(_graphQlClient);
+
     public ObservabilityDashboardCreateRequestBuilder Create => new ObservabilityDashboardCreateRequestBuilder(_graphQlClient);
 
     public ObservabilityDashboardResetRequestBuilder Reset => new ObservabilityDashboardResetRequestBuilder(_graphQlClient);
