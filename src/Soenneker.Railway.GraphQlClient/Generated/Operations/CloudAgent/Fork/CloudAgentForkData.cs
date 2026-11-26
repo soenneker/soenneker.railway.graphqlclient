@@ -10,7 +10,7 @@ namespace Soenneker.Railway.GraphQlClient;
 public sealed partial class CloudAgentForkData
 {
     /// <summary>
-    /// Duplicate a running cloud agent.
+    /// Duplicate a running cloud agent. With sessionId, the new agent keeps that chat and its history; without it, it starts with no chats.
     /// </summary>
     [JsonPropertyName("cloudAgentFork")]
     public CloudAgent CloudAgentFork { get; init; } = null!;

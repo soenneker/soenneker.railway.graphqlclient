@@ -54,6 +54,12 @@ public sealed partial class CloudAgent
     public string Name { get; init; } = null!;
 
     /// <summary>
+    /// The agent machine's own public HTTP domain (port 8080), known whether or not the machine is up: the observed one, else derived from the machine's id as the orchestrator names it. A fork's is its own machine's, never the source's. Null without a machine.
+    /// </summary>
+    [JsonPropertyName("previewDomain")]
+    public string? PreviewDomain { get; init; }
+
+    /// <summary>
     /// Hostname on the environment's private network, e.g. &lt;name&gt;.railway.internal, reachable on any port from services in that environment. Null when the VM is isolated or its private endpoint isn't registered yet.
     /// </summary>
     [JsonPropertyName("privateDomain")]

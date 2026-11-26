@@ -10,6 +10,12 @@ public sealed partial class CloudAgentTaskHandle
     public string CloudAgentId { get; init; } = null!;
 
     /// <summary>
+    /// Set when dashboardHandoff moved the prompt to the agent dashboard: the task is a new run there, not a turn on the agent asked for, and this is its link. Follow it there; its questions and approvals wait on the dashboard.
+    /// </summary>
+    [JsonPropertyName("dashboardRunUrl")]
+    public string? DashboardRunUrl { get; init; }
+
+    /// <summary>
     /// The prompt answered the agent's open question on this session instead of starting a turn; taskId is the task that asked.
     /// </summary>
     [JsonPropertyName("deliveredAsReply")]

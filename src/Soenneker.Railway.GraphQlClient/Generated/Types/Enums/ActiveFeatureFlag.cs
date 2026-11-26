@@ -5,8 +5,6 @@ namespace Soenneker.Railway.GraphQlClient;
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<ActiveFeatureFlag>))]
 public enum ActiveFeatureFlag
 {
-    AGENTBOOTSTRAPS,
-
     AGENTBYOK,
 
     AGENTBYOKFIREWORKS,
@@ -22,6 +20,8 @@ public enum ActiveFeatureFlag
     CLOUDAGENTBUILDER,
 
     CLOUDAGENTCHAT,
+
+    CLOUDAGENTROOTFSSIZE,
 
     CONNECTORTUNNELS,
 

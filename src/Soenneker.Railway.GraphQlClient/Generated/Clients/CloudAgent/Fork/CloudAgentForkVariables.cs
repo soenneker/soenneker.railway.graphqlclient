@@ -15,6 +15,9 @@ public sealed class CloudAgentForkVariables
     [JsonPropertyName("name")]
     public string? Name { get; init; }
 
+    [JsonPropertyName("sessionId")]
+    public string? SessionId { get; init; }
+
     [JsonPropertyName("variables")]
     public System.Text.Json.JsonElement? Variables { get; init; }
 

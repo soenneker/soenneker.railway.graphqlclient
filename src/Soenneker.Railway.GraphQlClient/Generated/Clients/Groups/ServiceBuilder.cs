@@ -27,6 +27,8 @@ public sealed partial class ServiceBuilder
 
     public ServiceDuplicateRequestBuilder Duplicate => new ServiceDuplicateRequestBuilder(_graphQlClient);
 
+    public ServiceKindUpdateRequestBuilder KindUpdate => new ServiceKindUpdateRequestBuilder(_graphQlClient);
+
     public ServiceRemoveUpstreamUrlRequestBuilder RemoveUpstreamUrl => new ServiceRemoveUpstreamUrlRequestBuilder(_graphQlClient);
 
     public ServiceTakedownAcknowledgeRequestBuilder TakedownAcknowledge => new ServiceTakedownAcknowledgeRequestBuilder(_graphQlClient);

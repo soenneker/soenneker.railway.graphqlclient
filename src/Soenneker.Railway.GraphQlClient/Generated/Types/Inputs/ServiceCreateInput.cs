@@ -18,6 +18,12 @@ public sealed partial class ServiceCreateInput
     [JsonPropertyName("icon")]
     public string? Icon { get; init; }
 
+    /// <summary>
+    /// Creates a Website when WEBSITE. Null for an ordinary service.
+    /// </summary>
+    [JsonPropertyName("kind")]
+    public ServiceKind? Kind { get; init; }
+
     [JsonPropertyName("name")]
     public string? Name { get; init; }
 

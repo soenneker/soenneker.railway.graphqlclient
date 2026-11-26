@@ -50,6 +50,12 @@ public sealed partial class Mutation
     public AccessGroup AccessGroupUpdate { get; init; } = null!;
 
     /// <summary>
+    /// Send feedback about the agent dashboard to the Railway team. True once delivered.
+    /// </summary>
+    [JsonPropertyName("agentDashboardFeedbackCreate")]
+    public bool AgentDashboardFeedbackCreate { get; init; }
+
+    /// <summary>
     /// Set agent usage limit for a workspace
     /// </summary>
     [JsonPropertyName("agentUsageLimitSet")]
@@ -182,7 +188,7 @@ public sealed partial class Mutation
     public string CloudAgentFeedbackCreate { get; init; } = null!;
 
     /// <summary>
-    /// Duplicate a running cloud agent.
+    /// Duplicate a running cloud agent. With sessionId, the new agent keeps that chat and its history; without it, it starts with no chats.
     /// </summary>
     [JsonPropertyName("cloudAgentFork")]
     public CloudAgent CloudAgentFork { get; init; } = null!;
@@ -1128,6 +1134,12 @@ public sealed partial class Mutation
     /// </summary>
     [JsonPropertyName("serviceInstanceVulnRemediationPatchNow")]
     public string ServiceInstanceVulnRemediationPatchNow { get; init; } = null!;
+
+    /// <summary>
+    /// Makes an ordinary service a Website (kind WEBSITE) and redeploys it in every environment where it has a deployment. A Website can't be made an ordinary service (kind null) yet. Returns false when the service already has that kind.
+    /// </summary>
+    [JsonPropertyName("serviceKindUpdate")]
+    public bool ServiceKindUpdate { get; init; }
 
     /// <summary>
     /// Remove the upstream URL from all service instances for this service

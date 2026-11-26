@@ -22,6 +22,10 @@ public sealed partial class RailwayGraphQlClient
     public AccessGroupBuilder AccessGroup => new AccessGroupBuilder(_graphQlClient);
 
     /// <summary>
+    /// Builds and executes grouped requests for the 'agent' resource.</summary>
+    public AgentBuilder Agent => new AgentBuilder(_graphQlClient);
+
+    /// <summary>
     /// Builds and executes grouped requests for the 'api' resource.</summary>
     public ApiBuilder Api => new ApiBuilder(_graphQlClient);
 
@@ -644,10 +648,6 @@ public sealed partial class RailwayGraphQlClient
     /// <summary>
     /// Builds and executes requests for the 'xAgentClaimInfo' query.</summary>
     public GetXAgentClaimInfoRequestBuilder GetXAgentClaimInfo => new GetXAgentClaimInfoRequestBuilder(_graphQlClient);
-
-    /// <summary>
-    /// Builds and executes requests for the 'agentUsageLimitSet' mutation.</summary>
-    public AgentUsageLimitSetRequestBuilder AgentUsageLimitSet => new AgentUsageLimitSetRequestBuilder(_graphQlClient);
 
     /// <summary>
     /// Builds and executes requests for the 'baseEnvironmentOverride' mutation.</summary>

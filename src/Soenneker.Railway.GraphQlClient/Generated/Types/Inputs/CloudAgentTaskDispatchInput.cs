@@ -34,6 +34,12 @@ public sealed partial class CloudAgentTaskDispatchInput
     [JsonPropertyName("conversationKey")]
     public string? ConversationKey { get; init; }
 
+    /// <summary>
+    /// For chat clients: a prompt that starts a new conversation and asks for code to be written goes to the agent dashboard as a new run (its own build agent on the service's repository) instead, and the handle carries dashboardRunUrl. Questions and operations stay here. Needs the agent dashboard turned on; ignored for continued conversations and with outputSchema, webhookUrl, idempotencyKey or allowCreate false.
+    /// </summary>
+    [JsonPropertyName("dashboardHandoff")]
+    public bool? DashboardHandoff { get; init; }
+
     [JsonPropertyName("environmentId")]
     public string EnvironmentId { get; init; } = null!;
 

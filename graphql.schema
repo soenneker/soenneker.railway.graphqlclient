@@ -87,7 +87,6 @@ type AccessRule {
 }
 
 enum ActiveFeatureFlag {
-  AGENT_BOOTSTRAPS
   AGENT_BYOK
   AGENT_BYOK_FIREWORKS
   AGENT_FORK_TASKS
@@ -96,6 +95,7 @@ enum ActiveFeatureFlag {
   CLOUD_AGENTS
   CLOUD_AGENT_BUILDER
   CLOUD_AGENT_CHAT
+  CLOUD_AGENT_ROOTFS_SIZE
   CONNECTOR_TUNNELS
   CS_MCP_EXPRESS
   DATABASE_AGENT_TOOLS
@@ -115,6 +115,7 @@ enum ActiveFeatureFlag {
 
 enum ActivePlatformFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
+  AGENT_BOOTSTRAPS_KILLSWITCH
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_DASHBOARD_NEW_ACCOUNTS
@@ -239,6 +240,42 @@ type AdoptionInfo implements Node {
   totalNetwork: Float
   updatedAt: DateTime!
   workspace: Workspace!
+}
+
+input AgentDashboardFeedbackInput {
+  """
+  The agent the problem was in. Linked only if it is the caller's own.
+  """
+  cloudAgentId: String
+  """
+  The error the person was shown.
+  """
+  error: String
+  """
+  What failed, as the dashboard said.
+  """
+  failure: String
+  """
+  problem: reported from something that failed, with what failed.
+  """
+  kind: AgentDashboardFeedbackKind
+  message: String
+  path: String
+  replayUrl: String
+  runId: String
+  sentiment: AgentDashboardFeedbackSentiment
+  userAgent: String
+}
+
+enum AgentDashboardFeedbackKind {
+  feedback
+  problem
+}
+
+enum AgentDashboardFeedbackSentiment {
+  negative
+  neutral
+  positive
 }
 
 input AgentUsageLimitSetInput {
@@ -654,6 +691,10 @@ type CloudAgent {
   id: ID!
   name: String!
   """
+  The agent machine's own public HTTP domain (port 8080), known whether or not the machine is up: the observed one, else derived from the machine's id as the orchestrator names it. A fork's is its own machine's, never the source's. Null without a machine.
+  """
+  previewDomain: String
+  """
   Hostname on the environment's private network, e.g. <name>.railway.internal, reachable on any port from services in that environment. Null when the VM is isolated or its private endpoint isn't registered yet.
   """
   privateDomain: String
@@ -987,6 +1028,10 @@ input CloudAgentTaskDispatchInput {
   Your conversation's id (e.g. linear:DEMO-1). The first task starts an agent; later tasks with the same key continue its session, each waiting for the one before it to finish. Mutually exclusive with replyToTaskId and cloudAgentId/sessionId.
   """
   conversationKey: String
+  """
+  For chat clients: a prompt that starts a new conversation and asks for code to be written goes to the agent dashboard as a new run (its own build agent on the service's repository) instead, and the handle carries dashboardRunUrl. Questions and operations stay here. Needs the agent dashboard turned on; ignored for continued conversations and with outputSchema, webhookUrl, idempotencyKey or allowCreate false.
+  """
+  dashboardHandoff: Boolean
   environmentId: String!
   externalRef: String
   idempotencyKey: String
@@ -1033,6 +1078,10 @@ input CloudAgentTaskDispatchInput {
 
 type CloudAgentTaskHandle {
   cloudAgentId: ID!
+  """
+  Set when dashboardHandoff moved the prompt to the agent dashboard: the task is a new run there, not a turn on the agent asked for, and this is its link. Follow it there; its questions and approvals wait on the dashboard.
+  """
+  dashboardRunUrl: String
   """
   The prompt answered the agent's open question on this session instead of starting a turn; taskId is the task that asked.
   """
@@ -2867,6 +2916,10 @@ type Mutation {
   """
   accessGroupUpdate(id: String!, input: AccessGroupUpdateInput!): AccessGroup!
   """
+  Send feedback about the agent dashboard to the Railway team. True once delivered.
+  """
+  agentDashboardFeedbackCreate(input: AgentDashboardFeedbackInput!): Boolean!
+  """
   Set agent usage limit for a workspace
   """
   agentUsageLimitSet(input: AgentUsageLimitSetInput!): Boolean!
@@ -2955,9 +3008,9 @@ type Mutation {
   """
   cloudAgentFeedbackCreate(input: CloudAgentFeedbackInput!): String!
   """
-  Duplicate a running cloud agent.
+  Duplicate a running cloud agent. With sessionId, the new agent keeps that chat and its history; without it, it starts with no chats.
   """
-  cloudAgentFork(id: ID!, name: String, variables: JSON): CloudAgent!
+  cloudAgentFork(id: ID!, name: String, sessionId: String, variables: JSON): CloudAgent!
   """
   Mint a short-lived (5m) JWT for the agent's harness WebSocket (see agentWsUrl). The in-VM gate verifies signature/exp/aud and pins it to this agent. Mint one per dial; the token only has to survive the upgrade.
   """
@@ -3586,6 +3639,10 @@ type Mutation {
   Apply a pending database security update now (backup, then redeploy). Returns the new deployment id.
   """
   serviceInstanceVulnRemediationPatchNow(environmentId: String!, serviceId: String!): String!
+  """
+  Makes an ordinary service a Website (kind WEBSITE) and redeploys it in every environment where it has a deployment. A Website can't be made an ordinary service (kind null) yet. Returns false when the service already has that kind.
+  """
+  serviceKindUpdate(input: ServiceKindUpdateInput!): Boolean!
   """
   Remove the upstream URL from all service instances for this service
   """
@@ -4429,6 +4486,7 @@ type PlanLimitOverride implements Node {
 
 enum PlatformFeatureFlag {
   ACTIVITY_FEED_FILTERS_KILLSWITCH
+  AGENT_BOOTSTRAPS_KILLSWITCH
   AGENT_BYOK_KILLSWITCH
   AGENT_CACHE_TOKEN_BILLING
   AGENT_DASHBOARD_NEW_ACCOUNTS
@@ -6802,6 +6860,10 @@ input ServiceCreateInput {
   """
   environmentId: String
   icon: String
+  """
+  Creates a Website when WEBSITE. Null for an ordinary service.
+  """
+  kind: ServiceKind
   name: String
   projectId: String!
   registryCredentials: RegistryCredentialsInput
@@ -7026,6 +7088,14 @@ What a service is, when it isn't an ordinary service. A Website's builds upload 
 """
 enum ServiceKind {
   WEBSITE
+}
+
+input ServiceKindUpdateInput {
+  """
+  WEBSITE for a Website. Null for an ordinary service.
+  """
+  kind: ServiceKind
+  serviceId: String!
 }
 
 type ServiceRepoTriggersConnection {
