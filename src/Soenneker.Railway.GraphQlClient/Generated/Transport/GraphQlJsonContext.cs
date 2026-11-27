@@ -1444,6 +1444,8 @@ namespace Soenneker.Railway.GraphQlClient;
 [JsonSerializable(typeof(GraphQlResponse<GraphQlRequest>))]
 [JsonSerializable(typeof(Group))]
 [JsonSerializable(typeof(GraphQlResponse<Group>))]
+[JsonSerializable(typeof(HealthcheckType))]
+[JsonSerializable(typeof(GraphQlResponse<HealthcheckType>))]
 [JsonSerializable(typeof(HistoryFilterInput))]
 [JsonSerializable(typeof(GraphQlResponse<HistoryFilterInput>))]
 [JsonSerializable(typeof(HistoryFilterMode))]

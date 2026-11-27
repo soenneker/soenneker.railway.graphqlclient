@@ -28,11 +28,20 @@ public sealed partial class ServiceInstanceUpdateInput
     [JsonPropertyName("drainingSeconds")]
     public int? DrainingSeconds { get; init; }
 
+    [JsonPropertyName("healthcheckCommand")]
+    public string? HealthcheckCommand { get; init; }
+
     [JsonPropertyName("healthcheckPath")]
     public string? HealthcheckPath { get; init; }
 
     [JsonPropertyName("healthcheckTimeout")]
     public int? HealthcheckTimeout { get; init; }
+
+    [JsonPropertyName("healthcheckType")]
+    public HealthcheckType? HealthcheckType { get; init; }
+
+    [JsonPropertyName("hideUnhealthyReplicas")]
+    public bool? HideUnhealthyReplicas { get; init; }
 
     [JsonPropertyName("ipv6EgressEnabled")]
     public bool? Ipv6EgressEnabled { get; init; }

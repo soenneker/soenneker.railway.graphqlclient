@@ -100,7 +100,6 @@ enum ActiveFeatureFlag {
   CS_MCP_EXPRESS
   DATABASE_AGENT_TOOLS
   HA_FOR_MONGO
-  IN_DASHBOARD_SUPPORT
   MAGIC_CONFIG
   MANAGED_DATABASE_EDIT_WARNING
   MANAGED_DATABASE_SETUP
@@ -146,7 +145,6 @@ enum ActivePlatformFlag {
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
   ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
-  IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
   MCP_OAUTH_AUDIENCE_ENFORCE
@@ -2417,6 +2415,12 @@ type Group implements Node {
   projectId: String!
 }
 
+enum HealthcheckType {
+  EXEC
+  HTTP
+  TCP
+}
+
 input HistoryFilterInput {
   actions: [String!]
   """
@@ -4517,7 +4521,6 @@ enum PlatformFeatureFlag {
   ENVIRONMENT_PATCH_ARCHIVE_PRODUCE
   ENVIRONMENT_PATCH_ARCHIVE_READ
   ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE
-  IN_DASHBOARD_SUPPORT
   KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES
   LOGS_LONG_WINDOW_CHUNKING
   MCP_OAUTH_AUDIENCE_ENFORCE
@@ -6966,8 +6969,11 @@ type ServiceInstance implements Node {
   Whether any deployment was ever created for this service instance, including deployments that have since been removed. Distinguishes a service that was torn down (all deployments removed) from one that has never deployed — latestDeployment and activeDeployments are null/empty for both.
   """
   hasEverDeployed: Boolean!
+  healthcheckCommand: String
   healthcheckPath: String
   healthcheckTimeout: Int
+  healthcheckType: HealthcheckType
+  hideUnhealthyReplicas: Boolean!
   id: ID!
   ipv6EgressEnabled: Boolean
   isUpdatable: Boolean!
@@ -7058,8 +7064,11 @@ input ServiceInstanceUpdateInput {
   cronSchedule: String
   dockerfilePath: String
   drainingSeconds: Int
+  healthcheckCommand: String
   healthcheckPath: String
   healthcheckTimeout: Int
+  healthcheckType: HealthcheckType
+  hideUnhealthyReplicas: Boolean
   ipv6EgressEnabled: Boolean
   multiRegionConfig: JSON
   nixpacksPlan: JSON

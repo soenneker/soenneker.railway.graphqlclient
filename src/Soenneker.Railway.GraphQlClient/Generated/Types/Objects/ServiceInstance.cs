@@ -68,11 +68,20 @@ public sealed partial class ServiceInstance : Node
     [JsonPropertyName("hasEverDeployed")]
     public bool HasEverDeployed { get; init; }
 
+    [JsonPropertyName("healthcheckCommand")]
+    public string? HealthcheckCommand { get; init; }
+
     [JsonPropertyName("healthcheckPath")]
     public string? HealthcheckPath { get; init; }
 
     [JsonPropertyName("healthcheckTimeout")]
     public int? HealthcheckTimeout { get; init; }
+
+    [JsonPropertyName("healthcheckType")]
+    public HealthcheckType? HealthcheckType { get; init; }
+
+    [JsonPropertyName("hideUnhealthyReplicas")]
+    public bool HideUnhealthyReplicas { get; init; }
 
     [JsonPropertyName("id")]
     public string Id { get; init; } = null!;

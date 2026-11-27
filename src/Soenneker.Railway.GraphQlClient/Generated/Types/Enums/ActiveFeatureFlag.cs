@@ -31,8 +31,6 @@ public enum ActiveFeatureFlag
 
     HAFORMONGO,
 
-    INDASHBOARDSUPPORT,
-
     MAGICCONFIG,
 
     MANAGEDDATABASEEDITWARNING,
